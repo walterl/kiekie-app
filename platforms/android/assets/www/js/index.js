@@ -17,42 +17,44 @@
  * under the License.
  */
 
-var $ = require('jquery');
+/* jshint esversion: 6 */
 
-var app = {
-    // Application Constructor
-    initialize: function() {
+import $ from 'jquery';
+
+class App {
+    constructor() {
         this.bindEvents();
-    },
+    }
 
-    bindEvents: function() {
-        $(document).bind('deviceready', this.onDeviceReady);
-    },
+    bindEvents() {
+        $(document).bind('deviceready', this.onDeviceReady.bind(this));
+    }
 
-    onDeviceReady: function() {
-        app.status('Device ready');
-        $('#btnPic').click(app.takePicture.bind(app));
-    },
-
-    status: function(st) {
+    status(s) {
         var $el = $('#status');
-        if (!st) {
+        if (!s) {
             return $el.html();
         }
-        $el.html(st);
-    },
+        $el.html(s);
+    }
 
-    takePicture: function() {
-        var me = this,
-            pic = $('#picture');
+    takePicture() {
+        var me = this;
+
         me.status('Taking picture...');
         navigator.camera.getPicture(function(picData) {
-            pic.append($('img', {src: picData}));
+            $('#picture').append($('<img>', {src: picData}));
             me.status('Picture taken');
         }, function() {
             me.status('Failed taking picture');
         });
     }
-};
 
-app.initialize();
+    // Event handlers //
+    onDeviceReady() {
+        this.status('Device ready');
+        $('#btnPic').click(this.takePicture.bind(this));
+    }
+}
+
+new App();
