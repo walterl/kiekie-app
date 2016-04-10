@@ -1,0 +1,17 @@
+{
+  "name": "snaphappy",
+  "version": "1.0.0",
+  "description": "Snappy like you're happy.",
+  "main": "www/js/bundle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Walter Leibbrandt <snaphappy@wrl.co.za>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "jquery": "^2.2.3"
+  },
+  "devDependencies": {
+    "webpack": "^1.12.14"
+  }
+}
