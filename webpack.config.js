@@ -1,15 +1,25 @@
 module.exports = {
-  entry: './www/js',
+  entry: "./www/js/index.jsx",
   output: {
     path: 'www/build',
     filename: 'bundle.js'
   },
+  devtool: "eval",
+  resolve: {
+    extensions: [".js", ".jsx", ""]
+  },
   module: {
     loaders: [
       {
-        test: /\.js/,
+        test: /\.jsx?/,
         loader: 'babel',
-        include: __dirname + '/www/js'
+        include: __dirname + "/www/js",
+        query: {
+          presets: [
+            require.resolve("babel-preset-es2015"),
+            require.resolve("babel-preset-react")
+          ]
+        }
       }
     ]
   }
