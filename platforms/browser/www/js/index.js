@@ -21,6 +21,7 @@ var app = {
     initialize: function() {
         this.bindEvents();
     },
+
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
@@ -28,23 +29,35 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
+
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        app.status('Device ready');
+        document.getElementById('btnPic')
+            .addEventListener('click', app.takePicture.bind(app));
     },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+    status: function(st) {
+        var el = document.getElementById('status');
 
-        console.log('Received Event: ' + id);
+        if (!st) {
+            return el.innerHTML;
+        }
+        el.innerHTML = st;
+    },
+
+    takePicture: function() {
+        var me = this,
+            pic = document.getElementById('picture');
+
+        me.status('Taking picture...');
+        navigator.camera.getPicture(function(picData) {
+            var img = document.createElement('img');
+            img.src = picData;
+            pic.appendChild(img);
+            me.status('Picture taken');
+        }, function() {
+            me.status('Failed taking picture');
+        });
     }
 };
 
