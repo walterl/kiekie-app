@@ -1,4 +1,5 @@
 import React from 'react';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 
 export default class PicsBox extends React.Component {
@@ -11,9 +12,6 @@ export default class PicsBox extends React.Component {
 
         return (
             <div>
-                <button onClick={this.props.takePicture}>
-                    Take Picture
-                </button>
                 <ul id="pics">{pics}</ul>
             </div>
         );

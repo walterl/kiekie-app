@@ -1,6 +1,10 @@
 import React from 'react';
+import AppBar from 'material-ui/lib/app-bar';
 
 import PicsBox from './picsbox';
+import PhotoButton from './photo-button';
+
+import '../scss/app.scss';
 
 
 export default class App extends React.Component {
@@ -25,10 +29,19 @@ export default class App extends React.Component {
     }
 
     render() {
+        const {status, pics} = this.state;
+        const handleTakePicture = this.takePicture.bind(this);
+
         return (
             <div>
-                <p id="status">Status: {this.state.status}</p>
-                <PicsBox takePicture={this.takePicture.bind(this)} pics={this.state.pics}/>
+                <AppBar
+                    title="SnapHappy"
+                    iconElementRight={<PhotoButton handler={handleTakePicture} />}
+                    className="appbar"
+                    showMenuIconButton={false}
+                />
+                <p id="status">Status: {status}</p>
+                <PicsBox pics={pics} />
             </div>
         );
     }

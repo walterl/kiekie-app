@@ -20,6 +20,10 @@ module.exports = {
             require.resolve("babel-preset-react")
           ]
         }
+      },
+      {
+        test: /\.scss/,
+        loaders: ['style', 'css', 'sass']
       }
     ]
   }
