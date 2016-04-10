@@ -16,44 +16,38 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var $ = require('jquery');
+
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
     },
 
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        $(document).bind('deviceready', this.onDeviceReady);
     },
 
     onDeviceReady: function() {
         app.status('Device ready');
-        document.getElementById('btnPic')
-            .addEventListener('click', app.takePicture.bind(app));
+        $('#btnPic').click(app.takePicture.bind(app));
     },
 
     status: function(st) {
-        var el = document.getElementById('status');
-
+        var $el = $('#status');
         if (!st) {
-            return el.innerHTML;
+            return $el.html();
         }
-        el.innerHTML = st;
+        $el.html(st);
     },
 
     takePicture: function() {
         var me = this,
-            pic = document.getElementById('picture');
-
+            pic = $('#picture');
         me.status('Taking picture...');
         navigator.camera.getPicture(function(picData) {
-            var img = document.createElement('img');
-            img.src = picData;
-            pic.appendChild(img);
+            pic.append($('img', {src: picData}));
             me.status('Picture taken');
         }, function() {
             me.status('Failed taking picture');
