@@ -9,6 +9,24 @@ body {
   top: 0;
 }
 
+#log {
+  font-family: monospace;
+  padding: 5px;
+  height: 100px;
+  background-color: lightyellow;
+  border: 2px solid lightgrey;
+  vertical-align: bottom;
+  overflow-y: auto;
+
+  li {
+    list-style-type: none;
+  }
+
+  li:before {
+    content: "> ";
+  }
+}
+
 #appapp {
   margin-top: $appbar-height;
 }

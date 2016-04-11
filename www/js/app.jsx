@@ -7,30 +7,53 @@ import PhotoButton from './photo-button';
 import '../scss/app.scss';
 
 
+class AppLog extends React.Component {
+    render() {
+        var lines = this.props.logLines.map((line) => <li>{line}</li>);
+
+        return (
+            <ul id="log">{lines}</ul>
+        );
+    }
+}
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {status: 'Started', pics: []};
+        this.state = {log: ['Started'], pics: []};
+    }
+
+    log(msg) {
+        var l = this.state.log;
+
+        if (msg === undefined) { return l.join('\n'); }
+
+        l.push(msg);
+        this.setState({log: l});
+        return l;
     }
 
     takePicture() {
-        this.setState({status: 'Taking picture...'});
+        this.log('Taking picture...');
 
         navigator.camera.getPicture(
             (picData) => {
                 var pics = this.state.pics;
                 pics.push(picData);
-                this.setState({pics, status: 'Picture taken'});
+                this.setState({pics});
+                this.log('Picture taken');
             },
             () => {
-                this.setState({status: 'Failed taking picture'});
+                this.log('Failed taking picture');
             }
         );
     }
 
     render() {
-        const {status, pics} = this.state;
+        const {log, pics} = this.state;
         const handleTakePicture = this.takePicture.bind(this);
+        var showLog = this.props.showLog || false,
+            appLog = showLog ? <AppLog logLines={log} /> : "";
 
         return (
             <div id="appapp">
@@ -40,7 +63,7 @@ export default class App extends React.Component {
                     className="appbar"
                     showMenuIconButton={false}
                 />
-                <p id="status">Status: {status}</p>
+                {appLog}
                 <PicsBox pics={pics} />
             </div>
         );

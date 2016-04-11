@@ -4,6 +4,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './app';
 
+const DEBUG = true;
+
 document.addEventListener('deviceready', () => {
     // Needed for onTouchTap
     // Can go away when react 1.0 release
@@ -12,5 +14,5 @@ document.addEventListener('deviceready', () => {
     // http://www.material-ui.com/#/get-started/installation
     injectTapEventPlugin();
 
-    ReactDOM.render(<App/>, document.getElementById('app'));
+    ReactDOM.render(<App showLog={DEBUG}/>, document.getElementById('app'));
 }, false);
