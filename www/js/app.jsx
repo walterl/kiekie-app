@@ -9,11 +9,13 @@ import '../scss/app.scss';
 
 class AppLog extends React.Component {
     render() {
-        var lines = this.props.logLines.map((line) => <li>{line}</li>);
+        var i = 0,
+            nextId = () => `log-${i++}`,
+            lines = this.props.logLines.map(
+                (line) => <li key={nextId()}>{line}</li>
+            );
 
-        return (
-            <ul id="log">{lines}</ul>
-        );
+        return <ul id="log">{lines}</ul>;
     }
 }
 
