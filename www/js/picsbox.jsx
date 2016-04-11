@@ -1,18 +1,20 @@
 import React from 'react';
 
+import Pic from './pic';
+
+import '../scss/picsbox.scss';
+
 
 export default class PicsBox extends React.Component {
     render() {
         var i = 0,
-            pics = this.props.pics.map((picData) => {
-                i++;
-                return <li key={"pic-" + i}><img src={picData}/></li>;
-            });
+            nextPicId = () => `pic-${i++}`,
+            pics = this.props.pics.map(
+                (picData) => <Pic key={nextPicId()} src={picData} />
+            );
 
         return (
-            <div>
-                <ul id="pics">{pics}</ul>
-            </div>
+            <div id="picsbox">{pics}</div>
         );
     }
 }
