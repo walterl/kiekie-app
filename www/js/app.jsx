@@ -53,7 +53,8 @@ export default class App extends React.Component {
         const {log, pics} = this.state;
         const handleTakePicture = this.takePicture.bind(this);
         var showLog = this.props.showLog || false,
-            appLog = showLog ? <AppLog logLines={log} /> : "";
+            appLog = showLog ? <AppLog logLines={log} /> : "",
+            picsBox = pics.length ? <PicsBox pics={pics} /> : "";
 
         return (
             <div id="appapp">
@@ -64,7 +65,7 @@ export default class App extends React.Component {
                     showMenuIconButton={false}
                 />
                 {appLog}
-                <PicsBox pics={pics} />
+                {picsBox}
             </div>
         );
     }
