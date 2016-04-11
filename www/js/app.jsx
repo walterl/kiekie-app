@@ -33,7 +33,7 @@ export default class App extends React.Component {
         const handleTakePicture = this.takePicture.bind(this);
 
         return (
-            <div>
+            <div id="appapp">
                 <AppBar
                     title="SnapHappy"
                     iconElementRight={<PhotoButton handler={handleTakePicture} />}
