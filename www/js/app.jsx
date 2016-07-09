@@ -10,7 +10,10 @@ import '../scss/app.scss';
 class AppLog extends React.Component {
     render() {
         var i = 0,
-            nextId = () => `log-${i++}`,
+            nextId = () => {
+                i += 1;
+                return `log-${i}`;
+            },
             lines = this.props.logLines.map(
                 (line) => <li key={nextId()}>{line}</li>
             );
@@ -28,7 +31,9 @@ export default class App extends React.Component {
     log(msg) {
         var l = this.state.log;
 
-        if (msg === undefined) { return l.join('\n'); }
+        if (msg) {
+            return l.join('\n');
+        }
 
         l.push(msg);
         this.setState({log: l});
@@ -52,17 +57,18 @@ export default class App extends React.Component {
     }
 
     render() {
-        const {log, pics} = this.state;
-        const handleTakePicture = this.takePicture.bind(this);
+        const {log, pics} = this.state,
+            handleTakePicture = this.takePicture.bind(this);
         var showLog = this.props.showLog || false,
-            appLog = showLog ? <AppLog logLines={log} /> : "",
-            picsBox = pics.length ? <PicsBox pics={pics} /> : "";
+            appLog = showLog ? <AppLog logLines={log} /> : '',
+            picsBox = pics.length ? <PicsBox pics={pics} /> : '',
+            photoButton = <PhotoButton handler={handleTakePicture} />;
 
         return (
             <div id="appapp">
                 <AppBar
                     title="SnapHappy"
-                    iconElementRight={<PhotoButton handler={handleTakePicture} />}
+                    iconElementRight={photoButton}
                     className="appbar"
                     showMenuIconButton={false}
                 />

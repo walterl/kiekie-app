@@ -71,7 +71,6 @@ module.exports = {
             "error",
             "prefer-double"
         ],
-        "jsx-uses-vars",
         "key-spacing": "error",
         "keyword-spacing": "error",
         "linebreak-style": [
@@ -151,7 +150,6 @@ module.exports = {
         "no-shadow-restricted-names": "error",
         "no-spaced-func": "error",
         "no-sync": "error",
-        "no-ternary": "error",
         "no-throw-literal": "error",
         "no-trailing-spaces": "error",
         "no-undef-init": "error",
@@ -196,7 +194,6 @@ module.exports = {
         "require-yield": "error",
         "semi": "error",
         "semi-spacing": "error",
-        "sort-imports": "error",
         "space-before-blocks": "error",
         "space-before-function-paren": "off",
         "space-in-parens": [
@@ -216,6 +213,8 @@ module.exports = {
         "wrap-iife": "error",
         "wrap-regex": "error",
         "yield-star-spacing": "error",
-        "yoda": "error"
+        "yoda": "error",
+
+        "react/jsx-uses-vars": 2
     }
 };
