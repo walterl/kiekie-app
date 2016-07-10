@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import ImagePhotoCamera from 'material-ui/svg-icons/image/photo-camera';
 
-import {takePhoto} from './actions';
+import {takePhoto} from '../actions';
 
 
 class PhotoButton extends React.Component {

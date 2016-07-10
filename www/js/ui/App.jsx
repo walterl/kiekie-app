@@ -1,11 +1,11 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 
-import PicsBox from './picsbox';
-import PhotoButton from './photo-button';
+import AppLog from './AppLog';
+import PicsBox from './PicsBox';
+import PhotoButton from './PhotoButton';
 
-import '../scss/app.scss';
-import AppLog from './applog';
+import '../../scss/app.scss';
 
 
 export default class App extends React.Component {

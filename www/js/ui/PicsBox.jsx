@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
-import Pic from './pic';
+import Pic from './Pic';
 
-import '../scss/picsbox.scss';
+import '../../scss/picsbox.scss';
 
 
 class PicsBox extends React.Component {
