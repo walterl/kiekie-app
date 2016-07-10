@@ -1,16 +1,16 @@
 export const
-    REQUEST_PHOTO = 'REQUEST_PHOTO',
+    REQUEST_TAKE_PHOTO = 'REQUEST_TAKE_PHOTO',
     RECEIVE_PIC = 'RECEIVE_PIC',
-    PHOTO_ERROR = 'PHOTO_ERROR';
+    TAKE_PHOTO_ERROR = 'TAKE_PHOTO_ERROR';
 
 
-function requestPhoto() {
-    return {type: REQUEST_PHOTO};
+function requestTakePhoto() {
+    return {type: REQUEST_TAKE_PHOTO};
 }
 
-function photoError(error) {
+function takePhotoError(error) {
     return {
-        type: PHOTO_ERROR,
+        type: TAKE_PHOTO_ERROR,
         error
     };
 }
@@ -25,13 +25,13 @@ export function receivePic(picData, takenTime) {
 
 export function takePhoto() {
     return (dispatch) => {
-        dispatch(requestPhoto());
+        dispatch(requestTakePhoto());
         navigator.camera.getPicture(
             (picData) => {
                 dispatch(receivePic(picData, Date.now()));
             },
             (message) => {
-                dispatch(photoError(message));
+                dispatch(takePhotoError(message));
             }
         );
     };
