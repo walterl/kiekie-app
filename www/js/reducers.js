@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 
-import {RECEIVE_PIC} from './actions';
+import {DELETE_PIC, RECEIVE_PIC, SAVE_PIC} from './actions';
 
 
 function pics(state=[], action) {
@@ -8,8 +8,19 @@ function pics(state=[], action) {
     case RECEIVE_PIC:
         return [...state, {
             data: action.data,
-            takenTime: action.takenTime
+            takenTime: action.takenTime,
+            id: state.length + 1,
+            saved: false
         }];
+    case DELETE_PIC:
+        return state.filter((pic) => pic.id !== action.id);
+    case SAVE_PIC:
+        return state.map((pic) => {
+            if (pic.id === action.id) {
+                pic.saved = true;
+            }
+            return pic;
+        });
     default:
         return state;
     }
