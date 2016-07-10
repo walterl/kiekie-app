@@ -9,7 +9,7 @@ function pics(state=[], action) {
         return [...state, {
             data: action.data,
             takenTime: action.takenTime,
-            id: state.length + 1,
+            id: action.picId,
             saved: false
         }];
     case DELETE_PIC:

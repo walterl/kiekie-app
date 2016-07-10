@@ -1,3 +1,6 @@
+import uuid from 'uuid';
+
+
 export const
     REQUEST_TAKE_PHOTO = 'REQUEST_TAKE_PHOTO',
     RECEIVE_PIC = 'RECEIVE_PIC',
@@ -21,6 +24,7 @@ export function receivePic(picData, takenTime) {
     return {
         type: RECEIVE_PIC,
         data: picData,
+        picId: uuid.v1(),
         takenTime
     };
 }
