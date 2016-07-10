@@ -1,17 +1,18 @@
 import React from 'react';
-import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardText from 'material-ui/lib/card/card-text';
-import FlatButton from 'material-ui/lib/flat-button';
-import TextField from 'material-ui/lib/text-field';
+import Card from 'material-ui/Card/Card';
+import CardActions from 'material-ui/Card/CardActions';
+import CardMedia from 'material-ui/Card/CardMedia';
+import CardText from 'material-ui/Card/CardText';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 
 
 export default class Pic extends React.Component {
     render() {
+        const imgSrc = 'data:image/png;base64,' + this.props.src;
         return (
             <Card className="pic">
-                <CardMedia><img src={this.props.src} /></CardMedia>
+                <CardMedia><img src={imgSrc} /></CardMedia>
                 <CardText>
                     <TextField floatingLabelText="Note" />
                 </CardText>
