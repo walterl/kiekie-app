@@ -23,7 +23,7 @@ class PicsBox extends React.Component {
                 const onDelete = this.handleDeleteClick.bind(this, pic.id),
                     onSave = this.handleSaveClick.bind(this, pic.id);
                 return <Pic
-                    key={pic.id} src={pic.data}
+                    key={pic.id} src={pic.data} saved={pic.saved}
                     onDeleteClick={onDelete} onSaveClick={onSave} />;
             }
         );

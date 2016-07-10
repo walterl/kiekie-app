@@ -12,7 +12,7 @@ export default class Pic extends React.Component {
     render() {
         const
             imgSrc = 'data:image/png;base64,' + this.props.src,
-            {onDeleteClick, onSaveClick} = this.props;
+            {saved, onDeleteClick, onSaveClick} = this.props;
         return (
             <Card className="pic">
                 <CardMedia><img src={imgSrc} /></CardMedia>
@@ -24,7 +24,10 @@ export default class Pic extends React.Component {
                         label="Delete" secondary={true}
                         onClick={onDeleteClick}
                     />
-                    <FlatButton label="Save" onClick={onSaveClick} />
+                    <FlatButton
+                        label="Save" disabled={saved}
+                        onClick={onSaveClick}
+                    />
                 </CardActions>
             </Card>
         );
@@ -33,6 +36,7 @@ export default class Pic extends React.Component {
 
 Pic.propTypes = {
     src: PropTypes.string.isRequired,
+    saved: PropTypes.bool,
     onDeleteClick: PropTypes.func.isRequired,
     onSaveClick: PropTypes.func.isRequired
 };
