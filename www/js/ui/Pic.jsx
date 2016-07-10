@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import Card from 'material-ui/Card/Card';
 import CardActions from 'material-ui/Card/CardActions';
@@ -10,7 +10,9 @@ import TextField from 'material-ui/TextField';
 
 export default class Pic extends React.Component {
     render() {
-        const imgSrc = 'data:image/png;base64,' + this.props.src;
+        const
+            imgSrc = 'data:image/png;base64,' + this.props.src,
+            {onDeleteClick, onSaveClick} = this.props;
         return (
             <Card className="pic">
                 <CardMedia><img src={imgSrc} /></CardMedia>
@@ -18,10 +20,19 @@ export default class Pic extends React.Component {
                     <TextField floatingLabelText="Note" />
                 </CardText>
                 <CardActions>
-                    <FlatButton label="Delete" secondary={true} />
-                    <FlatButton label="Save" />
+                    <FlatButton
+                        label="Delete" secondary={true}
+                        onClick={onDeleteClick}
+                    />
+                    <FlatButton label="Save" onClick={onSaveClick} />
                 </CardActions>
             </Card>
         );
     }
 }
+
+Pic.propTypes = {
+    src: PropTypes.string.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
+    onSaveClick: PropTypes.func.isRequired
+};
