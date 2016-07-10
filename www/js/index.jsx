@@ -1,10 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import App from './app';
+import configureStore from './store';
 
-const DEBUG = true;
+const store = configureStore({
+    log: {},
+    pics: []
+});
+
 
 document.addEventListener('deviceready', () => {
     // Needed for onTouchTap
@@ -14,5 +21,12 @@ document.addEventListener('deviceready', () => {
     // http://www.material-ui.com/#/get-started/installation
     injectTapEventPlugin();
 
-    ReactDOM.render(<App showLog={DEBUG}/>, document.getElementById('app'));
+    ReactDOM.render(
+        <Provider store={store}>
+            <MuiThemeProvider>
+                <App />
+            </MuiThemeProvider>
+        </Provider>,
+        document.getElementById('app')
+    );
 }, false);
