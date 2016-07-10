@@ -6,7 +6,8 @@ export const
     RECEIVE_PIC = 'RECEIVE_PIC',
     TAKE_PHOTO_ERROR = 'TAKE_PHOTO_ERROR',
     DELETE_PIC = 'DELETE_PIC',
-    SAVE_PIC = 'SAVE_PIC';
+    SAVE_PIC = 'SAVE_PIC',
+    SET_NOTE = 'SET_NOTE';
 
 
 function requestTakePhoto() {
@@ -55,5 +56,13 @@ export function savePic(id) {
     return {
         type: SAVE_PIC,
         id
+    };
+}
+
+
+export function setNote(id, note) {
+    return {
+        type: SET_NOTE,
+        id, note
     };
 }
