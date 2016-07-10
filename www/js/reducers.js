@@ -3,24 +3,37 @@ import {combineReducers} from 'redux';
 import {DELETE_PIC, RECEIVE_PIC, SAVE_PIC} from './actions';
 
 
-function pics(state=[], action) {
+function pic(state, action) {
     switch (action.type) {
     case RECEIVE_PIC:
-        return [...state, {
+        return {
             data: action.data,
             takenTime: action.takenTime,
             id: action.picId,
+            note: '',
             saved: false
-        }];
-    case DELETE_PIC:
-        return state.filter((pic) => pic.id !== action.id);
+        };
     case SAVE_PIC:
-        return state.map((pic) => {
-            if (pic.id === action.id) {
-                pic.saved = true;
-            }
-            return pic;
+        if (state.id !== action.id) {
+            return state;
+        }
+        return Object.assign({}, state, {
+            saved: true
         });
+    default:
+        return state;
+    }
+}
+
+
+function pics(state=[], action) {
+    switch (action.type) {
+    case RECEIVE_PIC:
+        return [...state, pic(null, action)];
+    case DELETE_PIC:
+        return state.filter((p) => p.id !== action.id);
+    case SAVE_PIC:
+        return state.map((p) => pic(p, action));
     default:
         return state;
     }
