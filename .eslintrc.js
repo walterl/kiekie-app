@@ -57,7 +57,6 @@ module.exports = {
         "eol-last": "error",
         "eqeqeq": "error",
         "func-names": "off",
-        "func-style": "error",
         "generator-star-spacing": "error",
         "global-require": "error",
         "guard-for-in": "error",
@@ -183,14 +182,12 @@ module.exports = {
         "prefer-reflect": "error",
         "prefer-rest-params": "error",
         "prefer-spread": "error",
-        "prefer-template": "error",
         "quote-props": "off",
         "quotes": [
             "error",
             "single"
         ],
         "radix": "error",
-        "require-jsdoc": "error",
         "require-yield": "error",
         "semi": "error",
         "semi-spacing": "error",
@@ -200,7 +197,6 @@ module.exports = {
             "error",
             "never"
         ],
-        "space-infix-ops": "error",
         "space-unary-ops": "error",
         "spaced-comment": [
             "error",
@@ -208,7 +204,6 @@ module.exports = {
         ],
         "strict": "error",
         "template-curly-spacing": "error",
-        "valid-jsdoc": "error",
         "vars-on-top": "error",
         "wrap-iife": "error",
         "wrap-regex": "error",
