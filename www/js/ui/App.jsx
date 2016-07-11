@@ -9,7 +9,7 @@ import '../../scss/app.scss';
 
 export default class App extends React.Component {
     render() {
-        var photoButton = <PhotoButton />;
+        const photoButton = <PhotoButton />;
 
         return (
             <div id="appapp">
