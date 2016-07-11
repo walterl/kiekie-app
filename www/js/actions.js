@@ -2,6 +2,7 @@ import uuid from 'uuid';
 
 
 export const
+    SET_DEBUG = 'SET_DEBUG',
     REQUEST_TAKE_PHOTO = 'REQUEST_TAKE_PHOTO',
     RECEIVE_PIC = 'RECEIVE_PIC',
     TAKE_PHOTO_ERROR = 'TAKE_PHOTO_ERROR',
@@ -10,6 +11,13 @@ export const
     SAVE_PIC = 'SAVE_PIC',
     SET_NOTE = 'SET_NOTE';
 
+
+export function setDebug(debug) {
+    return {
+        type: SET_DEBUG,
+        debug: Boolean(debug)
+    };
+}
 
 function requestTakePhoto() {
     return {type: REQUEST_TAKE_PHOTO};

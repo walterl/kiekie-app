@@ -8,6 +8,9 @@ import App from './ui/App';
 import configureStore from './store';
 
 const store = configureStore({
+    config: {
+        debug: true
+    },
     pics: []
 });
 

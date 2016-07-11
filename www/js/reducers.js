@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
 import {
-    DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SELECT_PIC, SET_NOTE
+    DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG, SET_NOTE
 } from './actions';
 
 
@@ -61,5 +61,16 @@ function pics(state=[], action) {
     }
 }
 
-const rootReducer = combineReducers({pics});
+function config(state=false, action) {
+    switch (action.type) {
+    case SET_DEBUG:
+        return Object.assign({}, state, {
+            debug: action.debug
+        });
+    default:
+        return state;
+    }
+}
+
+const rootReducer = combineReducers({config, pics});
 export default rootReducer;
