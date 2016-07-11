@@ -5,11 +5,11 @@ import {GridTile} from 'material-ui/GridList';
 
 export default class PicIcon extends React.Component {
     render() {
-        const imgSrc = `data:image/png;base64,${this.props.src}`,
+        const {src} = this.props,
             title = this.props.saved ? 'Saved' : 'NOT Saved';
         return (
             <GridTile title={title}>
-                <img src={imgSrc} />
+                <img src={src} />
             </GridTile>
         );
     }

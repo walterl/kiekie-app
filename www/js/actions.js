@@ -36,7 +36,9 @@ export function takePhoto() {
         dispatch(requestTakePhoto());
         navigator.camera.getPicture(
             (picData) => {
-                dispatch(receivePic(picData, Date.now()));
+                dispatch(receivePic(
+                    `data:image/png;base64,${picData}`, Date.now()
+                ));
             },
             (message) => {
                 dispatch(takePhotoError(message));
