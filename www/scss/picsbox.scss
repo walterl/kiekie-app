@@ -1,8 +1,6 @@
 #picsbox {
-  padding: 5px 10px;
-  margin: 5px 0;
-
-  .pic {
-    margin-bottom: 5px;
-  }
+  position: absolute;
+  display: table-row;
+  bottom: 0;
+  height: 150px;
 }
