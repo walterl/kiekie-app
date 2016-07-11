@@ -13,7 +13,7 @@ var debugPic = 0;
  * Cycle through `1.jpg` through `5.jpg` in the `ignoreme` directory.
  */
 function nextDebugPic() {
-    debugPic = debugPic % 5 + 1;  // eslint-disable-line no-magic-numbers
+    debugPic = debugPic % 5 + 1;
     return `/ignoreme/${debugPic}.jpg`;
 }
 
