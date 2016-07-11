@@ -5,10 +5,10 @@ import {selectPic} from '../actions';
 
 import PicIcon from './PicIcon';
 
-import '../../scss/picsbox.scss';
+import '../../scss/picslist.scss';
 
 
-class PicsBox extends React.Component {
+class PicsList extends React.Component {
     handleIconClick(id) {
         this.props.dispatch(selectPic(id));
     }
@@ -22,11 +22,11 @@ class PicsBox extends React.Component {
                 />
         );
 
-        return <div id="picsbox">{pics}</div>;
+        return <div id="picslist">{pics}</div>;
     }
 }
 
-PicsBox.propTypes = {
+PicsList.propTypes = {
     pics: PropTypes.array.isRequired
 };
 
@@ -37,4 +37,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps)(PicsBox);
+export default connect(mapStateToProps)(PicsList);

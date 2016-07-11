@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 
-import PicsBox from './PicsBox';
+import PicsList from './PicsList';
 import PhotoButton from './PhotoButton';
 
 import '../../scss/app.scss';
@@ -19,7 +19,7 @@ export default class App extends React.Component {
                     className="appbar"
                     showMenuIconButton={false}
                 />
-                <PicsBox />
+                <PicsList />
             </div>
         );
     }
