@@ -1,20 +1,16 @@
 import React, {PropTypes} from 'react';
 
-import Card from 'material-ui/Card/Card';
-import CardMedia from 'material-ui/Card/CardMedia';
-
-import '../../scss/picicon.scss';
+import {GridTile} from 'material-ui/GridList';
 
 
 export default class PicIcon extends React.Component {
     render() {
-        const imgSrc = `data:image/png;base64,${this.props.src}`;
+        const imgSrc = `data:image/png;base64,${this.props.src}`,
+            title = this.props.saved ? 'Saved' : 'NOT Saved';
         return (
-            <Card className="pic-icon" onClick={this.props.onClick} >
-                <CardMedia className="media">
-                    <img src={imgSrc} />
-                </CardMedia>
-            </Card>
+            <GridTile title={title}>
+                <img src={imgSrc} />
+            </GridTile>
         );
     }
 }

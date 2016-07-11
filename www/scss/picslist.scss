@@ -1,6 +1,9 @@
-#picslist {
-  position: absolute;
-  display: table-row;
-  bottom: 0;
-  height: 150px;
+#pics-list-root {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.pics-list {
+  overflow-y: auto
 }

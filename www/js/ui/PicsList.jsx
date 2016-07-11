@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
+import {GridList} from 'material-ui/GridList';
+
 import {selectPic} from '../actions';
 
 import PicIcon from './PicIcon';
@@ -22,7 +24,13 @@ class PicsList extends React.Component {
                 />
         );
 
-        return <div id="picslist">{pics}</div>;
+        return (
+            <div id="pics-list-root">
+                <GridList className="pics-list" cellHeight={200}>
+                    {pics}
+                </GridList>
+            </div>
+        );
     }
 }
 
