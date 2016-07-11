@@ -47,23 +47,5 @@ function pics(state=[], action) {
     }
 }
 
-function log(state={
-    enabled: false,
-    entries: []
-}, action) {
-    if (!state.enabled) {
-        return state;
-    }
-
-    switch (action.type) {
-    case RECEIVE_PIC:
-        return Object.assign({}, state, {
-            entries: [...state.entries, 'Photo taken.']
-        });
-    default:
-        return state;
-    }
-}
-
-const rootReducer = combineReducers({pics, log});
+const rootReducer = combineReducers({pics});
 export default rootReducer;
