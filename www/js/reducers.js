@@ -1,6 +1,8 @@
 import {combineReducers} from 'redux';
 
-import {DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SET_NOTE} from './actions';
+import {
+    DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SELECT_PIC, SET_NOTE
+} from './actions';
 
 
 function pic(state, action) {
@@ -11,8 +13,10 @@ function pic(state, action) {
             takenTime: action.takenTime,
             id: action.picId,
             note: '',
-            saved: false
+            saved: false,
+            selected: false
         };
+
     case SAVE_PIC:
         if (state.id !== action.id) {
             return state;
@@ -20,6 +24,15 @@ function pic(state, action) {
         return Object.assign({}, state, {
             saved: true
         });
+
+    case SELECT_PIC:
+        if (state.id !== action.id && !state.selected) {
+            return state;
+        }
+        return Object.assign({}, state, {
+            selected: action.id === state.id
+        });
+
     case SET_NOTE:
         if (state.id !== action.id || state.note === action.note) {
             return state;
@@ -27,11 +40,11 @@ function pic(state, action) {
         return Object.assign({}, state, {
             note: action.note
         });
+
     default:
         return state;
     }
 }
-
 
 function pics(state=[], action) {
     switch (action.type) {
@@ -40,6 +53,7 @@ function pics(state=[], action) {
     case DELETE_PIC:
         return state.filter((p) => p.id !== action.id);
     case SAVE_PIC:
+    case SELECT_PIC:
     case SET_NOTE:
         return state.map((p) => pic(p, action));
     default:

@@ -5,6 +5,7 @@ export const
     REQUEST_TAKE_PHOTO = 'REQUEST_TAKE_PHOTO',
     RECEIVE_PIC = 'RECEIVE_PIC',
     TAKE_PHOTO_ERROR = 'TAKE_PHOTO_ERROR',
+    SELECT_PIC = 'SELECT_PIC',
     DELETE_PIC = 'DELETE_PIC',
     SAVE_PIC = 'SAVE_PIC',
     SET_NOTE = 'SET_NOTE';
@@ -51,7 +52,6 @@ export function deletePic(id) {
     };
 }
 
-
 export function savePic(id) {
     return {
         type: SAVE_PIC,
@@ -59,10 +59,16 @@ export function savePic(id) {
     };
 }
 
-
 export function setNote(id, note) {
     return {
         type: SET_NOTE,
         id, note
+    };
+}
+
+export function selectPic(id) {
+    return {
+        type: SELECT_PIC,
+        id
     };
 }
