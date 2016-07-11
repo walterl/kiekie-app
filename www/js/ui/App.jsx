@@ -12,7 +12,7 @@ export default class App extends React.Component {
         const photoButton = <PhotoButton />;
 
         return (
-            <div id="appapp">
+            <div>
                 <AppBar
                     title="SnapHappy"
                     iconElementRight={photoButton}
