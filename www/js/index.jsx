@@ -8,7 +8,7 @@ import App from './ui/App';
 import configureStore from './store';
 
 const store = configureStore({
-    log: {},
+    log: {enabled: true, entries: []},
     pics: []
 });
 
