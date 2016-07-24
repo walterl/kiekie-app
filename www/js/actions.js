@@ -12,6 +12,7 @@ export const
     DELETE_PIC = 'DELETE_PIC',
     REQUEST_DELETE_PIC = 'REQUEST_DELETE_PIC',
     CANCEL_DELETE_PIC = 'CANCEL_DELETE_PIC',
+    NOTE_CHANGED = 'NOTE_CHANGED',
     SAVE_PIC = 'SAVE_PIC',
     SET_NOTE = 'SET_NOTE';
 
@@ -93,6 +94,13 @@ export function cancelDeletePic(id) {
     return {
         type: CANCEL_DELETE_PIC,
         id
+    };
+}
+
+export function noteChanged(id, note) {
+    return {
+        type: NOTE_CHANGED,
+        note, id
     };
 }
 
