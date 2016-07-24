@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
 
 import {
-    DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG, SET_NOTE
+    INIT_CAMERA, DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG,
+    SET_NOTE
 } from './actions';
 
 
@@ -63,6 +64,10 @@ function pics(state=[], action) {
 
 function config(state={debug: false}, action) {
     switch (action.type) {
+    case INIT_CAMERA:
+        return Object.assign({}, state, {
+            camera: action.config
+        });
     case SET_DEBUG:
         return Object.assign({}, state, {
             debug: action.debug

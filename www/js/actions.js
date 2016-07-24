@@ -1,7 +1,9 @@
+/* global Camera */
 import uuid from 'uuid';
 
 
 export const
+    INIT_CAMERA = 'INIT_CAMERA',
     SET_DEBUG = 'SET_DEBUG',
     REQUEST_TAKE_PHOTO = 'REQUEST_TAKE_PHOTO',
     RECEIVE_PIC = 'RECEIVE_PIC',
@@ -11,6 +13,21 @@ export const
     SAVE_PIC = 'SAVE_PIC',
     SET_NOTE = 'SET_NOTE';
 
+
+export function initCamera() {
+    return {
+        type: INIT_CAMERA,
+        config: {
+            quality: 100,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            encodingType: Camera.EncodingType.JPEG,
+            mediaType: Camera.MediaType.PICTURE,
+            allowEdit: true,
+            correctOrientation: true
+        }
+    };
+}
 
 export function setDebug(debug) {
     return {
@@ -40,7 +57,7 @@ export function receivePic(picData, takenTime) {
 }
 
 export function takePhoto() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(requestTakePhoto());
         navigator.camera.getPicture(
             (picData) => {
@@ -50,7 +67,8 @@ export function takePhoto() {
             },
             (message) => {
                 dispatch(takePhotoError(message));
-            }
+            },
+            getState().config.camera
         );
     };
 }

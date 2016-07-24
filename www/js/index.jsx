@@ -2,14 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import RoutedApp from './ui/RoutedApp';
+import {initCamera} from './actions';
 import configureStore from './store';
 
 const store = configureStore({
     config: {
-        debug: true
+        debug: true,
+        camera: {
+            quality: 100,
+            allowEdit: true,
+            correctOrientation: true
+        }
     },
     pics: []
 });
@@ -22,6 +29,8 @@ document.addEventListener('deviceready', () => {
     // https://github.com/zilverline/react-tap-event-plugin
     // http://www.material-ui.com/#/get-started/installation
     injectTapEventPlugin();
+
+    store.dispatch(initCamera());
 
     ReactDOM.render(
         <Provider store={store}>
