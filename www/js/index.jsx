@@ -14,11 +14,7 @@ import configureStore from './store';
 const store = configureStore({
     config: {
         debug: true,
-        camera: {
-            quality: 100,
-            allowEdit: true,
-            correctOrientation: true
-        }
+        camera: {}
     },
     pics: [],
     selected: null
