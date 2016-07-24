@@ -6,8 +6,11 @@ import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Paper from 'material-ui/Paper';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import {white} from 'material-ui/styles/colors';
 
 import Pic from './Pic';
 import {
@@ -105,8 +108,24 @@ class PicView extends React.Component {
     render() {
         const
             {pic} = this.props,
+            actions = <div>
+                <IconButton
+                    onClick={this.handleDeleteClick.bind(this)}
+                    tooltip="Delete picture"
+                >
+                    <ActionDelete color={white} />
+                </IconButton>
+                <IconButton
+                    onClick={this.handleSaveClick.bind(this)}
+                    tooltip="Save picture"
+                    disabled={pic ? pic.saved : true}
+                >
+                    <ContentSave color={white} />
+                </IconButton>
+            </div>,
             appBar = <AppBar
                 iconElementLeft={this.buildCloseButton()}
+                iconElementRight={actions}
             />;
 
         if (!pic) {
@@ -118,8 +137,6 @@ class PicView extends React.Component {
                 {appBar}
                 <Pic
                     info={pic}
-                    onDeleteClick={this.handleDeleteClick.bind(this)}
-                    onSaveClick={this.handleSaveClick.bind(this)}
                     onNoteChange={this.handleNoteChange.bind(this)}
                 />
                 {this.buildDeleteDialog()}
