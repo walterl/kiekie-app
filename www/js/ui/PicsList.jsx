@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {hashHistory} from 'react-router';
 
 import {GridList} from 'material-ui/GridList';
 
@@ -13,6 +14,7 @@ import '../../scss/picslist.scss';
 class PicsList extends React.Component {
     handleIconClick(id) {
         this.props.dispatch(selectPic(id));
+        hashHistory.push(`/pic/${id}`);
     }
 
     render() {
