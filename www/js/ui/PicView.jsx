@@ -3,12 +3,16 @@ import {connect} from 'react-redux';
 import {Link, hashHistory} from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Paper from 'material-ui/Paper';
 
 import Pic from './Pic';
-import {selectPic} from '../actions';
+import {
+    cancelDeletePic, deletePic, requestDeletePic, selectPic
+} from '../actions';
 
 
 class PicView extends React.Component {
@@ -30,12 +34,55 @@ class PicView extends React.Component {
         );
     }
 
+    buildDeleteDialog() {
+        if (!this.props.pic.confirmDelete) {
+            return null;
+        }
+
+        const
+            handleDeleteClose = this.handleDeleteClose.bind(this),
+            actions = [
+                <FlatButton
+                    label="Cancel"
+                    primary={true}
+                    onClick={handleDeleteClose}
+                />,
+                <FlatButton
+                    label="Delete"
+                    primary={true}
+                    onClick={this.handleDeleteConfirm.bind(this)}
+                />
+            ];
+
+        return (
+            <Dialog
+                title="Delete picture"
+                actions={actions}
+                modal={true}
+                open={this.props.pic.confirmDelete}
+                onRequestClose={handleDeleteClose}
+            >
+                Are you sure you want to delete this picture?
+            </Dialog>
+        );
+    }
+
     handleCloseClick() {
         this.props.close();
         hashHistory.push('/');
     }
 
     handleDeleteClick() {
+        this.props.requestDeletePic();
+    }
+
+    handleDeleteClose() {
+        this.props.cancelDeletePic();
+    }
+
+    handleDeleteConfirm() {
+        this.props.deletePic();
+        hashHistory.push('/');
     }
 
     handleSaveClick() {
@@ -67,6 +114,7 @@ class PicView extends React.Component {
                     onSaveClick={this.handleSaveClick.bind(this)}
                     onNoteChange={this.handleNoteChange.bind(this)}
                 />
+                {this.buildDeleteDialog()}
             </div>
         );
     }
@@ -79,9 +127,13 @@ function mapStateToProps(state, ownProps) {
     return {pic};
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
+    const {picId} = ownProps.params;
     return {
         close: () => dispatch(selectPic(null)),
+        cancelDeletePic: () => dispatch(cancelDeletePic(picId)),
+        deletePic: () => dispatch(deletePic(picId)),
+        requestDeletePic: () => dispatch(requestDeletePic(picId))
     };
 }
 
