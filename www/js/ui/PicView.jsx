@@ -11,7 +11,7 @@ import Paper from 'material-ui/Paper';
 
 import Pic from './Pic';
 import {
-    cancelDeletePic, deletePic, requestDeletePic, selectPic
+    cancelDeletePic, deletePic, requestDeletePic, savePic, selectPic
 } from '../actions';
 
 
@@ -86,6 +86,7 @@ class PicView extends React.Component {
     }
 
     handleSaveClick() {
+        this.props.savePic();
     }
 
     handleNoteChange() {
@@ -133,7 +134,8 @@ function mapDispatchToProps(dispatch, ownProps) {
         close: () => dispatch(selectPic(null)),
         cancelDeletePic: () => dispatch(cancelDeletePic(picId)),
         deletePic: () => dispatch(deletePic(picId)),
-        requestDeletePic: () => dispatch(requestDeletePic(picId))
+        requestDeletePic: () => dispatch(requestDeletePic(picId)),
+        savePic: () => dispatch(savePic(picId))
     };
 }
 
