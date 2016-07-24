@@ -10,12 +10,10 @@ import TextField from 'material-ui/TextField';
 
 export default class Pic extends React.Component {
     render() {
-        const
-            imgSrc = 'data:image/png;base64,' + this.props.src,
-            {saved, onDeleteClick, onSaveClick, onNoteChange} = this.props;
+        const {info, onDeleteClick, onSaveClick, onNoteChange} = this.props;
         return (
             <Card className="pic">
-                <CardMedia><img src={imgSrc} /></CardMedia>
+                <CardMedia><img src={info.data} /></CardMedia>
                 <CardText>
                     <TextField
                         floatingLabelText="Note" multiLine={true}
@@ -28,7 +26,7 @@ export default class Pic extends React.Component {
                         onClick={onDeleteClick}
                     />
                     <FlatButton
-                        label="Save" disabled={saved}
+                        label="Save" disabled={info.saved}
                         onClick={onSaveClick}
                     />
                 </CardActions>
@@ -38,8 +36,7 @@ export default class Pic extends React.Component {
 }
 
 Pic.propTypes = {
-    src: PropTypes.string.isRequired,
-    saved: PropTypes.bool,
+    info: PropTypes.object.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
     onSaveClick: PropTypes.func.isRequired,
     onNoteChange: PropTypes.func.isRequired
