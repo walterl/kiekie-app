@@ -18,7 +18,8 @@ const store = configureStore({
             correctOrientation: true
         }
     },
-    pics: []
+    pics: [],
+    selected: null
 });
 
 

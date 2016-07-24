@@ -62,6 +62,15 @@ function pics(state=[], action) {
     }
 }
 
+function selected(state=null, action) {
+    switch (action.type) {
+    case SELECT_PIC:
+        return action.id;
+    default:
+        return state;
+    }
+}
+
 function config(state={debug: false}, action) {
     switch (action.type) {
     case INIT_CAMERA:
@@ -77,5 +86,5 @@ function config(state={debug: false}, action) {
     }
 }
 
-const rootReducer = combineReducers({config, pics});
+const rootReducer = combineReducers({config, pics, selected});
 export default rootReducer;
