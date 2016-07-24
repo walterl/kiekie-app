@@ -40,7 +40,7 @@ class PicView extends React.Component {
             <div>
                 <AppBar iconElementLeft={this.buildCloseButton()} />
                 <Paper style={style}>
-                    <Link to="/">No pic; go back</Link>;
+                    No picture here. <Link to="/">Go back</Link>.
                 </Paper>
             </div>
         );
