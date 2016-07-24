@@ -31,7 +31,7 @@ class PicView extends React.Component {
     }
 
     handleCloseClick() {
-        this.props.deselectPic();
+        this.props.close();
         hashHistory.push('/');
     }
 
@@ -81,7 +81,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        deselectPic: () => dispatch(selectPic(null))
+        close: () => dispatch(selectPic(null)),
     };
 }
 
