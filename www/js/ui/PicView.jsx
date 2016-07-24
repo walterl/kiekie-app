@@ -12,6 +12,24 @@ import {selectPic} from '../actions';
 
 
 class PicView extends React.Component {
+    buildEmptyView(appBar) {
+        const style = {
+            height: '100%',
+            width: '100%',
+            padding: '40px 0',
+            textAlign: 'center'
+        };
+
+        return (
+            <div>
+                {appBar}
+                <Paper style={style}>
+                    <Link to="/">No pic; go back</Link>;
+                </Paper>
+            </div>
+        );
+    }
+
     handleCloseClick() {
         this.props.deselectPic();
         hashHistory.push('/');
@@ -37,21 +55,7 @@ class PicView extends React.Component {
             appBar = <AppBar iconElementLeft={closeBtn} />;
 
         if (!pic) {
-            const style = {
-                height: '100%',
-                width: '100%',
-                padding: '40px 0',
-                textAlign: 'center'
-            };
-
-            return (
-                <div>
-                    {appBar}
-                    <Paper style={style}>
-                        <Link to="/">No pic; go back</Link>;
-                    </Paper>
-                </div>
-            );
+            return this.buildEmptyView(appBar);
         }
 
         return (
