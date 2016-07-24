@@ -1,18 +1,69 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import {Link, hashHistory} from 'react-router';
+
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import Paper from 'material-ui/Paper';
+
+import Pic from './Pic';
+import {selectPic} from '../actions';
 
 
 class PicView extends React.Component {
+    handleCloseClick() {
+        this.props.deselectPic();
+        hashHistory.push('/');
+    }
+
+    handleDeleteClick() {
+    }
+
+    handleSaveClick() {
+    }
+
+    handleNoteChange() {
+    }
+
     render() {
-        const {pic} = this.props;
+        const
+            {pic} = this.props,
+            handleClose = this.handleCloseClick.bind(this),
+            closeBtn =
+                <IconButton onClick={handleClose}>
+                    <NavigationClose/>
+                </IconButton>,
+            appBar = <AppBar iconElementLeft={closeBtn} />;
 
         if (!pic) {
-            return <Link to="/">No pic; go back</Link>;
+            const style = {
+                height: '100%',
+                width: '100%',
+                padding: '40px 0',
+                textAlign: 'center'
+            };
+
+            return (
+                <div>
+                    {appBar}
+                    <Paper style={style}>
+                        <Link to="/">No pic; go back</Link>;
+                    </Paper>
+                </div>
+            );
         }
 
         return (
-            <img src={pic.data} />
+            <div>
+                {appBar}
+                <Pic
+                    info={pic}
+                    onDeleteClick={this.handleDeleteClick.bind(this)}
+                    onSaveClick={this.handleSaveClick.bind(this)}
+                    onNoteChange={this.handleNoteChange.bind(this)}
+                />
+            </div>
         );
     }
 }
@@ -24,4 +75,10 @@ function mapStateToProps(state, ownProps) {
     return {pic};
 }
 
-export default connect(mapStateToProps)(PicView);
+function mapDispatchToProps(dispatch) {
+    return {
+        deselectPic: () => dispatch(selectPic(null))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PicView);
