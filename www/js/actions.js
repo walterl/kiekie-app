@@ -10,6 +10,8 @@ export const
     TAKE_PHOTO_ERROR = 'TAKE_PHOTO_ERROR',
     SELECT_PIC = 'SELECT_PIC',
     DELETE_PIC = 'DELETE_PIC',
+    REQUEST_DELETE_PIC = 'REQUEST_DELETE_PIC',
+    CANCEL_DELETE_PIC = 'CANCEL_DELETE_PIC',
     SAVE_PIC = 'SAVE_PIC',
     SET_NOTE = 'SET_NOTE';
 
@@ -76,6 +78,20 @@ export function takePhoto() {
 export function deletePic(id) {
     return {
         type: DELETE_PIC,
+        id
+    };
+}
+
+export function requestDeletePic(id) {
+    return {
+        type: REQUEST_DELETE_PIC,
+        id
+    };
+}
+
+export function cancelDeletePic(id) {
+    return {
+        type: CANCEL_DELETE_PIC,
         id
     };
 }

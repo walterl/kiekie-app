@@ -1,22 +1,33 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_CAMERA, DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG,
-    SET_NOTE
+    INIT_CAMERA, CANCEL_DELETE_PIC, DELETE_PIC, RECEIVE_PIC,
+    REQUEST_DELETE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG, SET_NOTE
 } from './actions';
 
 
 function reducePic(state, action) {
+    var newState = null;
+
     if (state.id !== action.id) {
         return state;
     }
 
     switch (action.type) {
+    case REQUEST_DELETE_PIC:
+        return Object.assign({}, state, {
+            confirmDelete: true
+        });
 
-    case SAVE_PIC:
-        if (state.id !== action.id) {
+    case CANCEL_DELETE_PIC:
+        if (!state.confirmDelete) {
             return state;
         }
+        newState = Object.assign({}, state);
+        Reflect.deleteProperty(newState, 'confirmDelete');
+        return newState;
+
+    case SAVE_PIC:
         return Object.assign({}, state, {
             saved: true
         });
@@ -55,6 +66,8 @@ function pics(state=[], action) {
         }];
     case DELETE_PIC:
         return state.filter((p) => p.id !== action.id);
+    case CANCEL_DELETE_PIC:
+    case REQUEST_DELETE_PIC:
     case SAVE_PIC:
     case SELECT_PIC:
     case SET_NOTE:
