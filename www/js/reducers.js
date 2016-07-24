@@ -6,17 +6,12 @@ import {
 } from './actions';
 
 
-function pic(state, action) {
+function reducePic(state, action) {
+    if (state.id !== action.id) {
+        return state;
+    }
+
     switch (action.type) {
-    case RECEIVE_PIC:
-        return {
-            data: action.data,
-            takenTime: action.takenTime,
-            id: action.picId,
-            note: '',
-            saved: false,
-            selected: false
-        };
 
     case SAVE_PIC:
         if (state.id !== action.id) {
@@ -27,7 +22,7 @@ function pic(state, action) {
         });
 
     case SELECT_PIC:
-        if (state.id !== action.id && !state.selected) {
+        if (!state.selected) {
             return state;
         }
         return Object.assign({}, state, {
@@ -35,7 +30,7 @@ function pic(state, action) {
         });
 
     case SET_NOTE:
-        if (state.id !== action.id || state.note === action.note) {
+        if (state.note === action.note) {
             return state;
         }
         return Object.assign({}, state, {
@@ -50,13 +45,20 @@ function pic(state, action) {
 function pics(state=[], action) {
     switch (action.type) {
     case RECEIVE_PIC:
-        return [...state, pic(null, action)];
+        return [...state, {
+            data: action.data,
+            takenTime: action.takenTime,
+            id: action.picId,
+            note: '',
+            saved: false,
+            selected: false
+        }];
     case DELETE_PIC:
         return state.filter((p) => p.id !== action.id);
     case SAVE_PIC:
     case SELECT_PIC:
     case SET_NOTE:
-        return state.map((p) => pic(p, action));
+        return state.map((p) => reducePic(p, action));
     default:
         return state;
     }
