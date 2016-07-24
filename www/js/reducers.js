@@ -61,7 +61,7 @@ function pics(state=[], action) {
     }
 }
 
-function config(state=false, action) {
+function config(state={debug: false}, action) {
     switch (action.type) {
     case SET_DEBUG:
         return Object.assign({}, state, {
