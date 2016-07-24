@@ -17,6 +17,14 @@ import {
 
 
 class PicView extends React.Component {
+    buildCloseButton() {
+        return (
+            <IconButton onClick={this.handleCloseClick.bind(this)}>
+                <NavigationClose/>
+            </IconButton>
+        );
+    }
+
     buildEmptyView(appBar) {
         const style = {
             height: '100%',
@@ -97,12 +105,9 @@ class PicView extends React.Component {
     render() {
         const
             {pic} = this.props,
-            handleClose = this.handleCloseClick.bind(this),
-            closeBtn =
-                <IconButton onClick={handleClose}>
-                    <NavigationClose/>
-                </IconButton>,
-            appBar = <AppBar iconElementLeft={closeBtn} />;
+            appBar = <AppBar
+                iconElementLeft={this.buildCloseButton()}
+            />;
 
         if (!pic) {
             return this.buildEmptyView(appBar);
