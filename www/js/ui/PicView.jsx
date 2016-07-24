@@ -25,7 +25,7 @@ class PicView extends React.Component {
         );
     }
 
-    buildEmptyView(appBar) {
+    buildEmptyView() {
         const style = {
             height: '100%',
             width: '100%',
@@ -35,7 +35,7 @@ class PicView extends React.Component {
 
         return (
             <div>
-                {appBar}
+                <AppBar iconElementLeft={this.buildCloseButton()} />
                 <Paper style={style}>
                     <Link to="/">No pic; go back</Link>;
                 </Paper>
@@ -110,7 +110,7 @@ class PicView extends React.Component {
             />;
 
         if (!pic) {
-            return this.buildEmptyView(appBar);
+            return this.buildEmptyView();
         }
 
         return (
