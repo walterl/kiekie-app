@@ -2,8 +2,8 @@ import {combineReducers} from 'redux';
 
 import {
     INIT_CAMERA, CANCEL_DELETE_PIC, DELETE_PIC, RECEIVE_PIC,
-    REQUEST_DELETE_PIC, NOTE_CHANGED, SAVE_PIC, SELECT_PIC, SET_DEBUG,
-    SET_NOTE, SET_UI
+    REQUEST_DELETE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG, SET_NOTE,
+    SET_UI
 } from './actions';
 
 
@@ -28,15 +28,6 @@ function reducePic(state, action) {
         Reflect.deleteProperty(newState, 'confirmDelete');
         return newState;
 
-    case NOTE_CHANGED:
-        if (state.note === action.note) {
-            return state;
-        }
-        return Object.assign({}, state, {
-            note: action.note,
-            saved: false
-        });
-
     case SAVE_PIC:
         return Object.assign({}, state, {
             saved: true
@@ -55,7 +46,8 @@ function reducePic(state, action) {
             return state;
         }
         return Object.assign({}, state, {
-            note: action.note
+            note: action.note,
+            saved: false
         });
 
     default:
@@ -78,7 +70,6 @@ function pics(state=[], action) {
         return state.filter((p) => p.id !== action.id);
     case CANCEL_DELETE_PIC:
     case REQUEST_DELETE_PIC:
-    case NOTE_CHANGED:
     case SAVE_PIC:
     case SELECT_PIC:
     case SET_NOTE:

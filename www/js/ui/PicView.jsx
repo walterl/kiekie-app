@@ -14,7 +14,7 @@ import {white} from 'material-ui/styles/colors';
 
 import Pic from './Pic';
 import {
-    cancelDeletePic, deletePic, requestDeletePic, noteChanged, savePic,
+    cancelDeletePic, deletePic, requestDeletePic, setNote, savePic,
     selectPic
 } from '../actions';
 
@@ -159,7 +159,7 @@ function mapDispatchToProps(dispatch, ownProps) {
         cancelDeletePic: () => dispatch(cancelDeletePic(picId)),
         deletePic: () => dispatch(deletePic(picId)),
         requestDeletePic: () => dispatch(requestDeletePic(picId)),
-        noteChanged: (newValue) => dispatch(noteChanged(picId, newValue)),
+        noteChanged: (newValue) => dispatch(setNote(picId, newValue)),
         savePic: () => dispatch(savePic(picId))
     };
 }
