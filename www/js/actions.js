@@ -21,7 +21,7 @@ export function initCamera() {
     return {
         type: INIT_CAMERA,
         config: {
-            quality: 100,
+            quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
             sourceType: Camera.PictureSourceType.CAMERA,
             encodingType: Camera.EncodingType.JPEG,
