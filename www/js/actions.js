@@ -59,8 +59,14 @@ export function receivePic(picData, takenTime) {
     };
 }
 
-export function takePhoto() {
+export function takePhoto(source) {
     return (dispatch, getState) => {
+        const options = Object.assign({}, getState().config.camera);
+
+        if (source === 'gallery') {
+            options.sourceType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+        }
+
         dispatch(requestTakePhoto());
         navigator.camera.getPicture(
             (imgUri) => {
@@ -69,7 +75,7 @@ export function takePhoto() {
             (message) => {
                 dispatch(takePhotoError(message));
             },
-            getState().config.camera
+            options
         );
     };
 }
