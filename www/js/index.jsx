@@ -17,7 +17,12 @@ const store = configureStore({
         camera: {}
     },
     pics: [],
-    selected: null
+    selected: null,
+    ui: {
+        picsList: {
+            cellHeight: 200
+        }
+    }
 });
 
 

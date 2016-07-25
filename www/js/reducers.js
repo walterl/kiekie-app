@@ -2,7 +2,8 @@ import {combineReducers} from 'redux';
 
 import {
     INIT_CAMERA, CANCEL_DELETE_PIC, DELETE_PIC, RECEIVE_PIC,
-    REQUEST_DELETE_PIC, NOTE_CHANGED, SAVE_PIC, SELECT_PIC, SET_DEBUG, SET_NOTE
+    REQUEST_DELETE_PIC, NOTE_CHANGED, SAVE_PIC, SELECT_PIC, SET_DEBUG,
+    SET_NOTE, SET_UI
 } from './actions';
 
 
@@ -111,5 +112,14 @@ function config(state={debug: false}, action) {
     }
 }
 
-const rootReducer = combineReducers({config, pics, selected});
+function ui(state={}, action) {
+    switch (action.type) {
+    case SET_UI:
+        return Object.assign({}, state, action.config);
+    default:
+        return state;
+    }
+}
+
+const rootReducer = combineReducers({config, pics, selected, ui});
 export default rootReducer;

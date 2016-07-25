@@ -14,7 +14,8 @@ export const
     CANCEL_DELETE_PIC = 'CANCEL_DELETE_PIC',
     NOTE_CHANGED = 'NOTE_CHANGED',
     SAVE_PIC = 'SAVE_PIC',
-    SET_NOTE = 'SET_NOTE';
+    SET_NOTE = 'SET_NOTE',
+    SET_UI = 'SET_UI';
 
 
 export function initCamera() {

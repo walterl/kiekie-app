@@ -18,10 +18,10 @@ class PicsList extends React.Component {
     }
 
     render() {
-        const {pics} = self.props;
+        const {cellHeight, pics} = this.props;
         return (
             <div id="pics-list-root">
-                <GridList className="pics-list" cellHeight={200}>
+                <GridList className="pics-list" cellHeight={cellHeight}>
                     {pics.map((pic) =>
                     <PicIcon
                         key={pic.id} src={pic.data} saved={pic.saved}
@@ -35,12 +35,14 @@ class PicsList extends React.Component {
 }
 
 PicsList.propTypes = {
-    pics: PropTypes.array.isRequired
+    pics: PropTypes.array.isRequired,
+    cellHeight: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        pics: state.pics
+        pics: state.pics,
+        cellHeight: state.ui.picsList.cellHeight
     };
 }
 
