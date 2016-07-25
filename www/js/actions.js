@@ -9,6 +9,7 @@ export const
     SET_DEBUG = 'SET_DEBUG',
     REQUEST_TAKE_PHOTO = 'REQUEST_TAKE_PHOTO',
     RECEIVE_PIC = 'RECEIVE_PIC',
+    UPDATE_PIC = 'UPDATE_PIC',
     TAKE_PHOTO_ERROR = 'TAKE_PHOTO_ERROR',
     SELECT_PIC = 'SELECT_PIC',
     DELETE_PIC = 'DELETE_PIC',
@@ -60,6 +61,13 @@ export function receivePic(picData, takenTime) {
         data: picData,
         picId: uuid.v1(),
         takenTime
+    };
+}
+
+export function updatePic(id, data) {
+    return {
+        type: UPDATE_PIC,
+        id, data
     };
 }
 
