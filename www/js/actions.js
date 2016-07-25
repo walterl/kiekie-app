@@ -1,6 +1,8 @@
 /* global Camera */
 import uuid from 'uuid';
 
+import {resizeImage} from './lib';
+
 
 export const
     INIT_CAMERA = 'INIT_CAMERA',
@@ -75,6 +77,36 @@ export function setThumbnail(picId, thumbnail) {
     };
 }
 
+export function generateThumbnail(picId) {
+    return (dispatch, getState) => {
+        const state = getState(),
+            cellHeight = state.ui.picsList.cellHeight,
+            thumbnailDir = 'thumbnails';
+        var pic = state.pics.filter((p) => p.id === picId),
+            thumbnail = null;
+
+        if (!pic || !pic.length) {
+            dispatch(thumbnailError(picId, 'Picture does not exist'));
+        }
+        pic = pic[0];
+
+        thumbnail = resizeImage(pic.data, {
+            maxHeight: cellHeight,
+            maxWidth: cellHeight,
+            outputDir: thumbnailDir
+        });
+        dispatch(setThumbnail(picId, thumbnail));
+    };
+}
+
+export function processPic(imgUri) {
+    return (dispatch) => {
+        var pic = receivePic(imgUri, Date.now());
+        dispatch(pic);
+        dispatch(generateThumbnail(pic.picId));
+    };
+}
+
 export function takePhoto(source) {
     return (dispatch, getState) => {
         const options = Object.assign({}, getState().config.camera);
@@ -86,7 +118,7 @@ export function takePhoto(source) {
         dispatch(requestTakePhoto());
         navigator.camera.getPicture(
             (imgUri) => {
-                dispatch(receivePic(imgUri, Date.now()));
+                dispatch(processPic(imgUri));
             },
             (message) => {
                 dispatch(takePhotoError(message));

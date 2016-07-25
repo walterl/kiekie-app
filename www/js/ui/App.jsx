@@ -6,7 +6,7 @@ import PicsList from './PicsList';
 import GalleryButton from './GalleryButton';
 import PhotoButton from './PhotoButton';
 
-import {receivePic, takePhoto} from '../actions';
+import {processPic, takePhoto} from '../actions';
 
 import '../../scss/app.scss';
 
@@ -30,7 +30,7 @@ class App extends React.Component {
 
         if (debug) {
             onCameraClick = onGalleryClick = () =>
-                dispatch(receivePic(nextDebugPic(), Date.now()));
+                dispatch(processPic(nextDebugPic(), Date.now()));
         }
         actions = <div>
             <GalleryButton onClick={onGalleryClick} />
