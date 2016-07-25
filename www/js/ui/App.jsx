@@ -6,7 +6,7 @@ import PicsList from './PicsList';
 import GalleryButton from './GalleryButton';
 import PhotoButton from './PhotoButton';
 
-import {importPhotoFromGallery, receivePic, takePhoto} from '../actions';
+import {receivePic, takePhoto} from '../actions';
 
 import '../../scss/app.scss';
 
