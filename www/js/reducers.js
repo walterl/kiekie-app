@@ -34,11 +34,8 @@ function reducePic(state, action) {
         });
 
     case SELECT_PIC:
-        if (!state.selected) {
-            return state;
-        }
         return Object.assign({}, state, {
-            selected: action.id === state.id
+            selected: true
         });
 
     case SET_NOTE:
