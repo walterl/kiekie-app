@@ -63,30 +63,30 @@ export function receivePic(picData, takenTime) {
     };
 }
 
-export function thumbnailError(picId, error) {
+export function thumbnailError(id, error) {
     return {
         type: THUMBNAIL_ERROR,
-        picId, error
+        id, error
     };
 }
 
-export function setThumbnail(picId, thumbnail) {
+export function setThumbnail(id, thumbnail) {
     return {
         type: SET_THUMBNAIL,
-        thumbnail
+        id, thumbnail
     };
 }
 
-export function generateThumbnail(picId) {
+export function generateThumbnail(id) {
     return (dispatch, getState) => {
         const state = getState(),
             cellHeight = state.ui.picsList.cellHeight,
             thumbnailDir = 'thumbnails';
-        var pic = state.pics.filter((p) => p.id === picId),
+        var pic = state.pics.filter((p) => p.id === id),
             thumbnail = null;
 
         if (!pic || !pic.length) {
-            dispatch(thumbnailError(picId, 'Picture does not exist'));
+            dispatch(thumbnailError(id, 'Picture does not exist'));
         }
         pic = pic[0];
 
@@ -95,7 +95,7 @@ export function generateThumbnail(picId) {
             maxWidth: cellHeight,
             outputDir: thumbnailDir
         });
-        dispatch(setThumbnail(picId, thumbnail));
+        dispatch(setThumbnail(id, thumbnail));
     };
 }
 
