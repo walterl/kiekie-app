@@ -130,7 +130,6 @@ module.exports = {
         "no-new-require": "error",
         "no-new-wrappers": "error",
         "no-octal-escape": "error",
-        "no-param-reassign": "error",
         "no-path-concat": "error",
         "no-plusplus": "error",
         "no-process-env": "error",
