@@ -14,7 +14,8 @@ import configureStore from './store';
 const store = configureStore({
     config: {
         debug: true,
-        camera: {}
+        camera: {},
+        picMaxSize: 1280
     },
     pics: [],
     selected: null,

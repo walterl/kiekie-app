@@ -107,11 +107,36 @@ export function generateThumbnail(id) {
     };
 }
 
+export function resizePic(id) {
+    return (dispatch, getState) => {
+        const state = getState(),
+            maxSize = state.config.picMaxSize,
+            imageDir = 'resized';
+        var pic = state.pics.filter((p) => p.id === id),
+            resized = null;
+
+        if (!pic || !pic.length) {
+            dispatch(thumbnailError(id, 'Picture does not exist'));
+        }
+        pic = pic[0];
+
+        resized = resizeImage(pic.data, {
+            maxHeight: maxSize,
+            maxWidth: maxSize,
+            outputDir: imageDir
+        });
+        if (resized) {
+            dispatch(updatePic(id, resized));
+        }
+    };
+}
+
 export function processPic(imgUri) {
     return (dispatch) => {
         var pic = receivePic(imgUri, Date.now());
         dispatch(pic);
         dispatch(generateThumbnail(pic.picId));
+        dispatch(resizePic(pic.picId));
     };
 }
 
