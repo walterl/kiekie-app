@@ -7,6 +7,24 @@ import {
 } from './actions';
 
 
+/**
+ * THIS IS NOT A REDUCER, BUT A REDUCER UTILITY FUNCTION.
+ *
+ * Sets `state[prop] = action[prop]`, on a copy of `state`, if the values
+ * differ. If they don't, `state` is returned.
+ *
+ * `extra` is applied to the `state` copy before `[prop]` is updated.
+ */
+// eslint-disable-next-line max-params
+function setStateProp(state, action, prop, extra={}) {
+    if (state[prop] === action[prop]) {
+        return state;
+    }
+    return Object.assign({}, state, extra, {
+        [prop]: action[prop]
+    });
+}
+
 function reducePic(state, action) {
     var newState = null;
 
@@ -39,13 +57,7 @@ function reducePic(state, action) {
         });
 
     case SET_NOTE:
-        if (state.note === action.note) {
-            return state;
-        }
-        return Object.assign({}, state, {
-            note: action.note,
-            saved: false
-        });
+        return setStateProp(state, action, 'note', {saved: false});
 
     default:
         return state;
