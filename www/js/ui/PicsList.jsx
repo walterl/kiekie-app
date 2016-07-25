@@ -18,18 +18,16 @@ class PicsList extends React.Component {
     }
 
     render() {
-        var pics = this.props.pics.map(
-            (pic) =>
-                <PicIcon
-                    key={pic.id} src={pic.data} saved={pic.saved}
-                    onClick={this.handleIconClick.bind(this, pic.id)}
-                />
-        );
-
+        const {pics} = self.props;
         return (
             <div id="pics-list-root">
                 <GridList className="pics-list" cellHeight={200}>
-                    {pics}
+                    {pics.map((pic) =>
+                    <PicIcon
+                        key={pic.id} src={pic.data} saved={pic.saved}
+                        onClick={this.handleIconClick.bind(this, pic.id)}
+                    />
+                    )}
                 </GridList>
             </div>
         );
