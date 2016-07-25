@@ -2,8 +2,8 @@ import {combineReducers} from 'redux';
 
 import {
     INIT_CAMERA, CANCEL_DELETE_PIC, DELETE_PIC, RECEIVE_PIC,
-    REQUEST_DELETE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG, SET_NOTE,
-    SET_UI
+    REQUEST_DELETE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG,
+    SET_NOTE, SET_THUMBNAIL, SET_UI
 } from './actions';
 
 
@@ -59,6 +59,9 @@ function reducePic(state, action) {
     case SET_NOTE:
         return setStateProp(state, action, 'note', {saved: false});
 
+    case SET_THUMBNAIL:
+        return setStateProp(state, action, 'thumbnail');
+
     default:
         return state;
     }
@@ -82,6 +85,7 @@ function pics(state=[], action) {
     case SAVE_PIC:
     case SELECT_PIC:
     case SET_NOTE:
+    case SET_THUMBNAIL:
         return state.map((p) => reducePic(p, action));
     default:
         return state;

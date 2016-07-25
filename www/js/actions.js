@@ -14,7 +14,9 @@ export const
     CANCEL_DELETE_PIC = 'CANCEL_DELETE_PIC',
     SAVE_PIC = 'SAVE_PIC',
     SET_NOTE = 'SET_NOTE',
-    SET_UI = 'SET_UI';
+    SET_THUMBNAIL = 'SET_THUMBNAIL',
+    SET_UI = 'SET_UI',
+    THUMBNAIL_ERROR = 'THUMBNAIL_ERROR';
 
 
 export function initCamera() {
@@ -56,6 +58,20 @@ export function receivePic(picData, takenTime) {
         data: picData,
         picId: uuid.v1(),
         takenTime
+    };
+}
+
+export function thumbnailError(picId, error) {
+    return {
+        type: THUMBNAIL_ERROR,
+        picId, error
+    };
+}
+
+export function setThumbnail(picId, thumbnail) {
+    return {
+        type: SET_THUMBNAIL,
+        thumbnail
     };
 }
 
