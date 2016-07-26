@@ -87,8 +87,7 @@ export function setThumbnail(id, thumbnail) {
 export function generateThumbnail(id) {
     return (dispatch, getState) => {
         const state = getState(),
-            cellHeight = state.ui.picsList.cellHeight,
-            thumbnailDir = 'thumbnails';
+            cellHeight = state.ui.picsList.cellHeight;
         var pic = state.pics.filter((p) => p.id === id),
             thumbnail = null;
 
@@ -100,7 +99,7 @@ export function generateThumbnail(id) {
         thumbnail = resizeImage(pic.uri, {
             maxHeight: cellHeight,
             maxWidth: cellHeight,
-            outputDir: thumbnailDir
+            outputDir: state.config.dirs.thumbnails
         });
         dispatch(setThumbnail(id, thumbnail));
     };
@@ -110,7 +109,7 @@ export function resizePic(id) {
     return (dispatch, getState) => {
         const state = getState(),
             maxSize = state.config.picMaxSize,
-            imageDir = 'resized';
+            imageDir = state.config.dirs.gallery;
         var pic = state.pics.filter((p) => p.id === id),
             resized = null;
 

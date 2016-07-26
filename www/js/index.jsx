@@ -15,7 +15,12 @@ const store = configureStore({
     config: {
         debug: true,
         camera: {},
-        picMaxSize: 1280
+        picMaxSize: 1280,
+        dirs: {
+            gallery: 'gallery',
+            originals: 'originals',
+            thumbnails: 'thumbnails'
+        }
     },
     pics: [],
     selected: null,
