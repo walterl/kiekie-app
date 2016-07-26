@@ -7,18 +7,18 @@ import {resizeImage} from './lib';
 export const
     INIT_CAMERA = 'INIT_CAMERA',
     SET_DEBUG = 'SET_DEBUG',
-    REQUEST_TAKE_PHOTO = 'REQUEST_TAKE_PHOTO',
+    CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
+    CAMERA_PIC_ERROR = 'CAMERA_PIC_ERROR',
     RECEIVE_PIC = 'RECEIVE_PIC',
     UPDATE_PIC = 'UPDATE_PIC',
-    TAKE_PHOTO_ERROR = 'TAKE_PHOTO_ERROR',
-    SELECT_PIC = 'SELECT_PIC',
     DELETE_PIC = 'DELETE_PIC',
-    REQUEST_DELETE_PIC = 'REQUEST_DELETE_PIC',
-    CANCEL_DELETE_PIC = 'CANCEL_DELETE_PIC',
+    DELETE_PIC_REQUEST = 'DELETE_PIC_REQUEST',
+    DELETE_PIC_CANCEL = 'DELETE_PIC_CANCEL',
     SAVE_PIC = 'SAVE_PIC',
+    SET_PIC_SELECTED = 'SET_PIC_SELECTED',
     SET_NOTE = 'SET_NOTE',
     SET_THUMBNAIL = 'SET_THUMBNAIL',
-    SET_UI = 'SET_UI',
+    SET_UI_STATE = 'SET_UI_STATE',
     THUMBNAIL_ERROR = 'THUMBNAIL_ERROR';
 
 
@@ -44,13 +44,13 @@ export function setDebug(debug) {
     };
 }
 
-function requestTakePhoto() {
-    return {type: REQUEST_TAKE_PHOTO};
+function requestCameraPic() {
+    return {type: CAMERA_PIC_REQUEST};
 }
 
-function takePhotoError(error) {
+function cameraPicError(error) {
     return {
-        type: TAKE_PHOTO_ERROR,
+        type: CAMERA_PIC_ERROR,
         error
     };
 }
@@ -148,13 +148,13 @@ export function takePhoto(source) {
             options.sourceType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
         }
 
-        dispatch(requestTakePhoto());
+        dispatch(requestCameraPic());
         navigator.camera.getPicture(
             (imgUri) => {
                 dispatch(processPic(imgUri));
             },
             (message) => {
-                dispatch(takePhotoError(message));
+                dispatch(cameraPicError(message));
             },
             options
         );
@@ -170,14 +170,14 @@ export function deletePic(id) {
 
 export function requestDeletePic(id) {
     return {
-        type: REQUEST_DELETE_PIC,
+        type: DELETE_PIC_REQUEST,
         id
     };
 }
 
 export function cancelDeletePic(id) {
     return {
-        type: CANCEL_DELETE_PIC,
+        type: DELETE_PIC_CANCEL,
         id
     };
 }
@@ -198,7 +198,7 @@ export function setNote(id, note) {
 
 export function selectPic(id) {
     return {
-        type: SELECT_PIC,
+        type: SET_PIC_SELECTED,
         id
     };
 }

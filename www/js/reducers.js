@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_CAMERA, CANCEL_DELETE_PIC, DELETE_PIC, RECEIVE_PIC,
-    REQUEST_DELETE_PIC, SAVE_PIC, SELECT_PIC, SET_DEBUG,
-    SET_NOTE, SET_THUMBNAIL, SET_UI, UPDATE_PIC
+    INIT_CAMERA, DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC,
+    DELETE_PIC_REQUEST, SAVE_PIC, SET_PIC_SELECTED, SET_DEBUG,
+    SET_NOTE, SET_THUMBNAIL, SET_UI_STATE, UPDATE_PIC
 } from './actions';
 
 
@@ -33,12 +33,12 @@ function reducePic(state, action) {
     }
 
     switch (action.type) {
-    case REQUEST_DELETE_PIC:
+    case DELETE_PIC_REQUEST:
         return Object.assign({}, state, {
             confirmDelete: true
         });
 
-    case CANCEL_DELETE_PIC:
+    case DELETE_PIC_CANCEL:
         if (!state.confirmDelete) {
             return state;
         }
@@ -51,7 +51,7 @@ function reducePic(state, action) {
             saved: true
         });
 
-    case SELECT_PIC:
+    case SET_PIC_SELECTED:
         return Object.assign({}, state, {
             selected: true
         });
@@ -83,10 +83,10 @@ function pics(state=[], action) {
         }];
     case DELETE_PIC:
         return state.filter((p) => p.id !== action.id);
-    case CANCEL_DELETE_PIC:
-    case REQUEST_DELETE_PIC:
+    case DELETE_PIC_CANCEL:
+    case DELETE_PIC_REQUEST:
     case SAVE_PIC:
-    case SELECT_PIC:
+    case SET_PIC_SELECTED:
     case SET_NOTE:
     case SET_THUMBNAIL:
     case UPDATE_PIC:
@@ -98,7 +98,7 @@ function pics(state=[], action) {
 
 function selected(state=null, action) {
     switch (action.type) {
-    case SELECT_PIC:
+    case SET_PIC_SELECTED:
         return action.id;
     default:
         return state;
@@ -122,7 +122,7 @@ function config(state={debug: false}, action) {
 
 function ui(state={}, action) {
     switch (action.type) {
-    case SET_UI:
+    case SET_UI_STATE:
         return Object.assign({}, state, action.config);
     default:
         return state;
