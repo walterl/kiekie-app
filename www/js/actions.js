@@ -44,11 +44,11 @@ export function setDebug(debug) {
     };
 }
 
-function requestCameraPic() {
+export function requestCameraPic() {
     return {type: CAMERA_PIC_REQUEST};
 }
 
-function cameraPicError(error) {
+export function cameraPicError(error) {
     return {
         type: CAMERA_PIC_ERROR,
         error
