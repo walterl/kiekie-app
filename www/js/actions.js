@@ -133,10 +133,10 @@ export function resizePic(id) {
 
 export function processPic(imgUri) {
     return (dispatch) => {
-        var pic = receivePic(imgUri, Date.now());
-        dispatch(pic);
-        dispatch(generateThumbnail(pic.id));
-        dispatch(resizePic(pic.id));
+        const picId = uuid.v1();
+        dispatch(receivePic(imgUri, Date.now(), picId));
+        dispatch(generateThumbnail(picId));
+        dispatch(resizePic(picId));
     };
 }
 
