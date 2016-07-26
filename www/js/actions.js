@@ -93,6 +93,7 @@ export function generateThumbnail(id) {
 
         if (!pic || !pic.length) {
             dispatch(thumbnailError(id, 'Picture does not exist'));
+            return;
         }
         pic = pic[0];
 
@@ -115,6 +116,7 @@ export function resizePic(id) {
 
         if (!pic || !pic.length) {
             dispatch(thumbnailError(id, 'Picture does not exist'));
+            return;
         }
         pic = pic[0];
 
