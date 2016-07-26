@@ -6,7 +6,7 @@ import PicsList from './PicsList';
 import GalleryButton from './GalleryButton';
 import PhotoButton from './PhotoButton';
 
-import {processPic, takePhoto} from '../actions';
+import {processPic, requestPic} from '../actions';
 
 import '../../scss/app.scss';
 
@@ -66,8 +66,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onCameraClick: () => dispatch(takePhoto()),
-        onGalleryClick: () => dispatch(takePhoto('gallery')),
+        onCameraClick: () => dispatch(requestPic()),
+        onGalleryClick: () => dispatch(requestPic('gallery')),
         dispatch
     };
 }

@@ -140,7 +140,7 @@ export function processPic(imgUri) {
     };
 }
 
-export function takePhoto(source) {
+export function requestPic(source) {
     return (dispatch, getState) => {
         const options = Object.assign({}, getState().config.camera);
 
