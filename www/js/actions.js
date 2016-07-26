@@ -55,19 +55,18 @@ export function cameraPicError(error) {
     };
 }
 
-export function receivePic(picData, takenTime) {
+export function receivePic(uri, takenTime) {
     return {
         type: RECEIVE_PIC,
-        data: picData,
-        picId: uuid.v1(),
-        takenTime
+        id: uuid.v1(),
+        uri, takenTime
     };
 }
 
-export function updatePic(id, data) {
+export function updatePic(id, uri) {
     return {
         type: UPDATE_PIC,
-        id, data
+        id, uri
     };
 }
 
@@ -98,7 +97,7 @@ export function generateThumbnail(id) {
         }
         pic = pic[0];
 
-        thumbnail = resizeImage(pic.data, {
+        thumbnail = resizeImage(pic.uri, {
             maxHeight: cellHeight,
             maxWidth: cellHeight,
             outputDir: thumbnailDir
@@ -120,7 +119,7 @@ export function resizePic(id) {
         }
         pic = pic[0];
 
-        resized = resizeImage(pic.data, {
+        resized = resizeImage(pic.uri, {
             maxHeight: maxSize,
             maxWidth: maxSize,
             outputDir: imageDir
@@ -135,8 +134,8 @@ export function processPic(imgUri) {
     return (dispatch) => {
         var pic = receivePic(imgUri, Date.now());
         dispatch(pic);
-        dispatch(generateThumbnail(pic.picId));
-        dispatch(resizePic(pic.picId));
+        dispatch(generateThumbnail(pic.id));
+        dispatch(resizePic(pic.id));
     };
 }
 

@@ -11,7 +11,7 @@ export default class Pic extends React.Component {
         const {info, onNoteChange} = this.props;
         return (
             <Card className="pic">
-                <CardMedia><img src={info.data} /></CardMedia>
+                <CardMedia><img src={info.uri} /></CardMedia>
                 <CardText>
                     <TextField
                         floatingLabelText="Note" multiLine={true}

@@ -63,7 +63,7 @@ function reducePic(state, action) {
         return setStateProp(state, action, 'thumbnail');
 
     case UPDATE_PIC:
-        return setStateProp(state, action, 'data', {originalData: state.data});
+        return setStateProp(state, action, 'uri', {originalUri: state.uri});
 
     default:
         return state;
@@ -74,9 +74,9 @@ function pics(state=[], action) {
     switch (action.type) {
     case RECEIVE_PIC:
         return [...state, {
-            data: action.data,
+            uri: action.uri,
             takenTime: action.takenTime,
-            id: action.picId,
+            id: action.id,
             note: '',
             saved: false,
             selected: false
