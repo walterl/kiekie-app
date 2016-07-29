@@ -1,3 +1,4 @@
+/* global cordova */
 import React from 'react';
 import {connect} from 'react-redux';
 import AppBar from 'material-ui/AppBar';
@@ -11,14 +12,14 @@ import {processPic, requestPic} from '../actions';
 import '../../scss/app.scss';
 
 
-var debugPic = 0;
+var browserPic = 0;
 
 /**
  * Cycle through `1.jpg` through `5.jpg` in the `ignoreme` directory.
  */
 function nextDebugPic() {
-    debugPic = debugPic % 5 + 1;
-    return `/ignoreme/${debugPic}.jpg`;
+    browserPic = browserPic % 5 + 1;
+    return `/ignoreme/${browserPic}.jpg`;
 }
 
 
@@ -26,9 +27,9 @@ class App extends React.Component {
     render() {
         var {onCameraClick, onGalleryClick} = this.props,
             actions = null;
-        const {debug, dispatch} = this.props;
+        const {dispatch} = this.props;
 
-        if (debug) {
+        if (cordova.platformId === 'browser') {
             onCameraClick = onGalleryClick = () =>
                 dispatch(processPic(nextDebugPic(), Date.now()));
         }
@@ -53,16 +54,9 @@ class App extends React.Component {
 
 
 App.propTypes = {
-    debug: React.PropTypes.bool,
     dispatch: React.PropTypes.func.isRequired,
     onCameraClick: React.PropTypes.func.isRequired
 };
-
-function mapStateToProps(state) {
-    return {
-        debug: state.config.debug
-    };
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -72,4 +66,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);
