@@ -90,11 +90,10 @@ export function cameraPicError(error) {
     };
 }
 
-export function receivePic(uri, takenTime) {
+export function receivePic(uri, takenTime, id) {
     return {
         type: RECEIVE_PIC,
-        id: uuid.v1(),
-        uri, takenTime
+        id, uri, takenTime
     };
 }
 
