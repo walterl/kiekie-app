@@ -1,4 +1,14 @@
+const noop = () => {};
 var tempFileN = 1;
+
+export function copyPic(uri, destDir, callback, errorCallback) {
+    callback = callback || noop;
+    errorCallback = errorCallback || noop;
+
+    window.resolveLocalFileSystemURL(uri, (fileEntry) => {
+        fileEntry.copyTo(destDir, fileEntry.name, callback, errorCallback);
+    });
+}
 
 function httpGet(url) {
     const xhr = new XMLHttpRequest();
