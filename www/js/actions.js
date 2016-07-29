@@ -1,4 +1,4 @@
-/* global cordova, Camera */
+/* global cordova, Camera, LocalFileSystem */
 import uuid from 'uuid';
 
 import {resizeImage} from './lib';
@@ -39,15 +39,26 @@ export function initCamera() {
     };
 }
 
-export function initDirectories() {
+export function initDirectories(dataDirURL) {
     return (dispatch, getState) => {
         const
             state = getState(),
-            dataDirURL = cordova.file.dataDirectory,
             dirConf = state.config.dirs,
             options = {create: true, exclusive: false};
         var dirs = {},
             fileErrorHandler = () => {};
+
+        if (typeof dataDirURL === 'undefined') {
+            if (cordova.platformId === 'browser') {
+                window.requestFileSystem(
+                    LocalFileSystem.TEMPORARY, 100*1024*1024, (fs) => {
+                        dispatch(initDirectories(fs.root.toURL()));
+                    }
+                );
+                return;
+            }
+            dataDirURL = cordova.file.dataDirectory;
+        }
 
         if (state.config.debug) {
             // eslint-disable-next-line no-console
