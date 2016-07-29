@@ -59,14 +59,14 @@ export function initDirectories() {
                         dirs[dirName] = dirEntry;
                     });
                 });
+
+                dirs.pics = picsDir;
+
+                dispatch({
+                    type: INIT_DIRECTORIES,
+                    fs, dirs
+                });
             });
-        });
-
-        dirs.pics = picsDir;
-
-        dispatch({
-            type: INIT_DIRECTORIES,
-            fs, dirs
         });
     };
 }
