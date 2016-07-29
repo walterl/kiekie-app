@@ -15,7 +15,6 @@ import {
  *
  * `extra` is applied to the `state` copy before `[prop]` is updated.
  */
-// eslint-disable-next-line max-params
 function setStateProp(state, action, prop, extra={}) {
     if (state[prop] === action[prop]) {
         return state;
