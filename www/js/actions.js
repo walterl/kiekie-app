@@ -45,7 +45,13 @@ export function initDirectories() {
             dataDirURL = cordova.file.dataDirectory,
             dirConf = state.config.dirs,
             options = {create: true, exclusive: false};
-        var dirs = {};
+        var dirs = {},
+            fileErrorHandler = () => {};
+
+        if (state.debug) {
+            // eslint-disable-next-line no-console
+            fileErrorHandler = (err) => console.error(err);
+        }
 
         window.resolveLocalFileSystemURL(dataDirURL, (dataDir) => {
             dataDir.getDirectory(dirConf.pics, options, (picsEntry) => {
@@ -63,12 +69,12 @@ export function initDirectories() {
                         picsEntry.getDirectory(dirName, options, (dirEntry) => {
                             dirs[dirName] = dirEntry;
                             currentFn();
-                        });
+                        }, fileErrorHandler);
                     };
                 });
                 fn();
-            });
-        });
+            }, fileErrorHandler);
+        }, fileErrorHandler);
     };
 }
 
