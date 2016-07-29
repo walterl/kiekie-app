@@ -20,6 +20,7 @@ export const
     SET_NOTE = 'SET_NOTE',
     SET_THUMBNAIL = 'SET_THUMBNAIL',
     SET_UI_STATE = 'SET_UI_STATE',
+    RESIZE_ERROR = 'RESIZE_ERROR',
     THUMBNAIL_ERROR = 'THUMBNAIL_ERROR';
 
 
@@ -146,6 +147,13 @@ export function generateThumbnail(id) {
     };
 }
 
+export function resizeError(id, error) {
+    return {
+        type: RESIZE_ERROR,
+        id, error
+    };
+}
+
 export function resizePic(id) {
     return (dispatch, getState) => {
         const state = getState(),
@@ -155,7 +163,7 @@ export function resizePic(id) {
             resized = null;
 
         if (!pic || !pic.length) {
-            dispatch(thumbnailError(id, 'Picture does not exist'));
+            dispatch(resizeError(id, 'Picture does not exizt'));
             return;
         }
         pic = pic[0];
