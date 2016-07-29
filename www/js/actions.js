@@ -1,4 +1,4 @@
-/* global Camera */
+/* global Camera, LocalFileSystem */
 import uuid from 'uuid';
 
 import {resizeImage} from './lib';
@@ -6,6 +6,7 @@ import {resizeImage} from './lib';
 
 export const
     INIT_CAMERA = 'INIT_CAMERA',
+    INIT_DIRECTORIES = 'INIT_DIRECTORIES',
     SET_DEBUG = 'SET_DEBUG',
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
     CAMERA_PIC_ERROR = 'CAMERA_PIC_ERROR',
@@ -34,6 +35,39 @@ export function initCamera() {
             allowEdit: true,
             correctOrientation: true
         }
+    };
+}
+
+export function initDirectories() {
+    return (dispatch, getState) => {
+        const
+            state = getState(),
+            dirConf = state.config.dirs,
+            options = {create: true, exclusive: false};
+        var fs = null,
+            picsDir = null,
+            dirs = {};
+
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, (filesys) => {
+            fs = filesys;
+
+            fs.root.getDirectory(dirConf.picsRoot, options, (picsEntry) => {
+                picsDir = picsEntry;
+
+                ['gallery', 'originals', 'thumbnails'].forEach((dirName) => {
+                    picsEntry.getDirectory(dirName, options, (dirEntry) => {
+                        dirs[dirName] = dirEntry;
+                    });
+                });
+            });
+        });
+
+        dirs.pics = picsDir;
+
+        dispatch({
+            type: INIT_DIRECTORIES,
+            fs, dirs
+        });
     };
 }
 
