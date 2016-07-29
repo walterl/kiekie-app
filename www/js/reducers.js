@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_CAMERA, DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC,
-    DELETE_PIC_REQUEST, SAVE_PIC, SET_PIC_SELECTED, SET_DEBUG,
-    SET_NOTE, SET_THUMBNAIL, SET_UI_STATE, UPDATE_PIC
+    INIT_CAMERA, INIT_DIRECTORIES, DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC,
+    DELETE_PIC_REQUEST, SAVE_PIC, SET_PIC_SELECTED, SET_DEBUG, SET_NOTE,
+    SET_THUMBNAIL, SET_UI_STATE, UPDATE_PIC
 } from './actions';
 
 
@@ -120,6 +120,20 @@ function config(state={debug: false}, action) {
     }
 }
 
+function dirs(state={
+    pics: null,
+    gallery: null,
+    originals: null,
+    thumbnails: null
+}, action) {
+    switch (action.type) {
+    case INIT_DIRECTORIES:
+        return Object.assign({}, state, action.dirs);
+    default:
+        return state;
+    }
+}
+
 function ui(state={}, action) {
     switch (action.type) {
     case SET_UI_STATE:
@@ -129,5 +143,5 @@ function ui(state={}, action) {
     }
 }
 
-const rootReducer = combineReducers({config, pics, selected, ui});
+const rootReducer = combineReducers({config, dirs, pics, selected, ui});
 export default rootReducer;
