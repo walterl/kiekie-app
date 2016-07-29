@@ -8,7 +8,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import RoutedApp from './ui/RoutedApp';
-import {initCamera} from './actions';
+import {initCamera, initDirectories} from './actions';
 import configureStore from './store';
 
 const store = configureStore({
@@ -17,10 +17,17 @@ const store = configureStore({
         camera: {},
         picMaxSize: 1280,
         dirs: {
+            pics: 'pics',
             gallery: 'gallery',
             originals: 'originals',
             thumbnails: 'thumbnails'
         }
+    },
+    dirs: {
+        pics: null,
+        gallery: null,
+        originals: null,
+        thumbnails: null
     },
     pics: [],
     selected: null,
@@ -41,6 +48,7 @@ document.addEventListener('deviceready', () => {
     injectTapEventPlugin();
 
     store.dispatch(initCamera());
+    store.dispatch(initDirectories());
 
     ReactDOM.render(
         <Provider store={store}>
