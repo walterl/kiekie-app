@@ -1,7 +1,7 @@
 /* global cordova, Camera, LocalFileSystem */
 import uuid from 'uuid';
 
-import {resizeImage} from './lib';
+import {copyPic, downloadToTemp, resizeImage} from './lib';
 
 
 export const
@@ -109,9 +109,28 @@ export function cameraPicError(error) {
 }
 
 export function receivePic(uri, takenTime, id) {
-    return {
+    const action = {
         type: RECEIVE_PIC,
         id, uri, takenTime
+    };
+
+    return (dispatch, getState) => {
+        const state = getState();
+        id = id || uuid.v1();
+
+        if (cordova.platformId === 'browser') {
+            downloadToTemp(uri, state.dirs.root, (url) => {
+                copyPic(url, state.dirs.originals);
+                dispatch(Object.assign(action, {uri: url}));
+            });
+            return;
+        }
+
+        copyPic(uri, state.dirs.originals, (entry) => {
+            dispatch(Object.assign(action, {uri: entry.toURL()}));
+        }, () => {
+            dispatch(action);
+        });
     };
 }
 
