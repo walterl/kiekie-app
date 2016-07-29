@@ -49,7 +49,7 @@ export function initDirectories() {
         var dirs = {},
             fileErrorHandler = () => {};
 
-        if (state.debug) {
+        if (state.config.debug) {
             // eslint-disable-next-line no-console
             fileErrorHandler = (err) => console.error(err);
         }
