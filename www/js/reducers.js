@@ -128,7 +128,7 @@ function dirs(state={
 }, action) {
     switch (action.type) {
     case INIT_DIRECTORIES:
-        return Object.assign({}, state, action.dirs);
+        return Object.assign({}, state, action.dirs, {root: action.dataDir});
     default:
         return state;
     }

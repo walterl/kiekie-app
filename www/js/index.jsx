@@ -24,6 +24,7 @@ const store = configureStore({
         }
     },
     dirs: {
+        root: null,
         pics: null,
         gallery: null,
         originals: null,
