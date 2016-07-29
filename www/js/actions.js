@@ -1,4 +1,4 @@
-/* global Camera, LocalFileSystem */
+/* global cordova, Camera */
 import uuid from 'uuid';
 
 import {resizeImage} from './lib';
@@ -42,30 +42,31 @@ export function initDirectories() {
     return (dispatch, getState) => {
         const
             state = getState(),
+            dataDirURL = cordova.file.dataDirectory,
             dirConf = state.config.dirs,
             options = {create: true, exclusive: false};
-        var fs = null,
-            picsDir = null,
-            dirs = {};
+        var dirs = {};
 
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, (filesys) => {
-            fs = filesys;
-
-            fs.root.getDirectory(dirConf.picsRoot, options, (picsEntry) => {
-                picsDir = picsEntry;
-
-                ['gallery', 'originals', 'thumbnails'].forEach((dirName) => {
-                    picsEntry.getDirectory(dirName, options, (dirEntry) => {
-                        dirs[dirName] = dirEntry;
+        window.resolveLocalFileSystemURL(dataDirURL, (dataDir) => {
+            dataDir.getDirectory(dirConf.pics, options, (picsEntry) => {
+                var fn = () => {
+                    dispatch({
+                        type: INIT_DIRECTORIES,
+                        dataDir, dirs
                     });
-                });
+                };
 
-                dirs.pics = picsDir;
-
-                dispatch({
-                    type: INIT_DIRECTORIES,
-                    fs, dirs
+                dirs.pics = picsEntry;
+                ['gallery', 'originals', 'thumbnails'].forEach((dirName) => {
+                    var currentFn = fn;
+                    fn = () => {
+                        picsEntry.getDirectory(dirName, options, (dirEntry) => {
+                            dirs[dirName] = dirEntry;
+                            currentFn();
+                        });
+                    };
                 });
+                fn();
             });
         });
     };
