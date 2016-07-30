@@ -118,18 +118,22 @@ export function receivePic(uri, takenTime, id) {
         const state = getState();
         id = id || uuid.v1();
 
-        if (cordova.platformId === 'browser') {
-            downloadToTemp(uri, state.dirs.root, (url) => {
-                copyPic(url, state.dirs.originals);
-                dispatch(Object.assign(action, {uri: url}));
-            });
-            return;
-        }
+        return new Promise((resolve) => {
+            if (cordova.platformId === 'browser') {
+                downloadToTemp(uri, state.dirs.root, (url) => {
+                    copyPic(url, state.dirs.originals);
+                    dispatch(Object.assign(action, {uri: url}));
+                    resolve();
+                });
+                return;
+            }
 
-        copyPic(uri, state.dirs.originals, (entry) => {
-            dispatch(Object.assign(action, {uri: entry.toURL()}));
-        }, () => {
-            dispatch(action);
+            copyPic(uri, state.dirs.originals, (entry) => {
+                dispatch(Object.assign(action, {uri: entry.toURL()}));
+            }, () => {
+                dispatch(action);
+            });
+            resolve();
         });
     };
 }
@@ -212,9 +216,10 @@ export function resizePic(id) {
 export function processPic(imgUri) {
     return (dispatch) => {
         const picId = uuid.v1();
-        dispatch(receivePic(imgUri, Date.now(), picId));
-        dispatch(generateThumbnail(picId));
-        dispatch(resizePic(picId));
+        dispatch(receivePic(imgUri, Date.now(), picId)).then(() => {
+            dispatch(generateThumbnail(picId));
+            dispatch(resizePic(picId));
+        });
     };
 }
 
