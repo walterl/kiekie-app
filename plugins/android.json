@@ -15,6 +15,9 @@
         },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "za.co.wrl.snaphappy"
+        },
+        "cordova-plugin-image-resizer": {
+            "PACKAGE_NAME": "za.co.wrl.snaphappy"
         }
     },
     "dependent_plugins": {
