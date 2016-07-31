@@ -119,7 +119,7 @@ export function receivePic(uri, takenTime, id) {
         const state = getState();
         id = id || uuid.v1();
 
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             if (cordova.platformId === 'browser') {
                 downloadToTemp(uri, state.dirs.root, (url) => {
                     copyPic(url, state.dirs.originals);
@@ -131,10 +131,11 @@ export function receivePic(uri, takenTime, id) {
 
             copyPic(uri, state.dirs.originals, (entry) => {
                 dispatch(Object.assign(action, {uri: entry.toURL()}));
+                resolve();
             }, () => {
                 dispatch(action);
+                reject();
             });
-            resolve();
         });
     };
 }
