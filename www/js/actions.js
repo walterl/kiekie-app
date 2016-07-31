@@ -57,7 +57,7 @@ export function initDirectories(dataDirURL) {
                 );
                 return;
             }
-            dataDirURL = cordova.file.dataDirectory;
+            dataDirURL = cordova.file.externalDataDirectory;
         }
 
         if (state.config.debug) {
@@ -216,10 +216,9 @@ export function resizePic(id) {
 export function processPic(imgUri) {
     return (dispatch) => {
         const picId = uuid.v1();
-        dispatch(receivePic(imgUri, Date.now(), picId)).then(() => {
-            dispatch(generateThumbnail(picId));
-            dispatch(resizePic(picId));
-        });
+        dispatch(receivePic(imgUri, Date.now(), picId))
+            .then(() => dispatch(generateThumbnail(picId)))
+            .then(() => dispatch(resizePic(picId)));
     };
 }
 
