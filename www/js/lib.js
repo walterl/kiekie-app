@@ -32,10 +32,43 @@ export function downloadToTemp(url, rootDir, callback) {
     });
 }
 
-export function resizeImage(path, options) {
-    const dir = options.outputDir || 'default_dir';
-    if (path.startsWith('/')) {
-        path = path.slice(1);
-    }
-    return `/generated/${dir}/${path}`;
+export function resizeImage(path, options, callback, errorCallback) {
+    const maxHeight = options.height || 1280,
+        maxWidth = options.width || 1280,
+        outputDir = options.outputDir;
+    callback = callback || noop;
+    errorCallback = errorCallback || noop;
+
+    window.imageResizer.getImageSize(
+        (result) => {
+            var height = 0,
+                width = 0;
+
+            if (result.height <= maxHeight && result.width <= maxWidth) {
+                copyPic(path, outputDir, callback, errorCallback);
+                return;
+            }
+
+            height = Math.min(result.height, maxHeight);
+            width = Math.min(result.width, maxWidth);
+
+            if (result.height > result.width) {
+                width = 0;
+            } else {
+                height = 0;
+            }
+
+            window.imageResizer.resizeImage(
+                callback, errorCallback,
+                path,
+                width, height, {
+                    directory: outputDir.toURL(),
+                    filename: path.split('/').pop(),
+                    storeImage: true
+                }
+            );
+        },
+        errorCallback,
+        path
+    );
 }
