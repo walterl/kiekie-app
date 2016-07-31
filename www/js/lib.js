@@ -22,14 +22,12 @@ export function downloadToTemp(url, rootDir, callback) {
         filename = `${tempFileN}.jpg`,
         options = {create: true, exclusive: false};
     tempFileN += 1;
+    callback = callback || noop;
 
     rootDir.getDirectory('temp', options, (dirEntry) => {
         dirEntry.getFile(filename, options, (fileEntry) => {
             fileEntry.createWriter((writer) => writer.write(data));
-
-            if (typeof callback === 'function') {
-                return callback(fileEntry.toURL());
-            }
+            return callback(fileEntry.toURL());
         });
     });
 }
