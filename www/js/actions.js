@@ -23,6 +23,8 @@ export const
     RESIZE_ERROR = 'RESIZE_ERROR',
     THUMBNAIL_ERROR = 'THUMBNAIL_ERROR';
 
+var logError = () => {};
+
 
 export function initCamera() {
     return {
@@ -45,8 +47,7 @@ export function initDirectories(dataDirURL) {
             state = getState(),
             dirConf = state.config.dirs,
             options = {create: true, exclusive: false};
-        var dirs = {},
-            fileErrorHandler = () => {};
+        var dirs = {};
 
         if (typeof dataDirURL === 'undefined') {
             if (cordova.platformId === 'browser') {
@@ -62,7 +63,7 @@ export function initDirectories(dataDirURL) {
 
         if (state.config.debug) {
             // eslint-disable-next-line no-console
-            fileErrorHandler = (err) => console.error(err);
+            logError = (err) => console.error(err);
         }
 
         window.resolveLocalFileSystemURL(dataDirURL, (dataDir) => {
@@ -81,12 +82,12 @@ export function initDirectories(dataDirURL) {
                         picsEntry.getDirectory(dirName, options, (dirEntry) => {
                             dirs[dirName] = dirEntry;
                             currentFn();
-                        }, fileErrorHandler);
+                        }, logError);
                     };
                 });
                 fn();
-            }, fileErrorHandler);
-        }, fileErrorHandler);
+            }, logError);
+        }, logError);
     };
 }
 
