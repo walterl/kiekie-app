@@ -164,9 +164,9 @@ export function setThumbnail(id, thumbnail) {
 export function generateThumbnail(id) {
     return (dispatch, getState) => {
         const state = getState(),
-            cellHeight = state.ui.picsList.cellHeight;
-        var pic = state.pics.filter((p) => p.id === id),
-            thumbnail = null;
+            cellHeight = state.ui.picsList.cellHeight,
+            outputDir = state.dirs.thumbnails;
+        var pic = state.pics.filter((p) => p.id === id);
 
         if (!pic || !pic.length) {
             dispatch(thumbnailError(id, 'Picture does not exist'));
@@ -174,12 +174,14 @@ export function generateThumbnail(id) {
         }
         pic = pic[0];
 
-        thumbnail = resizeImage(pic.uri, {
-            maxHeight: cellHeight,
-            maxWidth: cellHeight,
-            outputDir: state.config.dirs.thumbnails
-        });
-        dispatch(setThumbnail(id, thumbnail));
+        resizeImage(pic.uri, {
+            height: cellHeight,
+            width: cellHeight,
+            outputDir
+        }, (result) => {
+            var thumbnailUrl = [outputDir.toURL(), result.filename].join('/');
+            dispatch(setThumbnail(id, thumbnailUrl));
+        }, logError);
     };
 }
 
@@ -194,9 +196,8 @@ export function resizePic(id) {
     return (dispatch, getState) => {
         const state = getState(),
             maxSize = state.config.picMaxSize,
-            imageDir = state.config.dirs.gallery;
-        var pic = state.pics.filter((p) => p.id === id),
-            resized = null;
+            outputDir = state.dirs.thumbnails;
+        var pic = state.pics.filter((p) => p.id === id);
 
         if (!pic || !pic.length) {
             dispatch(resizeError(id, 'Picture does not exizt'));
@@ -204,14 +205,14 @@ export function resizePic(id) {
         }
         pic = pic[0];
 
-        resized = resizeImage(pic.uri, {
+        resizeImage(pic.uri, {
             maxHeight: maxSize,
             maxWidth: maxSize,
-            outputDir: imageDir
-        });
-        if (resized) {
-            dispatch(updatePic(id, resized));
-        }
+            outputDir
+        }, (result) => {
+            var resizedUrl = [outputDir.toURL(), result.filename].join('/');
+            dispatch(updatePic(id, resizedUrl));
+        }, logError);
     };
 }
 
