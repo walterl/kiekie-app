@@ -206,8 +206,8 @@ export function resizePic(id) {
         pic = pic[0];
 
         resizeImage(pic.uri, {
-            maxHeight: maxSize,
-            maxWidth: maxSize,
+            height: maxSize,
+            width: maxSize,
             outputDir
         }, (result) => {
             var resizedUrl = [outputDir.toURL(), result.filename].join('/');
