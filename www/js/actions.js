@@ -196,7 +196,7 @@ export function resizePic(id) {
     return (dispatch, getState) => {
         const state = getState(),
             maxSize = state.config.picMaxSize,
-            outputDir = state.dirs.thumbnails;
+            outputDir = state.dirs.gallery;
         var pic = state.pics.filter((p) => p.id === id);
 
         if (!pic || !pic.length) {
