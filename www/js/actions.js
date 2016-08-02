@@ -179,7 +179,10 @@ export function generateThumbnail(id) {
             width: cellHeight,
             outputDir
         }, (result) => {
-            var thumbnailUrl = [outputDir.toURL(), result.filename].join('/');
+            const filename = result.filename || result.name,
+                // ^ Sometimes -- when result is copied, not resized --
+                // `result` is a FileEntry
+                thumbnailUrl = outputDir.toURL() + filename;
             dispatch(setThumbnail(id, thumbnailUrl));
         }, logError);
     };
@@ -210,7 +213,10 @@ export function resizePic(id) {
             width: maxSize,
             outputDir
         }, (result) => {
-            var resizedUrl = [outputDir.toURL(), result.filename].join('/');
+            const filename = result.filename || result.name,
+                // ^ Sometimes -- when result is copied, not resized --
+                // `result` is a FileEntry
+                resizedUrl = outputDir.toURL() + filename;
             dispatch(updatePic(id, resizedUrl));
         }, logError);
     };
