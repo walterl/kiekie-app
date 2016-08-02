@@ -32,7 +32,7 @@ export function downloadToTemp(url, rootDir, callback) {
     });
 }
 
-export function resizeImage(path, options, callback, errorCallback) {
+export function resizeImage(uri, options, callback, errorCallback) {
     const maxHeight = options.height || 1280,
         maxWidth = options.width || 1280,
         outputDir = options.outputDir;
@@ -45,7 +45,7 @@ export function resizeImage(path, options, callback, errorCallback) {
                 width = 0;
 
             if (result.height <= maxHeight && result.width <= maxWidth) {
-                copyPic(path, outputDir, callback, errorCallback);
+                copyPic(uri, outputDir, callback, errorCallback);
                 return;
             }
 
@@ -60,15 +60,15 @@ export function resizeImage(path, options, callback, errorCallback) {
 
             window.imageResizer.resizeImage(
                 callback, errorCallback,
-                path,
+                uri,
                 width, height, {
                     directory: outputDir.toURL(),
-                    filename: path.split('/').pop(),
+                    filename: uri.split('/').pop(),
                     storeImage: true
                 }
             );
         },
         errorCallback,
-        path
+        uri
     );
 }
