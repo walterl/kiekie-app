@@ -35,7 +35,6 @@ export function initCamera() {
             sourceType: Camera.PictureSourceType.CAMERA,
             encodingType: Camera.EncodingType.JPEG,
             mediaType: Camera.MediaType.PICTURE,
-            allowEdit: true,
             correctOrientation: true
         }
     };
