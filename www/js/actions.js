@@ -1,7 +1,7 @@
 /* global cordova, Camera, LocalFileSystem */
 import uuid from 'uuid';
 
-import {copyPic, downloadToTemp, resizeImage} from './lib';
+import {copyPic, downloadToTemp, nextDebugPic, resizeImage} from './lib';
 
 
 export const
@@ -299,5 +299,17 @@ export function selectPic(id) {
     return {
         type: SET_PIC_SELECTED,
         id
+    };
+}
+
+export function loadTestImages() {
+    return (dispatch, getState) => {
+        if (getState().config.debug) {
+            dispatch(processPic(nextDebugPic(), Date.now()));
+            dispatch(processPic(nextDebugPic(), Date.now()));
+            dispatch(processPic(nextDebugPic(), Date.now()));
+            dispatch(processPic(nextDebugPic(), Date.now()));
+            dispatch(processPic(nextDebugPic(), Date.now()));
+        }
     };
 }
