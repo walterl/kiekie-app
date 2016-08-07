@@ -1,3 +1,4 @@
+/* global cordova */
 import './polyfill/objectassign.js';
 
 import React from 'react';
@@ -8,7 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import RoutedApp from './ui/RoutedApp';
-import {initCamera, initDirectories} from './actions';
+import {initCamera, initDirectories, loadTestImages} from './actions';
 import configureStore from './store';
 
 const store = configureStore({
@@ -49,7 +50,20 @@ document.addEventListener('deviceready', () => {
     injectTapEventPlugin();
 
     store.dispatch(initCamera());
-    store.dispatch(initDirectories());
+
+    if (cordova.platformId === 'browser') {
+        if (window.isFilePluginReadyRaised()) {
+            store.dispatch(initDirectories())
+                .then(() => store.dispatch(loadTestImages()));
+        } else {
+            window.addEventListener('filePluginIsReady', () => {
+                store.dispatch(initDirectories())
+                    .then(() => store.dispatch(loadTestImages()));
+            }, false);
+        }
+    } else {
+        store.dispatch(initDirectories());
+    }
 
     ReactDOM.render(
         <Provider store={store}>
