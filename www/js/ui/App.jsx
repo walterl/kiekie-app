@@ -8,19 +8,9 @@ import GalleryButton from './GalleryButton';
 import PhotoButton from './PhotoButton';
 
 import {processPic, requestPic} from '../actions';
+import {nextDebugPic} from '../lib';
 
 import '../../scss/app.scss';
-
-
-var browserPic = 0;
-
-/**
- * Cycle through `1.jpg` through `5.jpg` in the `ignoreme` directory.
- */
-function nextDebugPic() {
-    browserPic = browserPic % 5 + 1;
-    return `/ignoreme/${browserPic}.jpg`;
-}
 
 
 class App extends React.Component {

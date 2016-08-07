@@ -1,5 +1,15 @@
 const noop = () => {};
-var tempFileN = 1;
+var browserPic = 0,
+    tempFileN = 1;
+
+
+/**
+ * Cycle through `1.jpg` through `5.jpg` in the `ignoreme` directory.
+ */
+export function nextDebugPic() {
+    browserPic = browserPic % 5 + 1;
+    return `/ignoreme/${browserPic}.jpg`;
+}
 
 export function copyPic(uri, destDir, callback, errorCallback) {
     callback = callback || noop;
