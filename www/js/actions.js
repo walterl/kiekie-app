@@ -46,16 +46,20 @@ export function initDirectories(dataDirURL) {
             state = getState(),
             dirConf = state.config.dirs,
             options = {create: true, exclusive: false};
-        var dirs = {};
+        var dirs = {},
+            dataDirectory = null;
 
         if (typeof dataDirURL === 'undefined') {
             if (cordova.platformId === 'browser') {
-                window.requestFileSystem(
-                    LocalFileSystem.TEMPORARY, 100*1024*1024, (fs) => {
-                        dispatch(initDirectories(fs.root.toURL()));
-                    }
-                );
-                return;
+                return new Promise((resolve, reject) =>
+                    window.requestFileSystem(
+                        LocalFileSystem.TEMPORARY, 100*1024*1024, (fs) => {
+                            resolve(fs.root.toURL());
+                            dispatch(initDirectories(fs.root.toURL()));
+                        }, reject
+                    )
+                )
+                .then((fsURL) => dispatch(initDirectories(fsURL)));
             }
             dataDirURL = cordova.file.externalDataDirectory;
         }
@@ -65,28 +69,33 @@ export function initDirectories(dataDirURL) {
             logError = (err) => console.error(err);
         }
 
-        window.resolveLocalFileSystemURL(dataDirURL, (dataDir) => {
-            dataDir.getDirectory(dirConf.pics, options, (picsEntry) => {
-                var fn = () => {
-                    dispatch({
-                        type: INIT_DIRECTORIES,
-                        dataDir, dirs
-                    });
-                };
-
-                dirs.pics = picsEntry;
-                ['gallery', 'originals', 'thumbnails'].forEach((dirName) => {
-                    var currentFn = fn;
-                    fn = () => {
-                        picsEntry.getDirectory(dirName, options, (dirEntry) => {
-                            dirs[dirName] = dirEntry;
-                            currentFn();
-                        }, logError);
-                    };
-                });
-                fn();
-            }, logError);
-        }, logError);
+        return new Promise((resolve, reject) =>
+            window.resolveLocalFileSystemURL(dataDirURL, resolve, reject)
+        )
+        .then((dataDir) =>
+            new Promise((resolve, reject) => {
+                dataDirectory = dataDir;
+                dataDir.getDirectory(dirConf.pics, options, resolve, reject);
+            })
+        )
+        .then((picsEntry) => {
+            dirs.pics = picsEntry;
+            return Promise.all(['gallery', 'originals', 'thumbnails'].map(
+                (dirName) => new Promise((resolve, reject) => {
+                    picsEntry.getDirectory(dirName, options, (dirEntry) => {
+                        dirs[dirName] = dirEntry;
+                        resolve();
+                    }, reject);
+                })
+            ));
+        })
+        .then(() =>
+            dispatch({
+                type: INIT_DIRECTORIES,
+                dataDirectory,
+                dirs
+            })
+        );
     };
 }
 
