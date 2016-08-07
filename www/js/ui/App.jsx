@@ -41,7 +41,7 @@ class App extends React.Component {
         return (
             <div>
                 <AppBar
-                    title="SnapHappy"
+                    title="Kiekie"
                     iconElementRight={actions}
                     className="appbar"
                     showMenuIconButton={false}
