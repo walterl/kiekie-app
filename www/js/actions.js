@@ -322,9 +322,32 @@ export function initApp() {
     };
 
     return (dispatch) => {
-        dispatch(action);
-        dispatch(initCamera());
-        dispatch(initDirectories())
-            .then(() => dispatch(loadTestImages()));
+        Promise.all([
+            new Promise((resolve) => {
+                dispatch(action);
+                resolve();
+            }),
+            new Promise((resolve) => {
+                dispatch(initCamera());
+                resolve();
+            }),
+            new Promise((resolve, reject) => {
+                dispatch(initDirectories())
+                    .then(() => dispatch(loadTestImages()), reject)
+                    .then(resolve);
+            })
+        ])
+        .then(() => dispatch({
+            type: INIT_APP,
+            done: true
+        }), () => dispatch({
+            type: SET_UI_STATE,
+            config: {
+                startup: {
+                    done: false,
+                    state: 'Something went wrong. :('
+                }
+            }
+        }));
     };
 }
