@@ -50,21 +50,10 @@ document.addEventListener('deviceready', () => {
     injectTapEventPlugin();
 
     cordova.isBrowser = cordova.platformId === 'browser';
-    store.dispatch(initCamera());
 
-    if (cordova.platformId === 'browser') {
-        if (window.isFilePluginReadyRaised()) {
-            store.dispatch(initDirectories())
-                .then(() => store.dispatch(loadTestImages()));
-        } else {
-            window.addEventListener('filePluginIsReady', () => {
-                store.dispatch(initDirectories())
-                    .then(() => store.dispatch(loadTestImages()));
-            }, false);
-        }
-    } else {
-        store.dispatch(initDirectories());
-    }
+    store.dispatch(initCamera());
+    store.dispatch(initDirectories())
+        .then(() => store.dispatch(loadTestImages()));
 
     ReactDOM.render(
         <Provider store={store}>
