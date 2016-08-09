@@ -81,7 +81,7 @@ class PicView extends React.Component {
 
     handleCloseClick() {
         this.props.close();
-        hashHistory.push('/');
+        hashHistory.push('/pics');
     }
 
     handleDeleteClick() {
@@ -94,7 +94,7 @@ class PicView extends React.Component {
 
     handleDeleteConfirm() {
         this.props.deletePic();
-        hashHistory.push('/');
+        hashHistory.push('/pics');
     }
 
     handleSaveClick() {
