@@ -177,8 +177,7 @@ export function generateThumbnail(id) {
         var pic = state.pics.filter((p) => p.id === id);
 
         if (!pic || !pic.length) {
-            dispatch(thumbnailError(id, 'Picture does not exist'));
-            return;
+            return dispatch(thumbnailError(id, 'Picture does not exist'));
         }
         pic = pic[0];
 
@@ -191,7 +190,7 @@ export function generateThumbnail(id) {
                 // ^ Sometimes -- when result is copied, not resized --
                 // `result` is a FileEntry
                 thumbnailUrl = outputDir.toURL() + filename;
-            dispatch(setThumbnail(id, thumbnailUrl));
+            return dispatch(setThumbnail(id, thumbnailUrl));
         }, logError);
     };
 }
@@ -211,8 +210,7 @@ export function resizePic(id) {
         var pic = state.pics.filter((p) => p.id === id);
 
         if (!pic || !pic.length) {
-            dispatch(resizeError(id, 'Picture does not exizt'));
-            return;
+            return dispatch(resizeError(id, 'Picture does not exizt'));
         }
         pic = pic[0];
 
@@ -225,7 +223,7 @@ export function resizePic(id) {
                 // ^ Sometimes -- when result is copied, not resized --
                 // `result` is a FileEntry
                 resizedUrl = outputDir.toURL() + filename;
-            dispatch(updatePic(id, resizedUrl));
+            return dispatch(updatePic(id, resizedUrl));
         }, logError);
     };
 }
@@ -233,7 +231,8 @@ export function resizePic(id) {
 export function processPic(imgUri) {
     return (dispatch) => {
         const picId = uuid.v1();
-        dispatch(receivePic(imgUri, Date.now(), picId))
+
+        return dispatch(receivePic(imgUri, Date.now(), picId))
             .then(() => dispatch(generateThumbnail(picId)))
             .then(() => dispatch(resizePic(picId)));
     };
@@ -249,12 +248,8 @@ export function requestPic(source) {
 
         dispatch(requestCameraPic());
         navigator.camera.getPicture(
-            (imgUri) => {
-                dispatch(processPic(imgUri));
-            },
-            (message) => {
-                dispatch(cameraPicError(message));
-            },
+            (imgUri) => dispatch(processPic(imgUri)),
+            (message) => dispatch(cameraPicError(message)),
             options
         );
     };
