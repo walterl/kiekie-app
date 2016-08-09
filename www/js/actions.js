@@ -50,7 +50,7 @@ export function initDirectories(dataDirURL) {
             dataDirectory = null;
 
         if (typeof dataDirURL === 'undefined') {
-            if (cordova.platformId === 'browser') {
+            if (cordova.isBrowser) {
                 return new Promise((resolve, reject) =>
                     window.requestFileSystem(
                         LocalFileSystem.TEMPORARY, 100*1024*1024, (fs) => {
@@ -128,7 +128,7 @@ export function receivePic(uri, takenTime, id) {
         id = id || uuid.v1();
 
         return new Promise((resolve, reject) => {
-            if (cordova.platformId === 'browser') {
+            if (cordova.isBrowser) {
                 downloadToTemp(uri, state.dirs.root, (url) => {
                     copyPic(url, state.dirs.originals);
                     dispatch(Object.assign(action, {uri: url}));

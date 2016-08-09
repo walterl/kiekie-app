@@ -19,10 +19,11 @@ class App extends React.Component {
             actions = null;
         const {dispatch} = this.props;
 
-        if (cordova.platformId === 'browser') {
+        if (cordova.isBrowser) {
             onCameraClick = onGalleryClick = () =>
                 dispatch(processPic(nextDebugPic(), Date.now()));
         }
+
         actions = <div>
             <GalleryButton onClick={onGalleryClick} />
             <PhotoButton onClick={onCameraClick} />

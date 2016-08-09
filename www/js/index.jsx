@@ -49,6 +49,7 @@ document.addEventListener('deviceready', () => {
     // http://www.material-ui.com/#/get-started/installation
     injectTapEventPlugin();
 
+    cordova.isBrowser = cordova.platformId === 'browser';
     store.dispatch(initCamera());
 
     if (cordova.platformId === 'browser') {
