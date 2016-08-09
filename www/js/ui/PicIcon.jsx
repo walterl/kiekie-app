@@ -7,8 +7,7 @@ import '../../scss/picicon.scss';
 
 export default class PicIcon extends React.Component {
     render() {
-        const {src, onClick} = this.props,
-            title = this.props.saved ? 'Saved' : 'NOT Saved';
+        const {src, title, onClick} = this.props;
         return (
             <GridTile className="pic-icon" onClick={onClick} title={title}>
                 <img src={src} />
@@ -19,5 +18,6 @@ export default class PicIcon extends React.Component {
 
 PicIcon.propTypes = {
     src: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     onClick: PropTypes.func
 };

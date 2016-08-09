@@ -24,7 +24,8 @@ class PicsList extends React.Component {
                 <GridList className="pics-list" cellHeight={cellHeight}>
                     {pics.map((pic) =>
                     <PicIcon
-                        key={pic.id} src={pic.uri} saved={pic.saved}
+                        key={pic.id} title={pic.note}
+                        src={pic.thumbnail || pic.uri}
                         onClick={this.handleIconClick.bind(this, pic.id)}
                     />
                     )}
