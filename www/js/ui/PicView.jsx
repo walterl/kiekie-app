@@ -136,7 +136,7 @@ class PicView extends React.Component {
             <div>
                 {appBar}
                 <Pic
-                    info={pic}
+                    uri={pic.uri} note={pic.note}
                     onNoteChange={this.handleNoteChange.bind(this)}
                 />
                 {this.buildDeleteDialog()}

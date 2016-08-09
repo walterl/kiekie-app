@@ -8,14 +8,15 @@ import TextField from 'material-ui/TextField';
 
 export default class Pic extends React.Component {
     render() {
-        const {info, onNoteChange} = this.props;
+        const {note, uri, onNoteChange} = this.props;
         return (
             <Card className="pic">
-                <CardMedia><img src={info.uri} /></CardMedia>
+                <CardMedia><img src={uri} /></CardMedia>
                 <CardText>
                     <TextField
                         floatingLabelText="Note" multiLine={true}
-                        onBlur={onNoteChange}
+                        value={note}
+                        onChange={onNoteChange}
                     />
                 </CardText>
             </Card>
@@ -24,6 +25,7 @@ export default class Pic extends React.Component {
 }
 
 Pic.propTypes = {
-    info: PropTypes.object.isRequired,
+    note: PropTypes.string.isRequired,
+    uri: PropTypes.string,
     onNoteChange: PropTypes.func.isRequired
 };
