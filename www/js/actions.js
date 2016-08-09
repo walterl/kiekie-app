@@ -1,7 +1,7 @@
 /* global cordova, Camera, LocalFileSystem */
 import uuid from 'uuid';
 
-import {copyPic, downloadToTemp, nextDebugPic, resizeImage} from './lib';
+import {copyPic, nextDebugPic, resizeImage} from './lib';
 
 
 export const
@@ -129,11 +129,8 @@ export function receivePic(uri, takenTime, id) {
 
         return new Promise((resolve, reject) => {
             if (cordova.isBrowser) {
-                downloadToTemp(uri, state.dirs.root, (url) => {
-                    copyPic(url, state.dirs.originals);
-                    dispatch(Object.assign(action, {uri: url}));
-                    resolve();
-                });
+                dispatch(action);
+                resolve();
                 return;
             }
 
@@ -181,6 +178,10 @@ export function generateThumbnail(id) {
         }
         pic = pic[0];
 
+        if (cordova.isBrowser) {
+            return dispatch(setThumbnail(id, pic.uri));
+        }
+
         resizeImage(pic.uri, {
             height: cellHeight,
             width: cellHeight,
@@ -213,6 +214,10 @@ export function resizePic(id) {
             return dispatch(resizeError(id, 'Picture does not exizt'));
         }
         pic = pic[0];
+
+        if (cordova.isBrowser) {
+            return;
+        }
 
         resizeImage(pic.uri, {
             height: maxSize,
