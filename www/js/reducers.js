@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_CAMERA, INIT_DIRECTORIES, DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC,
-    DELETE_PIC_REQUEST, SAVE_PIC, SET_PIC_SELECTED, SET_DEBUG, SET_NOTE,
-    SET_THUMBNAIL, SET_UI_STATE, UPDATE_PIC
+    INIT_APP, INIT_CAMERA, INIT_DIRECTORIES, DELETE_PIC_CANCEL, DELETE_PIC,
+    RECEIVE_PIC, DELETE_PIC_REQUEST, SAVE_PIC, SET_PIC_SELECTED, SET_DEBUG,
+    SET_NOTE, SET_THUMBNAIL, SET_UI_STATE, UPDATE_PIC
 } from './actions';
 
 
@@ -137,6 +137,18 @@ function dirs(state={
 
 function ui(state={}, action) {
     switch (action.type) {
+    case INIT_APP:
+        return Object.assign({}, state, {
+            startup: {state: 'Initialising...'}
+        });
+    case INIT_CAMERA:
+        return Object.assign({}, state, {
+            startup: {state: 'Camera initialised.'}
+        });
+    case INIT_DIRECTORIES:
+        return Object.assign({}, state, {
+            startup: {state: 'Storage initialised.'}
+        });
     case SET_UI_STATE:
         return Object.assign({}, state, action.config);
     default:

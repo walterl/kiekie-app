@@ -1,12 +1,27 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 
-import {RaisedButton} from 'material-ui';
+import {Paper, RaisedButton} from 'material-ui';
+
+import '../../scss/startup.scss';
 
 
-export default class StartUp extends React.Component {
+class StartUp extends React.Component {
     render() {
-        const onClick = () => hashHistory.push('/pics');
-        return <RaisedButton label="Enter" primary={true} onClick={onClick} />;
+        const {state} = this.props,
+            onClick = () => hashHistory.push('/pics');
+        return <Paper className="startup-paper">
+            <div>{state}</div>
+            <RaisedButton label="Enter" primary={true} onClick={onClick} />
+        </Paper>;
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        state: state.ui.startup.state
+    };
+}
+
+export default connect(mapStateToProps)(StartUp);

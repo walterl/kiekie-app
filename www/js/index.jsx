@@ -36,6 +36,9 @@ const store = configureStore({
     ui: {
         picsList: {
             cellHeight: 200
+        },
+        startup: {
+            state: ''
         }
     }
 });
