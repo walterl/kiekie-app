@@ -38,6 +38,7 @@ const store = configureStore({
             cellHeight: 200
         },
         startup: {
+            done: false,
             state: ''
         }
     }

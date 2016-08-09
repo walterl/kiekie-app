@@ -316,7 +316,11 @@ export function initDirectories(dataDirURL) {
 }
 
 export function initApp() {
-    const action = {type: INIT_APP};
+    const action = {
+        type: INIT_APP,
+        done: false
+    };
+
     return (dispatch) => {
         dispatch(action);
         dispatch(initCamera());
