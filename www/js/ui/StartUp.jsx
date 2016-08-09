@@ -10,7 +10,7 @@ import '../../scss/startup.scss';
 class StartUp extends React.Component {
     render() {
         const {done, state} = this.props,
-            msg = done ? 'Done!' : state,
+            msg = done ? 'Startup done!' : state,
             onClick = () => hashHistory.push('/pics');
 
         return <Paper className="startup-paper">
