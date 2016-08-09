@@ -9,19 +9,23 @@ import '../../scss/startup.scss';
 
 class StartUp extends React.Component {
     render() {
-        const {state} = this.props,
+        const {done, state} = this.props,
+            msg = done ? 'Done!' : state,
             onClick = () => hashHistory.push('/pics');
+
         return <Paper className="startup-paper">
-            <div>{state}</div>
-            <RaisedButton label="Enter" primary={true} onClick={onClick} />
+            <div>{msg}</div>
+            <RaisedButton
+                label="Enter" primary={true} disabled={!done}
+                onClick={onClick}
+            />
         </Paper>;
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        state: state.ui.startup.state
-    };
+function mapStateToProps(appState) {
+    const {done, state} = appState.ui.startup;
+    return {done, state};
 }
 
 export default connect(mapStateToProps)(StartUp);
