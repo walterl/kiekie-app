@@ -1,6 +1,5 @@
 const noop = () => {};
-var browserPic = 0,
-    tempFileN = 1;
+var browserPic = 0;
 
 
 /**
@@ -17,28 +16,6 @@ export function copyPic(uri, destDir, callback, errorCallback) {
 
     window.resolveLocalFileSystemURL(uri, (fileEntry) => {
         fileEntry.copyTo(destDir, fileEntry.name, callback, errorCallback);
-    });
-}
-
-function httpGet(url) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, false);
-    xhr.send(null);
-    return xhr.response;
-}
-
-export function downloadToTemp(url, rootDir, callback) {
-    const data = httpGet(url),
-        filename = `${tempFileN}.jpg`,
-        options = {create: true, exclusive: false};
-    tempFileN += 1;
-    callback = callback || noop;
-
-    rootDir.getDirectory('temp', options, (dirEntry) => {
-        dirEntry.getFile(filename, options, (fileEntry) => {
-            fileEntry.createWriter((writer) => writer.write(data));
-            return callback(fileEntry.toURL());
-        });
     });
 }
 
