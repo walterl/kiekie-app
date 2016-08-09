@@ -138,17 +138,17 @@ function dirs(state={
 function ui(state={}, action) {
     switch (action.type) {
     case INIT_APP:
-        return Object.assign({}, state, {
-            startup: {state: 'Initialising...'}
-        });
+        return Object.assign({}, state, {startup: {
+            state: 'Initialising...', done: action.done || false
+        }});
     case INIT_CAMERA:
-        return Object.assign({}, state, {
-            startup: {state: 'Camera initialised.'}
-        });
+        return Object.assign({}, state, {startup: {
+            state: 'Camera initialised.', done: false
+        }});
     case INIT_DIRECTORIES:
-        return Object.assign({}, state, {
-            startup: {state: 'Storage initialised.'}
-        });
+        return Object.assign({}, state, {startup: {
+            state: 'Storage initialised.', done: false
+        }});
     case SET_UI_STATE:
         return Object.assign({}, state, action.config);
     default:
