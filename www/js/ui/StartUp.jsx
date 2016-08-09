@@ -13,13 +13,15 @@ class StartUp extends React.Component {
             msg = done ? 'Startup done!' : state,
             onClick = () => hashHistory.push('/pics');
 
-        return <Paper className="startup-paper">
-            <div>{msg}</div>
+        return <div className="startup-bg">
+            <Paper className="startup-paper">
+                <div>{msg}</div>
+            </Paper>
             <RaisedButton
                 label="Enter" primary={true} disabled={!done}
                 onClick={onClick}
             />
-        </Paper>;
+        </div>;
     }
 }
 
