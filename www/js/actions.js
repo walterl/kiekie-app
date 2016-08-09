@@ -5,6 +5,7 @@ import {copyPic, nextDebugPic, resizeImage} from './lib';
 
 
 export const
+    INIT_APP = 'INIT_APP',
     INIT_CAMERA = 'INIT_CAMERA',
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
     SET_DEBUG = 'SET_DEBUG',
@@ -25,79 +26,6 @@ export const
 
 var logError = () => {};
 
-
-export function initCamera() {
-    return {
-        type: INIT_CAMERA,
-        config: {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            sourceType: Camera.PictureSourceType.CAMERA,
-            encodingType: Camera.EncodingType.JPEG,
-            mediaType: Camera.MediaType.PICTURE,
-            correctOrientation: true
-        }
-    };
-}
-
-export function initDirectories(dataDirURL) {
-    return (dispatch, getState) => {
-        const
-            state = getState(),
-            dirConf = state.config.dirs,
-            options = {create: true, exclusive: false};
-        var dirs = {},
-            dataDirectory = null;
-
-        if (typeof dataDirURL === 'undefined') {
-            if (cordova.isBrowser) {
-                return new Promise((resolve, reject) =>
-                    window.requestFileSystem(
-                        LocalFileSystem.TEMPORARY, 100*1024*1024, (fs) => {
-                            resolve(fs.root.toURL());
-                            dispatch(initDirectories(fs.root.toURL()));
-                        }, reject
-                    )
-                )
-                .then((fsURL) => dispatch(initDirectories(fsURL)));
-            }
-            dataDirURL = cordova.file.externalDataDirectory;
-        }
-
-        if (state.config.debug) {
-            // eslint-disable-next-line no-console
-            logError = (err) => console.error(err);
-        }
-
-        return new Promise((resolve, reject) =>
-            window.resolveLocalFileSystemURL(dataDirURL, resolve, reject)
-        )
-        .then((dataDir) =>
-            new Promise((resolve, reject) => {
-                dataDirectory = dataDir;
-                dataDir.getDirectory(dirConf.pics, options, resolve, reject);
-            })
-        )
-        .then((picsEntry) => {
-            dirs.pics = picsEntry;
-            return Promise.all(['gallery', 'originals', 'thumbnails'].map(
-                (dirName) => new Promise((resolve, reject) => {
-                    picsEntry.getDirectory(dirName, options, (dirEntry) => {
-                        dirs[dirName] = dirEntry;
-                        resolve();
-                    }, reject);
-                })
-            ));
-        })
-        .then(() =>
-            dispatch({
-                type: INIT_DIRECTORIES,
-                dataDirectory,
-                dirs
-            })
-        );
-    };
-}
 
 export function setDebug(debug) {
     return {
@@ -311,5 +239,88 @@ export function loadTestImages() {
             dispatch(processPic(nextDebugPic(), Date.now()));
             dispatch(processPic(nextDebugPic(), Date.now()));
         }
+    };
+}
+
+export function initCamera() {
+    return {
+        type: INIT_CAMERA,
+        config: {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            encodingType: Camera.EncodingType.JPEG,
+            mediaType: Camera.MediaType.PICTURE,
+            correctOrientation: true
+        }
+    };
+}
+
+export function initDirectories(dataDirURL) {
+    return (dispatch, getState) => {
+        const
+            state = getState(),
+            dirConf = state.config.dirs,
+            options = {create: true, exclusive: false};
+        var dirs = {},
+            dataDirectory = null;
+
+        if (typeof dataDirURL === 'undefined') {
+            if (cordova.isBrowser) {
+                return new Promise((resolve, reject) =>
+                    window.requestFileSystem(
+                        LocalFileSystem.TEMPORARY, 100*1024*1024, (fs) => {
+                            resolve(fs.root.toURL());
+                            dispatch(initDirectories(fs.root.toURL()));
+                        }, reject
+                    )
+                )
+                .then((fsURL) => dispatch(initDirectories(fsURL)));
+            }
+            dataDirURL = cordova.file.externalDataDirectory;
+        }
+
+        if (state.config.debug) {
+            // eslint-disable-next-line no-console
+            logError = (err) => console.error(err);
+        }
+
+        return new Promise((resolve, reject) =>
+            window.resolveLocalFileSystemURL(dataDirURL, resolve, reject)
+        )
+        .then((dataDir) =>
+            new Promise((resolve, reject) => {
+                dataDirectory = dataDir;
+                dataDir.getDirectory(dirConf.pics, options, resolve, reject);
+            })
+        )
+        .then((picsEntry) => {
+            dirs.pics = picsEntry;
+            return Promise.all(['gallery', 'originals', 'thumbnails'].map(
+                (dirName) => new Promise((resolve, reject) => {
+                    picsEntry.getDirectory(dirName, options, (dirEntry) => {
+                        dirs[dirName] = dirEntry;
+                        resolve();
+                    }, reject);
+                })
+            ));
+        })
+        .then(() =>
+            dispatch({
+                type: INIT_DIRECTORIES,
+                dataDirectory,
+                dirs
+            })
+        );
+    };
+}
+
+export function initApp() {
+    const action = {type: INIT_APP};
+    return (dispatch) => {
+        dispatch(action);
+        dispatch(initCamera());
+        dispatch(initDirectories())
+            .then(() => dispatch(loadTestImages()));
     };
 }

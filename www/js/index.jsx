@@ -9,7 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import RoutedApp from './ui/RoutedApp';
-import {initCamera, initDirectories, loadTestImages} from './actions';
+import {initApp} from './actions';
 import configureStore from './store';
 
 const store = configureStore({
@@ -51,9 +51,7 @@ document.addEventListener('deviceready', () => {
 
     cordova.isBrowser = cordova.platformId === 'browser';
 
-    store.dispatch(initCamera());
-    store.dispatch(initDirectories())
-        .then(() => store.dispatch(loadTestImages()));
+    store.dispatch(initApp());
 
     ReactDOM.render(
         <Provider store={store}>
