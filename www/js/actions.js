@@ -332,7 +332,7 @@ export function initApp() {
             new Promise((resolve, reject) => {
                 dispatch(initDirectories())
                     .then(() => dispatch(loadTestImages()), reject)
-                    .then(resolve);
+                    .then(resolve, reject);
             })
         ])
         .then(() => dispatch({
