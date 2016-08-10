@@ -20,9 +20,17 @@ import {
 
 
 class PicView extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleCloseClick = this.handleCloseClick.bind(this);
+        this.handleDeleteConfirm = this.handleDeleteConfirm.bind(this);
+        this.handleNoteChange = this.handleNoteChange.bind(this);
+    }
+
     buildCloseButton() {
         return (
-            <IconButton onClick={this.handleCloseClick.bind(this)}>
+            <IconButton onClick={this.handleCloseClick}>
                 <NavigationClose/>
             </IconButton>
         );
@@ -52,17 +60,16 @@ class PicView extends React.Component {
         }
 
         const
-            handleDeleteClose = this.handleDeleteClose.bind(this),
             actions = [
                 <FlatButton
                     label="Cancel"
                     primary={true}
-                    onClick={handleDeleteClose}
+                    onClick={() => this.props.cancelDeletePic()}
                 />,
                 <FlatButton
                     label="Delete"
                     primary={true}
-                    onClick={this.handleDeleteConfirm.bind(this)}
+                    onClick={this.handleDeleteConfirm}
                 />
             ];
 
@@ -72,7 +79,7 @@ class PicView extends React.Component {
                 actions={actions}
                 modal={true}
                 open={this.props.pic.confirmDelete}
-                onRequestClose={handleDeleteClose}
+                onRequestClose={() => this.props.cancelDeletePic()}
             >
                 Are you sure you want to delete this picture?
             </Dialog>
@@ -84,21 +91,9 @@ class PicView extends React.Component {
         hashHistory.push('/pics');
     }
 
-    handleDeleteClick() {
-        this.props.requestDeletePic();
-    }
-
-    handleDeleteClose() {
-        this.props.cancelDeletePic();
-    }
-
     handleDeleteConfirm() {
         this.props.deletePic();
         hashHistory.push('/pics');
-    }
-
-    handleSaveClick() {
-        this.props.savePic();
     }
 
     handleNoteChange(event) {
@@ -110,13 +105,13 @@ class PicView extends React.Component {
             {pic} = this.props,
             actions = <div>
                 <IconButton
-                    onClick={this.handleDeleteClick.bind(this)}
+                    onClick={() => this.props.requestDeletePic()}
                     tooltip="Delete picture"
                 >
                     <ActionDelete color={white} />
                 </IconButton>
                 <IconButton
-                    onClick={this.handleSaveClick.bind(this)}
+                    onClick={() => this.props.savePic()}
                     tooltip="Save picture"
                     disabled={pic ? pic.saved : true}
                 >
@@ -137,7 +132,7 @@ class PicView extends React.Component {
                 {appBar}
                 <Pic
                     uri={pic.uri} note={pic.note}
-                    onNoteChange={this.handleNoteChange.bind(this)}
+                    onNoteChange={this.handleNoteChange}
                 />
                 {this.buildDeleteDialog()}
             </div>
