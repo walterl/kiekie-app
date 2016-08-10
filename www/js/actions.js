@@ -316,15 +316,13 @@ export function initDirectories(dataDirURL) {
 }
 
 export function initApp() {
-    const action = {
-        type: INIT_APP,
-        done: false
-    };
-
     return (dispatch) => {
         Promise.all([
             new Promise((resolve) => {
-                dispatch(action);
+                dispatch({
+                    type: INIT_APP,
+                    done: false
+                });
                 resolve();
             }),
             new Promise((resolve) => {
