@@ -39,7 +39,7 @@ const store = configureStore({
         },
         startup: {
             done: false,
-            state: ''
+            message: ''
         }
     }
 });
