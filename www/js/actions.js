@@ -2,6 +2,7 @@
 import uuid from 'uuid';
 
 import {copyPic, nextDebugPic, resizeImage} from './lib';
+import {loginOnServer, registerAccount} from './server-actions';
 
 
 export const
@@ -315,6 +316,19 @@ export function initDirectories(dataDirURL) {
     };
 }
 
+export function initAccount() {
+    return (dispatch) => {
+        const storage = window.localStorage,
+            userId = storage.getItem('userId');
+
+        if (userId) {
+            return dispatch(loginOnServer(userId));
+        }
+
+        return dispatch(registerAccount());
+    };
+}
+
 export function initApp() {
     return (dispatch) => {
         Promise.all([
@@ -335,6 +349,7 @@ export function initApp() {
                     .then(resolve, reject);
             })
         ])
+        .then(() => dispatch(initAccount()))
         .then(() => dispatch({
             type: INIT_APP,
             done: true
