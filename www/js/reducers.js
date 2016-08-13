@@ -5,7 +5,9 @@ import {
     RECEIVE_PIC, DELETE_PIC_REQUEST, SAVE_PIC, SET_PIC_SELECTED, SET_DEBUG,
     SET_NOTE, SET_THUMBNAIL, SET_UI_STATE, UPDATE_PIC
 } from './actions';
-import {REGISTER_ACCOUNT} from './server-actions.js';
+import {
+    REGISTER_ACCOUNT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
+} from './server-actions.js';
 
 
 /**
@@ -140,6 +142,30 @@ function server(state={}) {
     return state;
 }
 
+function uiStartupRegister(state={}, action) {
+    switch (action.type) {
+    case REGISTER_REQUEST:
+        return Object.assign(state, {
+            status: 'busy',
+            userName: action.userName,
+            error: ''
+        });
+    case REGISTER_SUCCESS:
+        return Object.assign(state, {
+            status: 'success',
+            userName: action.userName,
+            error: ''
+        });
+    case REGISTER_FAIL:
+        return Object.assign(state, {
+            status: 'error',
+            userName: action.userName,
+            error: action.error
+        });
+    default:
+        return state;
+    }
+}
 function uiStartup(state={}, action) {
     switch (action.type) {
     case INIT_APP:
@@ -160,6 +186,12 @@ function uiStartup(state={}, action) {
             message: 'Registering new user...',
             status: 'register'
         });
+    case REGISTER_REQUEST:
+    case REGISTER_SUCCESS:
+    case REGISTER_FAIL:
+        return Object.assign({}, state, {
+            register: uiStartupRegister(state.register, action)
+        });
     default:
         return state;
     }
@@ -173,6 +205,9 @@ function ui(state={}, action) {
     case INIT_CAMERA:
     case INIT_DIRECTORIES:
     case REGISTER_ACCOUNT:
+    case REGISTER_REQUEST:
+    case REGISTER_SUCCESS:
+    case REGISTER_FAIL:
         newState.startup = uiStartup(state.startup, action);
         return newState;
     case SET_UI_STATE:

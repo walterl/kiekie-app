@@ -45,7 +45,9 @@ const store = configureStore({
             status: '',
             message: '',
             register: {
-                error: null
+                status: '',
+                error: null,
+                userName: ''
             }
         }
     }
