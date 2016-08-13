@@ -65,6 +65,12 @@ class Register extends React.Component {
             msg = errorMsg;
         }
 
+        if (status === 'success') {
+            window.setTimeout(() => {
+                hashHistory.push('/');
+            }, 2000);
+        }
+
         return <div className="register-screen">
             <div className="register-welcome">
                 <h2>Welcome to Kiekie</h2>
