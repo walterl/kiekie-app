@@ -51,7 +51,7 @@ class Register extends React.Component {
 
     render() {
         const {status, error} = this.props,
-            isBusy = status === 'busy',
+            btnDisabled = status === 'busy' || status === 'success',
             nameError = this.lookupNameError(error),
             errorMsg = this.lookupErrorMessage(error);
         var msgClasses = ['register-message'],
@@ -88,7 +88,7 @@ class Register extends React.Component {
 
             <RaisedButton
                 className="register-btn"
-                label="Register" primary={true} disabled={isBusy}
+                label="Register" primary={true} disabled={btnDisabled}
                 onClick={this.onRegisterClick}
             />
 
