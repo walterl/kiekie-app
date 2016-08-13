@@ -5,7 +5,7 @@ import {hashHistory} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import {registerRequest, registerFail} from '../server-actions.js';
+import {registerRequest, registerFail} from '../actions/server';
 
 import '../../scss/register.scss';
 

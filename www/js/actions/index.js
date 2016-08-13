@@ -1,8 +1,11 @@
 /* global cordova, Camera, LocalFileSystem */
 import uuid from 'uuid';
 
-import {copyPic, nextDebugPic, resizeImage} from './lib';
-import {loginOnServer, registerAccount} from './server-actions';
+import {copyPic, nextDebugPic, resizeImage} from '../lib';
+import {
+    loginOnServer, registerAccount,
+    REGISTER_ACCOUNT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
+} from './server';
 
 
 export const
@@ -24,6 +27,7 @@ export const
     SET_UI_STATE = 'SET_UI_STATE',
     RESIZE_ERROR = 'RESIZE_ERROR',
     THUMBNAIL_ERROR = 'THUMBNAIL_ERROR';
+export {REGISTER_ACCOUNT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL};
 
 var logError = () => {};
 

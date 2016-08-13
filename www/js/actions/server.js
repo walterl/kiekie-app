@@ -1,4 +1,4 @@
-import {jsonPost} from './net';
+import {jsonPost} from '../lib/net';
 
 export const
     LOGIN_SUCCESSFUL = 'LOGIN_SUCCESSFUL',
