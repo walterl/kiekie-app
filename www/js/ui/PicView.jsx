@@ -28,7 +28,7 @@ class PicView extends React.Component {
         this.handleNoteChange = this.handleNoteChange.bind(this);
     }
 
-    buildCloseButton() {
+    renderCloseButton() {
         return (
             <IconButton onClick={this.handleCloseClick}>
                 <NavigationClose/>
@@ -36,7 +36,7 @@ class PicView extends React.Component {
         );
     }
 
-    buildEmptyView() {
+    renderEmptyView() {
         const style = {
             height: '100%',
             width: '100%',
@@ -46,7 +46,7 @@ class PicView extends React.Component {
 
         return (
             <div>
-                <AppBar iconElementLeft={this.buildCloseButton()} />
+                <AppBar iconElementLeft={this.renderCloseButton()} />
                 <Paper style={style}>
                     No picture here. <Link to="/">Go back</Link>.
                 </Paper>
@@ -54,7 +54,7 @@ class PicView extends React.Component {
         );
     }
 
-    buildDeleteDialog() {
+    renderDeleteDialog() {
         if (!this.props.pic.confirmDelete) {
             return null;
         }
@@ -119,12 +119,12 @@ class PicView extends React.Component {
                 </IconButton>
             </div>,
             appBar = <AppBar
-                iconElementLeft={this.buildCloseButton()}
+                iconElementLeft={this.renderCloseButton()}
                 iconElementRight={actions}
             />;
 
         if (!pic) {
-            return this.buildEmptyView();
+            return this.renderEmptyView();
         }
 
         return (
@@ -134,7 +134,7 @@ class PicView extends React.Component {
                     uri={pic.uri} note={pic.note}
                     onNoteChange={this.handleNoteChange}
                 />
-                {this.buildDeleteDialog()}
+                {this.renderDeleteDialog()}
             </div>
         );
     }
