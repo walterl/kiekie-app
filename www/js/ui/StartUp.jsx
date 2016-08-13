@@ -10,8 +10,9 @@ import '../../scss/startup.scss';
 
 class StartUp extends React.Component {
     render() {
-        const {done, message} = this.props,
-            msg = done ? 'Startup done!' : message,
+        const {status, message} = this.props,
+            isDone = status === 'done',
+            msg = isDone ? 'Startup done!' : message,
             onClick = () => hashHistory.push('/pics');
 
         return <div className="startup-bg">
@@ -19,16 +20,16 @@ class StartUp extends React.Component {
                 <div>{msg}</div>
             </Paper>
             <RaisedButton
-                label="Enter" primary={true} disabled={!done}
+                label="Enter" primary={true} disabled={!isDone}
                 onClick={onClick}
             />
         </div>;
     }
 }
 
-function mapStateToProps(appState) {
-    const {done, message} = appState.ui.startup;
-    return {done, message};
+function mapStateToProps(state) {
+    const {status, message} = state.ui.startup;
+    return {status, message};
 }
 
 export default connect(mapStateToProps)(StartUp);

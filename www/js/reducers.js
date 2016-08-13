@@ -139,15 +139,16 @@ function ui(state={}, action) {
     switch (action.type) {
     case INIT_APP:
         return Object.assign({}, state, {startup: {
-            message: 'Starting up...', done: action.done || false
+            message: 'Starting up...',
+            status: action.done ? 'done' : 'initializing'
         }});
     case INIT_CAMERA:
         return Object.assign({}, state, {startup: {
-            message: 'Camera found.', done: false
+            message: 'Camera found.'
         }});
     case INIT_DIRECTORIES:
         return Object.assign({}, state, {startup: {
-            message: 'Storage found.', done: false
+            message: 'Storage found.'
         }});
     case SET_UI_STATE:
         return Object.assign({}, state, action.config);
