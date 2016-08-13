@@ -20,10 +20,10 @@ class Register extends React.Component {
     }
 
     lookupErrorMessage(errorCode) {
-        switch (errorCode) {
-        default:
-            return '';
+        if (errorCode && errorCode.message) {
+            return errorCode.message;
         }
+        return '';
     }
 
     lookupNameError(errorCode) {
@@ -37,7 +37,7 @@ class Register extends React.Component {
         }
     }
 
-    onRegisterClick(e) {
+    onRegisterClick() {
         if (!this.userName) {
             this.props.registerFail('empty-user-name');
             return;

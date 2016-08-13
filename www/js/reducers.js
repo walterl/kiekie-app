@@ -166,6 +166,7 @@ function uiStartupRegister(state={}, action) {
         return state;
     }
 }
+
 function uiStartup(state={}, action) {
     switch (action.type) {
     case INIT_APP:
