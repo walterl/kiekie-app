@@ -92,7 +92,7 @@ class Register extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {status, error} = state.ui.startup.register;
+    const {status, error} = state.ui.register;
     return {status, error};
 }
 

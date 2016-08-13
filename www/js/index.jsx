@@ -43,12 +43,12 @@ const store = configureStore({
         },
         startup: {
             status: '',
-            message: '',
-            register: {
-                status: '',
-                error: null,
-                userName: ''
-            }
+            message: ''
+        },
+        register: {
+            status: '',
+            error: null,
+            userName: ''
         }
     }
 });

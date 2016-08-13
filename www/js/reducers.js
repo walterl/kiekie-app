@@ -142,7 +142,7 @@ function server(state={}) {
     return state;
 }
 
-function uiStartupRegister(state={}, action) {
+function uiRegister(state={}, action) {
     switch (action.type) {
     case REGISTER_REQUEST:
         return Object.assign(state, {
@@ -187,12 +187,6 @@ function uiStartup(state={}, action) {
             message: 'Registering new user...',
             status: 'register'
         });
-    case REGISTER_REQUEST:
-    case REGISTER_SUCCESS:
-    case REGISTER_FAIL:
-        return Object.assign({}, state, {
-            register: uiStartupRegister(state.register, action)
-        });
     default:
         return state;
     }
@@ -206,10 +200,12 @@ function ui(state={}, action) {
     case INIT_CAMERA:
     case INIT_DIRECTORIES:
     case REGISTER_ACCOUNT:
+        newState.startup = uiStartup(state.startup, action);
+        return newState;
     case REGISTER_REQUEST:
     case REGISTER_SUCCESS:
     case REGISTER_FAIL:
-        newState.startup = uiStartup(state.startup, action);
+        newState.register = uiRegister(state.register, action);
         return newState;
     case SET_UI_STATE:
         return Object.assign({}, state, action.config);
