@@ -37,6 +37,11 @@ class Register extends React.Component {
         }
     }
 
+    renderDebugSkipButton() {
+        const onClick = () => hashHistory.push('/');
+        return <RaisedButton label="Skip >" onClick={onClick} />;
+    }
+
     onRegisterClick() {
         if (!this.userName) {
             this.props.registerFail('empty-user-name');
@@ -50,10 +55,11 @@ class Register extends React.Component {
     }
 
     render() {
-        const {status, error} = this.props,
+        const {status, error, debug} = this.props,
             btnDisabled = status === 'busy' || status === 'success',
             nameError = this.lookupNameError(error),
-            errorMsg = this.lookupErrorMessage(error);
+            errorMsg = this.lookupErrorMessage(error),
+            debugSkipButton = debug ? this.renderDebugSkipButton() : null;
         var msgClasses = ['register-message'],
             msg = '';
 
@@ -93,13 +99,18 @@ class Register extends React.Component {
             />
 
             <div className={msgClasses.join(' ')}>{msg}</div>
+
+            {debugSkipButton}
         </div>;
     }
 }
 
 function mapStateToProps(state) {
     const {status, error} = state.ui.register;
-    return {status, error};
+    return {
+        debug: state.config.debug,
+        status, error
+    };
 }
 
 function mapDispatchToProps(dispatch) {
