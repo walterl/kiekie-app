@@ -24,8 +24,15 @@ function loginFailed(userId, error) {
 }
 
 export function loginOnServer(userId) {
-    return (dispatch) => {
-        dispatch(loginFailed(userId, 'Not yet implemented'));
+    return (dispatch, getState) => {
+        const loginUrl = getState().server.loginUrl;
+        return jsonPost(loginUrl, {userId})
+        .then((response) => {
+            dispatch(loginSuccessful(userId, response.sessionId));
+        })
+        .catch((error) => {
+            dispatch(loginFailed(userId, error));
+        });
     };
 }
 
