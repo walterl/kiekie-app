@@ -5,6 +5,7 @@ import {
     RECEIVE_PIC, DELETE_PIC_REQUEST, SAVE_PIC, SET_PIC_SELECTED, SET_DEBUG,
     SET_NOTE, SET_THUMBNAIL, SET_UI_STATE, UPDATE_PIC
 } from './actions';
+import {REGISTER_ACCOUNT} from './server-actions.js';
 
 
 /**
@@ -154,6 +155,11 @@ function uiStartup(state={}, action) {
         return Object.assign({}, state, {
             message: 'Storage found.'
         });
+    case REGISTER_ACCOUNT:
+        return Object.assign({}, state, {
+            message: 'Registering new user...',
+            status: 'register'
+        });
     default:
         return state;
     }
@@ -166,6 +172,7 @@ function ui(state={}, action) {
     case INIT_APP:
     case INIT_CAMERA:
     case INIT_DIRECTORIES:
+    case REGISTER_ACCOUNT:
         newState.startup = uiStartup(state.startup, action);
         return newState;
     case SET_UI_STATE:

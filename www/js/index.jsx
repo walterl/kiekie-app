@@ -43,7 +43,10 @@ const store = configureStore({
         },
         startup: {
             status: '',
-            message: ''
+            message: '',
+            register: {
+                error: null
+            }
         }
     }
 });

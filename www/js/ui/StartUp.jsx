@@ -15,6 +15,10 @@ class StartUp extends React.Component {
             msg = isDone ? 'Startup done!' : message,
             onClick = () => hashHistory.push('/pics');
 
+        if (status === 'register') {
+            hashHistory.push('/register');
+        }
+
         return <div className="startup-bg">
             <Paper className="startup-paper">
                 <div>{msg}</div>
