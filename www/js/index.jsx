@@ -33,6 +33,10 @@ const store = configureStore({
     },
     pics: [],
     selected: null,
+    server: {
+        loginUrl: 'http://127.0.0.1:8008/login',
+        registerUrl: 'http://127.0.0.1:8008/register'
+    },
     ui: {
         picsList: {
             cellHeight: 200

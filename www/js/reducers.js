@@ -135,6 +135,10 @@ function dirs(state={
     }
 }
 
+function server(state={}) {
+    return state;
+}
+
 function ui(state={}, action) {
     switch (action.type) {
     case INIT_APP:
@@ -157,5 +161,7 @@ function ui(state={}, action) {
     }
 }
 
-const rootReducer = combineReducers({config, dirs, pics, selected, ui});
+const rootReducer = combineReducers({
+    config, dirs, pics, selected, server, ui
+});
 export default rootReducer;
