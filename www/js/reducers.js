@@ -139,21 +139,35 @@ function server(state={}) {
     return state;
 }
 
-function ui(state={}, action) {
+function uiStartup(state={}, action) {
     switch (action.type) {
     case INIT_APP:
-        return Object.assign({}, state, {startup: {
+        return Object.assign({}, state, {
             message: 'Starting up...',
             status: action.done ? 'done' : 'initializing'
-        }});
+        });
     case INIT_CAMERA:
-        return Object.assign({}, state, {startup: {
+        return Object.assign({}, state, {
             message: 'Camera found.'
-        }});
+        });
     case INIT_DIRECTORIES:
-        return Object.assign({}, state, {startup: {
+        return Object.assign({}, state, {
             message: 'Storage found.'
-        }});
+        });
+    default:
+        return state;
+    }
+}
+
+function ui(state={}, action) {
+    var newState = Object.assign({}, state);
+
+    switch (action.type) {
+    case INIT_APP:
+    case INIT_CAMERA:
+    case INIT_DIRECTORIES:
+        newState.startup = uiStartup(state.startup, action);
+        return newState;
     case SET_UI_STATE:
         return Object.assign({}, state, action.config);
     default:
