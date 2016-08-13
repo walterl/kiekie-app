@@ -2,6 +2,16 @@
   margin-top: 50%;
   text-align: center;
 
+  .register-welcome {
+    color: #666;
+    font-family: sans-serif;
+    text-align: left;
+    margin: 2em;
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+  }
   .register-btn {
     margin-top: 1em;
   }
