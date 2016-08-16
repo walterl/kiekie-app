@@ -323,10 +323,11 @@ export function initDirectories(dataDirURL) {
 export function initAccount() {
     return (dispatch) => {
         const storage = window.localStorage,
-            userId = storage.getItem('userId');
+            userName = storage.getItem('userName'),
+            password = storage.getItem('password');
 
-        if (userId) {
-            return dispatch(loginOnServer(userId));
+        if (userName && password) {
+            return dispatch(loginOnServer(userName, password));
         }
 
         return dispatch(registerAccount());

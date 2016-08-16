@@ -9,29 +9,29 @@ export const
     REGISTER_FAIL = 'REGISTER_FAIL';
 
 
-function loginSuccessful(userId, sessionId) {
+function loginSuccessful(userName, sessionId) {
     return {
         type: LOGIN_SUCCESSFUL,
-        userId, sessionId
+        userName, sessionId
     };
 }
 
-function loginFailed(userId, error) {
+function loginFailed(userName, error) {
     return {
         type: LOGIN_FAILED,
-        userId, error
+        userName, error
     };
 }
 
-export function loginOnServer(userId) {
+export function loginOnServer(userName, password) {
     return (dispatch, getState) => {
         const loginUrl = getState().server.loginUrl;
-        return jsonPost(loginUrl, {userId})
+        return jsonPost(loginUrl, {username: userName, password})
         .then((response) => {
-            dispatch(loginSuccessful(userId, response.sessionId));
+            dispatch(loginSuccessful(userName, response.sessionId));
         })
         .catch((error) => {
-            dispatch(loginFailed(userId, error));
+            dispatch(loginFailed(userName, error));
         });
     };
 }
@@ -42,10 +42,10 @@ export function registerAccount() {
     };
 }
 
-export function registerSuccess(userName, userId, sessionId) {
+export function registerSuccess(userName) {
     return {
         type: REGISTER_SUCCESS,
-        userName, userId, sessionId
+        userName
     };
 }
 
@@ -56,7 +56,7 @@ export function registerFail(userName, error) {
     };
 }
 
-export function registerRequest(userName) {
+export function registerRequest(userName, password) {
     return (dispatch, getState) => {
         const registerUrl = getState().server.registerUrl;
 
@@ -65,14 +65,8 @@ export function registerRequest(userName) {
             userName
         });
 
-        jsonPost(registerUrl, {userName})
-        .then((response) => {
-            dispatch(registerSuccess(
-                userName, response.userId, response.sessionId
-            ));
-        })
-        .catch((error) => {
-            dispatch(registerFail(userName, error));
-        });
+        jsonPost(registerUrl, {username: userName, password})
+        .then(() => dispatch(registerSuccess(userName)))
+        .catch((error) => dispatch(registerFail(userName, error)));
     };
 }
