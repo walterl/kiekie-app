@@ -19,8 +19,7 @@ function checkStatus(response) {
     return response;
 }
 
-
-export function jsonPost(url, json, token) {
+function buildHeaders(token) {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -30,9 +29,13 @@ export function jsonPost(url, json, token) {
         headers['Authorization'] = `Token ${token}`;
     }
 
+    return headers;
+}
+
+export function jsonPost(url, json, token) {
     return fetch(url, {
         method: 'POST',
-        headers,
+        headers: buildHeaders(token),
         body: JSON.stringify(json)
     })
     .then(checkStatus)
