@@ -14,7 +14,7 @@ class Register extends React.Component {
     constructor(props) {
         super(props);
 
-        this.setState({username: null, passsword: null});
+        this.setState({username: null, password: null});
         this.onRegisterClick = this.onRegisterClick.bind(this);
         this.onUserNameBlur = this.onUserNameBlur.bind(this);
         this.onPasswordBlur = this.onPasswordBlur.bind(this);
