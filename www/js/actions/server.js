@@ -1,4 +1,4 @@
-import {jsonPost} from '../lib/net';
+import {jsonGet, jsonPost} from '../lib/net';
 
 export const
     LOGIN_SUCCESSFUL = 'LOGIN_SUCCESSFUL',
@@ -26,13 +26,13 @@ function loginFailed(userName, error) {
     };
 }
 
-export function loginOnServer(userName, password) {
+export function loginWithToken(userName, token) {
     return (dispatch, getState) => {
-        const loginUrl = getState().server.loginUrl;
-        return jsonPost(loginUrl, {username: userName, password})
+        const echoUrl = getState().server.tokenEchoUrl;
+        return jsonGet(echoUrl)
         .then((response) => {
-            if (response.token) {
-                dispatch(loginSuccessful(userName, response.token));
+            if (response.token && response.token === token) {
+                dispatch(loginSuccessful(userName, token));
             } else {
                 dispatch(loginFailed(userName, response));
             }

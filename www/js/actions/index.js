@@ -3,7 +3,7 @@ import uuid from 'uuid';
 
 import {copyPic, nextDebugPic, resizeImage} from '../lib';
 import {
-    loginOnServer, registerAccount,
+    loginWithToken, registerAccount,
     REGISTER_ACCOUNT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from './server';
 
@@ -327,7 +327,7 @@ export function initAccount() {
             token = storage.getItem('apiToken');
 
         if (token) {
-            return dispatch(loginOnServer(userName, token));
+            return dispatch(loginWithToken(userName, token));
         }
 
         return dispatch(registerAccount());

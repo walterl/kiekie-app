@@ -37,7 +37,8 @@ const
         selected: null,
         server: {
             loginUrl: `${API_URL}/user/login`,
-            registerUrl: `${API_URL}/user/register`
+            registerUrl: `${API_URL}/user/register`,
+            tokenEchoUrl: `${API_URL}/user/echo_token`
         },
         ui: {
             picsList: {
