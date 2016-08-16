@@ -12,46 +12,48 @@ import RoutedApp from './ui/RoutedApp';
 import {initApp} from './actions';
 import configureStore from './store';
 
-const store = configureStore({
-    config: {
-        debug: true,
-        camera: {},
-        picMaxSize: 1280,
+const
+    API_URL = 'http://127.0.0.1:8008/api',
+    store = configureStore({
+        config: {
+            debug: true,
+            camera: {},
+            picMaxSize: 1280,
+            dirs: {
+                pics: 'pics',
+                gallery: 'gallery',
+                originals: 'originals',
+                thumbnails: 'thumbnails'
+            }
+        },
         dirs: {
-            pics: 'pics',
-            gallery: 'gallery',
-            originals: 'originals',
-            thumbnails: 'thumbnails'
-        }
-    },
-    dirs: {
-        root: null,
-        pics: null,
-        gallery: null,
-        originals: null,
-        thumbnails: null
-    },
-    pics: [],
-    selected: null,
-    server: {
-        loginUrl: 'http://127.0.0.1:8008/api/user/login',
-        registerUrl: 'http://127.0.0.1:8008/api/user/register'
-    },
-    ui: {
-        picsList: {
-            cellHeight: 200
+            root: null,
+            pics: null,
+            gallery: null,
+            originals: null,
+            thumbnails: null
         },
-        startup: {
-            status: '',
-            message: ''
+        pics: [],
+        selected: null,
+        server: {
+            loginUrl: `${API_URL}/user/login`,
+            registerUrl: `${API_URL}/user/register`
         },
-        register: {
-            status: '',
-            error: null,
-            userName: ''
+        ui: {
+            picsList: {
+                cellHeight: 200
+            },
+            startup: {
+                status: '',
+                message: ''
+            },
+            register: {
+                status: '',
+                error: null,
+                userName: ''
+            }
         }
-    }
-});
+    });
 
 
 document.addEventListener('deviceready', () => {
