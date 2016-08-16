@@ -86,15 +86,13 @@ class Register extends React.Component {
         if (status === 'success') {
             msgClasses.push('register-success');
             msg = 'Registration successful!';
-        } else if (errorMsg) {
-            msgClasses.push('register-error');
-            msg = errorMsg;
-        }
 
-        if (status === 'success') {
             window.setTimeout(() => {
                 hashHistory.push('/');
             }, 2000);
+        } else if (errorMsg) {
+            msgClasses.push('register-error');
+            msg = errorMsg;
         }
 
         return <div className="register-screen">
