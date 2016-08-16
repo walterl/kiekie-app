@@ -9,10 +9,13 @@ export const
     REGISTER_FAIL = 'REGISTER_FAIL';
 
 
-function loginSuccessful(userName, sessionId) {
+function loginSuccessful(userName, token) {
+    window.localStorage.setItem('userName', userName);
+    window.localStorage.setItem('token', token);
+
     return {
         type: LOGIN_SUCCESSFUL,
-        userName, sessionId
+        userName, token
     };
 }
 
@@ -28,7 +31,11 @@ export function loginOnServer(userName, password) {
         const loginUrl = getState().server.loginUrl;
         return jsonPost(loginUrl, {username: userName, password})
         .then((response) => {
-            dispatch(loginSuccessful(userName, response.sessionId));
+            if (response.token) {
+                dispatch(loginSuccessful(userName, response.token));
+            } else {
+                dispatch(loginFailed(userName, response));
+            }
         })
         .catch((error) => {
             dispatch(loginFailed(userName, error));

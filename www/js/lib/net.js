@@ -20,13 +20,19 @@ function checkStatus(response) {
 }
 
 
-export function jsonPost(url, json) {
+export function jsonPost(url, json, token) {
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    };
+
+    if (token) {
+        headers['Authorization'] = `Token ${token}`;
+    }
+
     return fetch(url, {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers,
         body: JSON.stringify(json)
     })
     .then(checkStatus)

@@ -324,10 +324,10 @@ export function initAccount() {
     return (dispatch) => {
         const storage = window.localStorage,
             userName = storage.getItem('userName'),
-            password = storage.getItem('password');
+            token = storage.getItem('apiToken');
 
-        if (userName && password) {
-            return dispatch(loginOnServer(userName, password));
+        if (token) {
+            return dispatch(loginOnServer(userName, token));
         }
 
         return dispatch(registerAccount());
