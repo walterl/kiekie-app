@@ -14,9 +14,10 @@ class Register extends React.Component {
     constructor(props) {
         super(props);
 
-        this.userName = null;
+        this.setState({username: null, passsword: null});
         this.onRegisterClick = this.onRegisterClick.bind(this);
         this.onUserNameBlur = this.onUserNameBlur.bind(this);
+        this.onPasswordBlur = this.onPasswordBlur.bind(this);
     }
 
     lookupErrorMessage(errorCode) {
@@ -37,27 +38,46 @@ class Register extends React.Component {
         }
     }
 
+    lookupPasswordError(errorCode) {
+        switch (errorCode) {
+        case 'empty-password':
+            return 'Please enter a password.';
+        default:
+            return '';
+        }
+    }
+
     renderDebugSkipButton() {
         const onClick = () => hashHistory.push('/');
         return <RaisedButton label="Skip >" onClick={onClick} />;
     }
 
     onRegisterClick() {
-        if (!this.userName) {
+        const {userName, password} = this.state;
+        if (!userName) {
             this.props.registerFail('empty-user-name');
             return;
         }
-        this.props.registerRequest(this.userName);
+        if (!password) {
+            this.props.registerFail('empty-password');
+            return;
+        }
+        this.props.registerRequest(userName, password);
     }
 
     onUserNameBlur(e) {
-        this.userName = e.target.value;
+        this.setState({userName: e.target.value});
+    }
+
+    onPasswordBlur(e) {
+        this.setState({password: e.target.value});
     }
 
     render() {
         const {status, error, debug} = this.props,
             btnDisabled = status === 'busy' || status === 'success',
             nameError = this.lookupNameError(error),
+            passwordError = this.lookupPasswordError(error),
             errorMsg = this.lookupErrorMessage(error),
             debugSkipButton = debug ? this.renderDebugSkipButton() : null;
         var msgClasses = ['register-message'],
@@ -87,8 +107,16 @@ class Register extends React.Component {
             </div>
 
             <TextField
-                hintText="User name" errorText={nameError}
+                hintText="User name" floatingLabelText="User name"
+                errorText={nameError}
                 onChange={this.onUserNameBlur}
+            />
+            <br/>
+
+            <TextField
+                hintText="Password" floatingLabelText="Password" type="password"
+                errorText={passwordError}
+                onChange={this.onPasswordBlur}
             />
             <br/>
 
