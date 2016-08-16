@@ -32,6 +32,12 @@ function buildHeaders(token) {
     return headers;
 }
 
+export function jsonGet(url, token) {
+    return fetch(url, {headers: buildHeaders(token)})
+        .then(checkStatus)
+        .then((response) => response.json());
+}
+
 export function jsonPost(url, json, token) {
     return fetch(url, {
         method: 'POST',
