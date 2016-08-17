@@ -1,12 +1,12 @@
 $grey700: #616161;
 $red500: #f44336;
 
-.register-screen {
-  margin-top: 50%;
+.login-screen {
+  margin-top: 30%;
   text-align: center;
   font-family: sans-serif;
 
-  .register-welcome {
+  .welcome {
     color: $grey700;
     text-align: left;
     margin: 2em;
@@ -15,14 +15,14 @@ $red500: #f44336;
       text-align: center;
     }
   }
-  .register-btn {
+  .action-btn {
     margin-top: 1em;
   }
 
-  .register-message {
+  .message {
     margin-top: 2em;
 
-    &.register-error {
+    &.error-message {
       color: $red500;
     }
   }

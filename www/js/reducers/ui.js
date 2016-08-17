@@ -1,10 +1,11 @@
 import {
-    INIT_APP, INIT_CAMERA, INIT_DIRECTORIES, REGISTER_ACCOUNT, REGISTER_REQUEST,
-    REGISTER_SUCCESS, REGISTER_FAIL, SET_UI_STATE
+    START_INIT, FINISH_INIT, INIT_ROUTE_FOLLOWED, INIT_APP, INIT_CAMERA,
+    INIT_DIRECTORIES, SHOW_LOGIN, REGISTER_REQUEST, REGISTER_SUCCESS,
+    REGISTER_FAIL, SET_UI_STATE
 } from '../actions';
 
 
-function uiRegister(state={}, action) {
+function uiLogin(state={}, action) {
     switch (action.type) {
     case REGISTER_REQUEST:
         return Object.assign(state, {
@@ -31,10 +32,22 @@ function uiRegister(state={}, action) {
 
 function uiStartup(state={}, action) {
     switch (action.type) {
+    case START_INIT:
+        return Object.assign({}, state, {
+            initializing: [...state.initializing, action.component]
+        });
+    case FINISH_INIT:
+        return Object.assign({}, state, {
+            initializing: state.initializing.filter(
+                (i) => i !== action.component)
+        });
+    case INIT_ROUTE_FOLLOWED:
+        return Object.assign({}, state, {
+            initRoutes: state.initRoutes.filter((r) => r !== action.route)
+        });
     case INIT_APP:
         return Object.assign({}, state, {
-            message: 'Starting up...',
-            status: action.done ? 'done' : 'initializing'
+            message: 'Starting up...'
         });
     case INIT_CAMERA:
         return Object.assign({}, state, {
@@ -44,30 +57,34 @@ function uiStartup(state={}, action) {
         return Object.assign({}, state, {
             message: 'Storage found.'
         });
-    case REGISTER_ACCOUNT:
+    case SHOW_LOGIN:
         return Object.assign({}, state, {
-            message: 'Registering new user...',
-            status: 'register'
+            message: 'Logging in...',
+            initRoutes: [...state.initRoutes, '/login']
         });
     default:
         return state;
     }
 }
 
+// eslint-disable-next-line complexity
 export default function ui(state={}, action) {
     var newState = Object.assign({}, state);
 
     switch (action.type) {
+    case START_INIT:
+    case FINISH_INIT:
+    case INIT_ROUTE_FOLLOWED:
     case INIT_APP:
     case INIT_CAMERA:
     case INIT_DIRECTORIES:
-    case REGISTER_ACCOUNT:
+    case SHOW_LOGIN:
         newState.startup = uiStartup(state.startup, action);
         return newState;
     case REGISTER_REQUEST:
     case REGISTER_SUCCESS:
     case REGISTER_FAIL:
-        newState.register = uiRegister(state.register, action);
+        newState.login = uiLogin(state.login, action);
         return newState;
     case SET_UI_STATE:
         return Object.assign({}, state, action.config);

@@ -46,9 +46,11 @@ const
             },
             startup: {
                 status: '',
-                message: ''
+                message: '',
+                initializing: [],
+                initRoutes: []
             },
-            register: {
+            login: {
                 status: '',
                 error: null,
                 userName: ''

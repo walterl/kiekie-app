@@ -7,14 +7,13 @@ import TextField from 'material-ui/TextField';
 
 import {registerRequest, registerFail} from '../actions/server';
 
-import '../../scss/register.scss';
+import '../../scss/login.scss';
 
 
-class Register extends React.Component {
+class Login extends React.Component {
     constructor(props) {
         super(props);
 
-        this.setState({username: null, password: null});
         this.onRegisterClick = this.onRegisterClick.bind(this);
         this.onUserNameBlur = this.onUserNameBlur.bind(this);
         this.onPasswordBlur = this.onPasswordBlur.bind(this);
@@ -80,28 +79,25 @@ class Register extends React.Component {
             passwordError = this.lookupPasswordError(error),
             errorMsg = this.lookupErrorMessage(error),
             debugSkipButton = debug ? this.renderDebugSkipButton() : null;
-        var msgClasses = ['register-message'],
+        var msgClasses = ['message'],
             msg = '';
 
         if (status === 'success') {
-            msgClasses.push('register-success');
+            msgClasses.push('success-message');
             msg = 'Registration successful!';
 
             window.setTimeout(() => {
                 hashHistory.push('/');
             }, 2000);
         } else if (errorMsg) {
-            msgClasses.push('register-error');
+            msgClasses.push('error-message');
             msg = errorMsg;
         }
 
-        return <div className="register-screen">
-            <div className="register-welcome">
+        return <div className="login-screen">
+            <div className="welcome">
                 <h2>Welcome to Kiekie</h2>
-                <p>
-                    Please enter the user name that you would like to use,
-                    below.
-                </p>
+                <p>Please log in or register a new account to proceed.</p>
             </div>
 
             <TextField
@@ -119,8 +115,13 @@ class Register extends React.Component {
             <br/>
 
             <RaisedButton
-                className="register-btn"
-                label="Register" primary={true} disabled={btnDisabled}
+                className="action-btn"
+                label="Login" primary={true} disabled={btnDisabled}
+                onClick={this.onLoginClick}
+            />
+            <RaisedButton
+                className="action-btn"
+                label="Register" secondary={true} disabled={btnDisabled}
                 onClick={this.onRegisterClick}
             />
 
@@ -132,7 +133,7 @@ class Register extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {status, error} = state.ui.register;
+    const {status, error} = state.ui.login;
     return {
         debug: state.config.debug,
         status, error
@@ -146,4 +147,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

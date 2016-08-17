@@ -5,18 +5,22 @@ import {hashHistory} from 'react-router';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import {initRouteFollowed} from '../actions';
+
 import '../../scss/startup.scss';
 
 
 class StartUp extends React.Component {
     render() {
-        const {status, message} = this.props,
-            isDone = status === 'done',
+        const {initializing, initRoutes, message} = this.props,
+            isDone = initializing.length === 0,
             msg = isDone ? 'Startup done!' : message,
             onClick = () => hashHistory.push('/pics');
 
-        if (status === 'register') {
-            hashHistory.push('/register');
+        if (initRoutes.length) {
+            hashHistory.push(initRoutes[0]);
+            this.props.popInitRoute(initRoutes[0]);
+            return null;
         }
 
         return <div className="startup-bg">
@@ -32,8 +36,14 @@ class StartUp extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {status, message} = state.ui.startup;
-    return {status, message};
+    const {initializing, initRoutes, message} = state.ui.startup;
+    return {initializing, initRoutes, message};
 }
 
-export default connect(mapStateToProps)(StartUp);
+function mapDispatchToProps(dispatch) {
+    return {
+        popInitRoute: (rt) => dispatch(initRouteFollowed(rt))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StartUp);

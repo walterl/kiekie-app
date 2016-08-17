@@ -3,7 +3,7 @@ import {jsonGet, jsonPost} from '../lib/net';
 export const
     LOGIN_SUCCESSFUL = 'LOGIN_SUCCESSFUL',
     LOGIN_FAILED = 'LOGIN_FAILED',
-    REGISTER_ACCOUNT = 'REGISTER_ACCOUNT',
+    SHOW_LOGIN = 'SHOW_LOGIN',
     REGISTER_REQUEST = 'REGISTER_REQUEST',
     REGISTER_SUCCESS = 'REGISTER_SUCCESS',
     REGISTER_FAIL = 'REGISTER_FAIL';
@@ -43,9 +43,14 @@ export function loginWithToken(userName, token) {
     };
 }
 
-export function registerAccount() {
+export function showLogin() {
+    const storage = window.localStorage,
+        userName = storage.getItem('userName'),
+        password = storage.getItem('password');
+
     return {
-        type: REGISTER_ACCOUNT
+        type: SHOW_LOGIN,
+        userName, password
     };
 }
 

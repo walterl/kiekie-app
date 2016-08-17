@@ -3,12 +3,16 @@ import uuid from 'uuid';
 
 import {copyPic, nextDebugPic, resizeImage} from '../lib';
 import {
-    loginWithToken, registerAccount,
-    REGISTER_ACCOUNT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
+    loginWithToken, showLogin,
+    REGISTER_ACCOUNT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL,
+    SHOW_LOGIN
 } from './server';
 
 
 export const
+    START_INIT = 'START_INIT',
+    FINISH_INIT = 'FINISH_INIT',
+    INIT_ROUTE_FOLLOWED = 'INIT_ROUTE_FOLLOWED',
     INIT_APP = 'INIT_APP',
     INIT_CAMERA = 'INIT_CAMERA',
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
@@ -27,7 +31,10 @@ export const
     SET_UI_STATE = 'SET_UI_STATE',
     RESIZE_ERROR = 'RESIZE_ERROR',
     THUMBNAIL_ERROR = 'THUMBNAIL_ERROR';
-export {REGISTER_ACCOUNT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL};
+export {
+    REGISTER_ACCOUNT, REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL,
+    SHOW_LOGIN
+};
 
 var logError = () => {};
 
@@ -247,6 +254,27 @@ export function loadTestImages() {
     };
 }
 
+export function startInit(component) {
+    return {
+        type: START_INIT,
+        component
+    };
+}
+
+export function finishInit(component) {
+    return {
+        type: FINISH_INIT,
+        component
+    };
+}
+
+export function initRouteFollowed(route) {
+    return {
+        type: INIT_ROUTE_FOLLOWED,
+        route
+    };
+}
+
 export function initCamera() {
     return {
         type: INIT_CAMERA,
@@ -276,7 +304,6 @@ export function initDirectories(dataDirURL) {
                     window.requestFileSystem(
                         LocalFileSystem.TEMPORARY, 100*1024*1024, (fs) => {
                             resolve(fs.root.toURL());
-                            dispatch(initDirectories(fs.root.toURL()));
                         }, reject
                     )
                 )
@@ -330,42 +357,26 @@ export function initAccount() {
             return dispatch(loginWithToken(userName, token));
         }
 
-        return dispatch(registerAccount());
+        return dispatch(showLogin());
     };
 }
 
 export function initApp() {
     return (dispatch) => {
-        Promise.all([
-            new Promise((resolve) => {
-                dispatch({
-                    type: INIT_APP,
-                    done: false
-                });
-                resolve();
-            }),
-            new Promise((resolve) => {
-                dispatch(initCamera());
-                resolve();
-            }),
-            new Promise((resolve, reject) => {
-                dispatch(initDirectories())
-                    .then(() => dispatch(loadTestImages()), reject)
-                    .then(resolve, reject);
-            })
-        ])
-        .then(() => dispatch(initAccount()))
-        .then(() => dispatch({
+        dispatch({
             type: INIT_APP,
-            done: true
-        }), () => dispatch({
-            type: SET_UI_STATE,
-            config: {
-                startup: {
-                    done: false,
-                    state: 'Something went wrong. :('
-                }
-            }
-        }));
+            done: false
+        });
+
+        dispatch(startInit('camera'));
+        dispatch(initCamera());
+        dispatch(finishInit('camera'));
+
+        dispatch(startInit('dirs'));
+        dispatch(initDirectories())
+            .then(() => dispatch(finishInit('dirs')));
+
+        dispatch(startInit('account'));
+        dispatch(initAccount());
     };
 }
