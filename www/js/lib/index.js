@@ -59,3 +59,9 @@ export function resizeImage(uri, options, callback, errorCallback) {
         uri
     );
 }
+
+export function storeCreds(userName, authToken) {
+    const storage = window.localStorage;
+    storage.setItem('authToken', authToken);
+    storage.setItem('userName', userName);
+}
