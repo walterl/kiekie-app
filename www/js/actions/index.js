@@ -4,6 +4,7 @@ import uuid from 'uuid';
 import {copyPic, nextDebugPic, resizeImage} from '../lib';
 import {
     loginWithToken, showLogin,
+    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL,
     SHOW_LOGIN
 } from './server';
@@ -32,6 +33,7 @@ export const
     RESIZE_ERROR = 'RESIZE_ERROR',
     THUMBNAIL_ERROR = 'THUMBNAIL_ERROR';
 export {
+    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL,
     SHOW_LOGIN
 };
