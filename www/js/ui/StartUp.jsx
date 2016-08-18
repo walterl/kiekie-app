@@ -18,8 +18,8 @@ class StartUp extends React.Component {
             onClick = () => hashHistory.push('/pics');
 
         if (initRoutes.length) {
-            hashHistory.push(initRoutes[0]);
             this.props.popInitRoute(initRoutes[0]);
+            hashHistory.push(initRoutes[0]);
             return null;
         }
 

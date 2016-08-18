@@ -5,6 +5,7 @@ import {hashHistory} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
+import {finishInit} from '../actions';
 import {
     loginRequest, loginFail, registerRequest, registerFail
 } from '../actions/server';
@@ -47,7 +48,7 @@ class Login extends React.Component {
     }
 
     leaveScreen() {
-        this.props.popInitRoute('/login');
+        this.props.finishInitAccount();
 
         window.setTimeout(() => {
             hashHistory.push('/');
@@ -180,6 +181,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        finishInitAccount: () => dispatch(finishInit('account')),
         loginRequest: (name, passwd) => dispatch(loginRequest(name, passwd)),
         loginFail: (name, error) => dispatch(loginFail(name, error)),
         registerRequest: (name) => dispatch(registerRequest(name)),
