@@ -25,6 +25,9 @@ class Login extends React.Component {
     }
 
     lookupErrorMessage(errorCode) {
+        if (errorCode && errorCode.messages) {
+            return errorCode.messages.join('<br/><br/>');
+        }
         if (errorCode && errorCode.message) {
             return errorCode.message;
         }
