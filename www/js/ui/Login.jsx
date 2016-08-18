@@ -133,7 +133,7 @@ class Login extends React.Component {
 
             <TextField
                 hintText="User name" floatingLabelText="User name"
-                errorText={errors.name}
+                errorText={errors.userName}
                 onChange={this.onUserNameChange}
             />
             <br/>
