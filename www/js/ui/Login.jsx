@@ -24,6 +24,14 @@ class Login extends React.Component {
         this.onPasswordChange = this.onPasswordChange.bind(this);
     }
 
+    leaveScreen() {
+        this.props.popInitRoute('/login');
+
+        window.setTimeout(() => {
+            hashHistory.push('/');
+        }, 2000);
+    }
+
     lookupErrorMessage(errorCode) {
         if (errorCode && errorCode.messages) {
             return errorCode.messages.join('<br/><br/>');
@@ -106,19 +114,11 @@ class Login extends React.Component {
         if (status === 'login-success') {
             msgClasses.push('success-message');
             msg = 'Login successful!';
-            this.props.popInitRoute('/login');
-
-            window.setTimeout(() => {
-                hashHistory.push('/');
-            }, 2000);
+            this.leaveScreen();
         } else if (status === 'register-success') {
             msgClasses.push('success-message');
             msg = 'Registration successful!';
-            this.props.popInitRoute('/login');
-
-            window.setTimeout(() => {
-                hashHistory.push('/');
-            }, 2000);
+            this.leaveScreen();
         } else if (errorMsg) {
             msgClasses.push('error-message');
             msg = errorMsg;
