@@ -1,3 +1,4 @@
+import {storeCreds} from '../lib';
 import {jsonGet, jsonPost} from '../lib/net';
 
 export const
@@ -11,12 +12,13 @@ export const
 
 
 export function loginSuccess(userName, authToken) {
-    window.localStorage.setItem('userName', userName);
-    window.localStorage.setItem('authToken', authToken);
+    return (dispatch) => {
+        storeCreds(userName, authToken);
 
-    return {
-        type: LOGIN_SUCCESS,
-        userName, authToken
+        return dispatch({
+            type: LOGIN_SUCCESS,
+            userName, authToken
+        });
     };
 }
 
@@ -71,9 +73,13 @@ export function showLogin() {
 }
 
 export function registerSuccess(userName, authToken) {
-    return {
-        type: REGISTER_SUCCESS,
-        userName, authToken
+    return (dispatch) => {
+        storeCreds(userName, authToken);
+
+        return dispatch({
+            type: REGISTER_SUCCESS,
+            userName, authToken
+        });
     };
 }
 
