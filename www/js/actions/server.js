@@ -9,30 +9,30 @@ export const
     REGISTER_FAIL = 'REGISTER_FAIL';
 
 
-function loginSuccess(userName, token) {
+export function loginSuccess(userName, authToken) {
     window.localStorage.setItem('userName', userName);
-    window.localStorage.setItem('token', token);
+    window.localStorage.setItem('authToken', authToken);
 
     return {
         type: LOGIN_SUCCESS,
-        userName, token
+        userName, authToken
     };
 }
 
-function loginFail(userName, error) {
+export function loginFail(userName, error) {
     return {
         type: LOGIN_FAIL,
         userName, error
     };
 }
 
-export function loginWithToken(userName, token) {
+export function loginWithToken(userName, authToken) {
     return (dispatch, getState) => {
         const echoUrl = getState().server.tokenEchoUrl;
         return jsonGet(echoUrl)
         .then((response) => {
-            if (response.token && response.token === token) {
-                dispatch(loginSuccess(userName, token));
+            if (response.token && response.token === authToken) {
+                dispatch(loginSuccess(userName, authToken));
             } else {
                 dispatch(loginFail(userName, response));
             }
@@ -54,10 +54,10 @@ export function showLogin() {
     };
 }
 
-export function registerSuccess(userName) {
+export function registerSuccess(userName, authToken) {
     return {
         type: REGISTER_SUCCESS,
-        userName
+        userName, authToken
     };
 }
 
@@ -78,7 +78,7 @@ export function registerRequest(userName, password) {
         });
 
         jsonPost(registerUrl, {username: userName, password})
-        .then(() => dispatch(registerSuccess(userName)))
+        .then((resp) => dispatch(registerSuccess(userName, resp.token)))
         .catch((error) => dispatch(registerFail(userName, error)));
     };
 }
