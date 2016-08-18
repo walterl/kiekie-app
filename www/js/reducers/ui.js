@@ -16,9 +16,14 @@ function uiLogin(state={}, action) {
             error: ''
         });
     case LOGIN_SUCCESS:
+        return Object.assign(state, {
+            status: 'login-success',
+            userName: action.userName,
+            error: ''
+        });
     case REGISTER_SUCCESS:
         return Object.assign(state, {
-            status: 'success',
+            status: 'register-success',
             userName: action.userName,
             error: ''
         });
