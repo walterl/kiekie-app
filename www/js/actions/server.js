@@ -1,27 +1,27 @@
 import {jsonGet, jsonPost} from '../lib/net';
 
 export const
-    LOGIN_SUCCESSFUL = 'LOGIN_SUCCESSFUL',
-    LOGIN_FAILED = 'LOGIN_FAILED',
+    LOGIN_SUCCESS = 'LOGIN_SUCCESS',
+    LOGIN_FAIL = 'LOGIN_FAIL',
     SHOW_LOGIN = 'SHOW_LOGIN',
     REGISTER_REQUEST = 'REGISTER_REQUEST',
     REGISTER_SUCCESS = 'REGISTER_SUCCESS',
     REGISTER_FAIL = 'REGISTER_FAIL';
 
 
-function loginSuccessful(userName, token) {
+function loginSuccess(userName, token) {
     window.localStorage.setItem('userName', userName);
     window.localStorage.setItem('token', token);
 
     return {
-        type: LOGIN_SUCCESSFUL,
+        type: LOGIN_SUCCESS,
         userName, token
     };
 }
 
-function loginFailed(userName, error) {
+function loginFail(userName, error) {
     return {
-        type: LOGIN_FAILED,
+        type: LOGIN_FAIL,
         userName, error
     };
 }
@@ -32,13 +32,13 @@ export function loginWithToken(userName, token) {
         return jsonGet(echoUrl)
         .then((response) => {
             if (response.token && response.token === token) {
-                dispatch(loginSuccessful(userName, token));
+                dispatch(loginSuccess(userName, token));
             } else {
-                dispatch(loginFailed(userName, response));
+                dispatch(loginFail(userName, response));
             }
         })
         .catch((error) => {
-            dispatch(loginFailed(userName, error));
+            dispatch(loginFail(userName, error));
         });
     };
 }
