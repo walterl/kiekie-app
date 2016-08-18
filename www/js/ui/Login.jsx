@@ -14,6 +14,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {userName: '', password: ''};
+
         this.onRegisterClick = this.onRegisterClick.bind(this);
         this.onUserNameChange = this.onUserNameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
