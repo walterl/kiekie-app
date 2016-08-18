@@ -59,11 +59,11 @@ class Login extends React.Component {
     onLoginClick() {
         const {userName, password} = this.state;
         if (!userName) {
-            this.props.loginFail('empty-user-name');
+            this.props.loginFail(userName, 'empty-user-name');
             return;
         }
         if (!password) {
-            this.props.loginFail('empty-password');
+            this.props.loginFail(userName, 'empty-password');
             return;
         }
         this.props.loginRequest(userName, password);
@@ -72,11 +72,11 @@ class Login extends React.Component {
     onRegisterClick() {
         const {userName, password} = this.state;
         if (!userName) {
-            this.props.registerFail('empty-user-name');
+            this.props.registerFail(userName, 'empty-user-name');
             return;
         }
         if (!password) {
-            this.props.registerFail('empty-password');
+            this.props.registerFail(userName, 'empty-password');
             return;
         }
         this.props.registerRequest(userName, password);
@@ -170,9 +170,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         loginRequest: (name, passwd) => dispatch(loginRequest(name, passwd)),
-        loginFail: (error) => dispatch(loginFail(error)),
+        loginFail: (name, error) => dispatch(loginFail(name, error)),
         registerRequest: (name) => dispatch(registerRequest(name)),
-        registerFail: (error) => dispatch(registerFail('', error))
+        registerFail: (name, error) => dispatch(registerFail(name, error))
     };
 }
 
