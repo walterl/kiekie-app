@@ -1,24 +1,28 @@
 import {
     START_INIT, FINISH_INIT, INIT_ROUTE_FOLLOWED, INIT_APP, INIT_CAMERA,
-    INIT_DIRECTORIES, SHOW_LOGIN, REGISTER_REQUEST, REGISTER_SUCCESS,
-    REGISTER_FAIL, SET_UI_STATE
+    INIT_DIRECTORIES, SHOW_LOGIN, SET_UI_STATE,
+    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
+    REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from '../actions';
 
 
 function uiLogin(state={}, action) {
     switch (action.type) {
+    case LOGIN_REQUEST:
     case REGISTER_REQUEST:
         return Object.assign(state, {
             status: 'busy',
             userName: action.userName,
             error: ''
         });
+    case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
         return Object.assign(state, {
             status: 'success',
             userName: action.userName,
             error: ''
         });
+    case LOGIN_FAIL:
     case REGISTER_FAIL:
         return Object.assign(state, {
             status: 'error',
@@ -81,6 +85,9 @@ export default function ui(state={}, action) {
     case SHOW_LOGIN:
         newState.startup = uiStartup(state.startup, action);
         return newState;
+    case LOGIN_REQUEST:
+    case LOGIN_SUCCESS:
+    case LOGIN_FAIL:
     case REGISTER_REQUEST:
     case REGISTER_SUCCESS:
     case REGISTER_FAIL:
