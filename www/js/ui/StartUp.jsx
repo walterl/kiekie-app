@@ -5,7 +5,7 @@ import {hashHistory} from 'react-router';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import {initRouteFollowed} from '../actions';
+import {initRouteFinish} from '../actions';
 
 import '../../scss/startup.scss';
 
@@ -42,7 +42,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        popInitRoute: (rt) => dispatch(initRouteFollowed(rt))
+        popInitRoute: (rt) => dispatch(initRouteFinish(rt))
     };
 }
 

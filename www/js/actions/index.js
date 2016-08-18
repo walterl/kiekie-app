@@ -13,7 +13,7 @@ import {
 export const
     START_INIT = 'START_INIT',
     FINISH_INIT = 'FINISH_INIT',
-    INIT_ROUTE_FOLLOWED = 'INIT_ROUTE_FOLLOWED',
+    INIT_ROUTE_FINISH = 'INIT_ROUTE_FINISH',
     INIT_APP = 'INIT_APP',
     INIT_CAMERA = 'INIT_CAMERA',
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
@@ -270,9 +270,9 @@ export function finishInit(component) {
     };
 }
 
-export function initRouteFollowed(route) {
+export function initRouteFinish(route) {
     return {
-        type: INIT_ROUTE_FOLLOWED,
+        type: INIT_ROUTE_FINISH,
         route
     };
 }

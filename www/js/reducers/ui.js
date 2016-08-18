@@ -1,5 +1,5 @@
 import {
-    START_INIT, FINISH_INIT, INIT_ROUTE_FOLLOWED, INIT_APP, INIT_CAMERA,
+    START_INIT, FINISH_INIT, INIT_ROUTE_FINISH, INIT_APP, INIT_CAMERA,
     INIT_DIRECTORIES, SHOW_LOGIN, SET_UI_STATE,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
@@ -50,7 +50,7 @@ function uiStartup(state={}, action) {
             initializing: state.initializing.filter(
                 (i) => i !== action.component)
         });
-    case INIT_ROUTE_FOLLOWED:
+    case INIT_ROUTE_FINISH:
         return Object.assign({}, state, {
             initRoutes: state.initRoutes.filter((r) => r !== action.route)
         });
@@ -83,7 +83,7 @@ export default function ui(state={}, action) {
     switch (action.type) {
     case START_INIT:
     case FINISH_INIT:
-    case INIT_ROUTE_FOLLOWED:
+    case INIT_ROUTE_FINISH:
     case INIT_APP:
     case INIT_CAMERA:
     case INIT_DIRECTORIES:
