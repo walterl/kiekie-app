@@ -15,8 +15,8 @@ class Login extends React.Component {
         super(props);
 
         this.onRegisterClick = this.onRegisterClick.bind(this);
-        this.onUserNameBlur = this.onUserNameBlur.bind(this);
-        this.onPasswordBlur = this.onPasswordBlur.bind(this);
+        this.onUserNameChange = this.onUserNameChange.bind(this);
+        this.onPasswordChange = this.onPasswordChange.bind(this);
     }
 
     lookupErrorMessage(errorCode) {
@@ -64,11 +64,11 @@ class Login extends React.Component {
         this.props.registerRequest(userName, password);
     }
 
-    onUserNameBlur(e) {
+    onUserNameChange(e) {
         this.setState({userName: e.target.value});
     }
 
-    onPasswordBlur(e) {
+    onPasswordChange(e) {
         this.setState({password: e.target.value});
     }
 
@@ -103,14 +103,14 @@ class Login extends React.Component {
             <TextField
                 hintText="User name" floatingLabelText="User name"
                 errorText={nameError}
-                onChange={this.onUserNameBlur}
+                onChange={this.onUserNameChange}
             />
             <br/>
 
             <TextField
                 hintText="Password" floatingLabelText="Password" type="password"
                 errorText={passwordError}
-                onChange={this.onPasswordBlur}
+                onChange={this.onPasswordChange}
             />
             <br/>
 
