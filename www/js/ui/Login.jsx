@@ -41,8 +41,7 @@ class Login extends React.Component {
 
         if (error.messages) {
             errors.message = error.messages.join('<br/><br/>');
-        }
-        if (error.message) {
+        } else if (error.message) {
             errors.message = error.message;
         }
 
