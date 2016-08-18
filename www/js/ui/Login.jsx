@@ -65,7 +65,10 @@ class Login extends React.Component {
 
     renderDebugSkipButton() {
         const onClick = () => hashHistory.push('/');
-        return <RaisedButton label="Skip >" onClick={onClick} />;
+        if (this.props.debug) {
+            return <RaisedButton label="Skip >" onClick={onClick} />;
+        }
+        return null;
     }
 
     onLoginClick() {
@@ -103,10 +106,9 @@ class Login extends React.Component {
     }
 
     render() {
-        const {status, error, debug} = this.props,
+        const {status, error} = this.props,
             btnDisabled = status === 'busy' || status === 'success',
-            errors = this.lookupErrors(error),
-            debugSkipButton = debug ? this.renderDebugSkipButton() : null;
+            errors = this.lookupErrors(error);
         var msgClasses = ['message'],
             msg = '';
 
@@ -156,7 +158,7 @@ class Login extends React.Component {
 
             <div className={msgClasses.join(' ')}>{msg}</div>
 
-            {debugSkipButton}
+            {this.renderDebugSkipButton()}
         </div>;
     }
 }
