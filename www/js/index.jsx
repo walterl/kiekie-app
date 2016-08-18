@@ -36,6 +36,8 @@ const
         pics: [],
         selected: null,
         server: {
+            authToken: null,
+            userName: null,
             loginUrl: `${API_URL}/user/login`,
             registerUrl: `${API_URL}/user/register`,
             tokenEchoUrl: `${API_URL}/user/echo_token`

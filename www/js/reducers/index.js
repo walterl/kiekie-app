@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_CAMERA, INIT_DIRECTORIES, SET_PIC_SELECTED, SET_DEBUG
+    INIT_CAMERA, INIT_DIRECTORIES, SET_PIC_SELECTED, SET_DEBUG,
+    LOGIN_SUCCESS, REGISTER_SUCCESS
 } from '../actions';
 
 import pics from './pics';
@@ -48,8 +49,17 @@ function selected(state=null, action) {
     }
 }
 
-function server(state={}) {
-    return state;
+function server(state={}, action) {
+    switch (action.type) {
+    case LOGIN_SUCCESS:
+    case REGISTER_SUCCESS:
+        return Object.assign({}, state, {
+            userName: action.userName,
+            authToken: action.authToken
+        });
+    default:
+        return state;
+    }
 }
 
 const rootReducer = combineReducers({
