@@ -5,7 +5,9 @@ import {hashHistory} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import {registerRequest, registerFail} from '../actions/server';
+import {
+    loginRequest, loginFail, registerRequest, registerFail
+} from '../actions/server';
 
 import '../../scss/login.scss';
 
@@ -17,6 +19,7 @@ class Login extends React.Component {
         this.state = {userName: '', password: ''};
 
         this.onRegisterClick = this.onRegisterClick.bind(this);
+        this.onLoginClick = this.onLoginClick.bind(this);
         this.onUserNameChange = this.onUserNameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
     }
@@ -53,6 +56,19 @@ class Login extends React.Component {
         return <RaisedButton label="Skip >" onClick={onClick} />;
     }
 
+    onLoginClick() {
+        const {userName, password} = this.state;
+        if (!userName) {
+            this.props.loginFail('empty-user-name');
+            return;
+        }
+        if (!password) {
+            this.props.loginFail('empty-password');
+            return;
+        }
+        this.props.loginRequest(userName, password);
+    }
+
     onRegisterClick() {
         const {userName, password} = this.state;
         if (!userName) {
@@ -84,9 +100,18 @@ class Login extends React.Component {
         var msgClasses = ['message'],
             msg = '';
 
-        if (status === 'success') {
+        if (status === 'login-success') {
+            msgClasses.push('success-message');
+            msg = 'Login successful!';
+            this.props.popInitRoute('/login');
+
+            window.setTimeout(() => {
+                hashHistory.push('/');
+            }, 2000);
+        } else if (status === 'register-success') {
             msgClasses.push('success-message');
             msg = 'Registration successful!';
+            this.props.popInitRoute('/login');
 
             window.setTimeout(() => {
                 hashHistory.push('/');
@@ -144,6 +169,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        loginRequest: (name, passwd) => dispatch(loginRequest(name, passwd)),
+        loginFail: (error) => dispatch(loginFail(error)),
         registerRequest: (name) => dispatch(registerRequest(name)),
         registerFail: (error) => dispatch(registerFail('', error))
     };
