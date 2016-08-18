@@ -32,34 +32,35 @@ class Login extends React.Component {
         }, 2000);
     }
 
-    lookupErrorMessage(errorCode) {
-        if (errorCode && errorCode.messages) {
-            return errorCode.messages.join('<br/><br/>');
-        }
-        if (errorCode && errorCode.message) {
-            return errorCode.message;
-        }
-        return '';
-    }
+    lookupErrors(error) {
+        var errors = {userName: null, password: null, message: null};
 
-    lookupNameError(errorCode) {
-        switch (errorCode) {
+        if (!error) {
+            return errors;
+        }
+
+        if (error.messages) {
+            errors.message = error.messages.join('<br/><br/>');
+        }
+        if (error.message) {
+            errors.message = error.message;
+        }
+
+        switch (error) {
         case 'duplicate-user-name':
-            return 'This user name already exists.';
+            errors.userName = 'This user name already exists.';
+            break;
         case 'empty-user-name':
-            return 'Please enter a user name.';
-        default:
-            return '';
-        }
-    }
-
-    lookupPasswordError(errorCode) {
-        switch (errorCode) {
+            errors.userName = 'Please enter a user name.';
+            break;
         case 'empty-password':
-            return 'Please enter a password.';
+            errors.password = 'Please enter a password.';
+            break;
         default:
-            return '';
+            break;
         }
+
+        return errors;
     }
 
     renderDebugSkipButton() {
@@ -104,9 +105,7 @@ class Login extends React.Component {
     render() {
         const {status, error, debug} = this.props,
             btnDisabled = status === 'busy' || status === 'success',
-            nameError = this.lookupNameError(error),
-            passwordError = this.lookupPasswordError(error),
-            errorMsg = this.lookupErrorMessage(error),
+            errors = this.lookupErrors(error),
             debugSkipButton = debug ? this.renderDebugSkipButton() : null;
         var msgClasses = ['message'],
             msg = '';
@@ -119,9 +118,9 @@ class Login extends React.Component {
             msgClasses.push('success-message');
             msg = 'Registration successful!';
             this.leaveScreen();
-        } else if (errorMsg) {
+        } else if (errors.message) {
             msgClasses.push('error-message');
-            msg = errorMsg;
+            msg = errors.message;
         }
 
         return <div className="login-screen">
@@ -132,14 +131,14 @@ class Login extends React.Component {
 
             <TextField
                 hintText="User name" floatingLabelText="User name"
-                errorText={nameError}
+                errorText={errors.name}
                 onChange={this.onUserNameChange}
             />
             <br/>
 
             <TextField
                 hintText="Password" floatingLabelText="Password" type="password"
-                errorText={passwordError}
+                errorText={errors.password}
                 onChange={this.onPasswordChange}
             />
             <br/>
