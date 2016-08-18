@@ -12,6 +12,12 @@ import {
 import '../../scss/login.scss';
 
 
+const MESSAGES = {
+    'login-success': 'Login successful!',
+    'register-success': 'Registration successful!'
+};
+
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -22,6 +28,22 @@ class Login extends React.Component {
         this.onLoginClick = this.onLoginClick.bind(this);
         this.onUserNameChange = this.onUserNameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
+    }
+
+    determineFeedback(status, errors) {
+        var msgClasses = ['message'],
+            msg = '';
+
+        if (['login-success', 'register-success'].includes(status)) {
+            msg = MESSAGES[status];
+            msgClasses.push('success-message');
+            this.leaveScreen();
+        } else {
+            msg = errors.message;
+            msgClasses.push('error-message');
+        }
+
+        return {msg, msgClasses};
     }
 
     leaveScreen() {
@@ -107,22 +129,8 @@ class Login extends React.Component {
     render() {
         const {status, error} = this.props,
             btnDisabled = status === 'busy' || status === 'success',
-            errors = this.lookupErrors(error);
-        var msgClasses = ['message'],
-            msg = '';
-
-        if (status === 'login-success') {
-            msgClasses.push('success-message');
-            msg = 'Login successful!';
-            this.leaveScreen();
-        } else if (status === 'register-success') {
-            msgClasses.push('success-message');
-            msg = 'Registration successful!';
-            this.leaveScreen();
-        } else if (errors.message) {
-            msgClasses.push('error-message');
-            msg = errors.message;
-        }
+            errors = this.lookupErrors(error),
+            {msg, msgClasses} = this.determineFeedback(status, errors);
 
         return <div className="login-screen">
             <div className="welcome">
