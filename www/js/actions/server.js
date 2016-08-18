@@ -1,6 +1,7 @@
 import {jsonGet, jsonPost} from '../lib/net';
 
 export const
+    LOGIN_REQUEST = 'LOGIN_REQUEST',
     LOGIN_SUCCESS = 'LOGIN_SUCCESS',
     LOGIN_FAIL = 'LOGIN_FAIL',
     SHOW_LOGIN = 'SHOW_LOGIN',
@@ -40,6 +41,21 @@ export function loginWithToken(userName, authToken) {
         .catch((error) => {
             dispatch(loginFail(userName, error));
         });
+    };
+}
+
+export function loginRequest(userName, password) {
+    return (dispatch, getState) => {
+        const loginUrl = getState().server.loginUrl;
+
+        dispatch({
+            type: LOGIN_REQUEST,
+            userName, password
+        });
+
+        jsonPost(loginUrl, {username: userName, password})
+        .then((response) => dispatch(loginSuccess(userName, response.token)))
+        .catch((error) => dispatch(loginFail(userName, error)));
     };
 }
 
