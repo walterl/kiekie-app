@@ -2,6 +2,7 @@ import {storeCreds} from '../lib';
 import {jsonGet, jsonPost} from '../lib/net';
 
 import {redirect, setStartupMessage} from './index';
+import {loadTestImages} from './pics';
 
 export const
     LOGIN_REQUEST = 'LOGIN_REQUEST',
@@ -27,6 +28,7 @@ export function loginSuccess(userName, authToken) {
     return (dispatch) => {
         storeCreds(userName, authToken);
         dispatch(setStartupMessage('Logged in.'));
+        dispatch(loadTestImages());
 
         return dispatch({
             type: LOGIN_SUCCESS,
