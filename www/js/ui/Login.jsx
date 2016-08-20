@@ -5,7 +5,7 @@ import {hashHistory} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import {finishInit} from '../actions';
+import {redirect} from '../actions';
 import {
     loginRequest, loginFail, registerRequest, registerFail
 } from '../actions/server';
@@ -36,21 +36,13 @@ class Login extends React.Component {
         if (['login-success', 'register-success'].includes(status)) {
             msg = MESSAGES[status];
             msgClasses.push('success-message');
-            this.leaveScreen();
+            this.props.redirectToPics();
         } else {
             msg = errors.message;
             msgClasses.push('error-message');
         }
 
         return {msg, msgClasses};
-    }
-
-    leaveScreen() {
-        this.props.finishInitAccount();
-
-        window.setTimeout(() => {
-            hashHistory.push('/');
-        }, 2000);
     }
 
     lookupErrors(error) {
@@ -173,7 +165,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        finishInitAccount: () => dispatch(finishInit('account')),
+        redirectToPics: () => {
+            window.setTimeout(() => dispatch(redirect('/pics')), 2000);
+        },
         loginRequest: (name, passwd) => dispatch(loginRequest(name, passwd)),
         loginFail: (name, error) => dispatch(loginFail(name, error)),
         registerRequest: (name) => dispatch(registerRequest(name)),

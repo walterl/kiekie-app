@@ -14,6 +14,7 @@ export const
     INIT_APP = 'INIT_APP',
     INIT_CAMERA = 'INIT_CAMERA',
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
+    REDIRECT = 'REDIRECT',
     SET_DEBUG = 'SET_DEBUG',
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
     CAMERA_PIC_ERROR = 'CAMERA_PIC_ERROR',
@@ -38,6 +39,16 @@ export {
 
 var logError = () => {};
 
+
+export function redirect(path) {
+    return (dispatch) => {
+        hashHistory.push(path);
+        dispatch({
+            type: 'REDIRECT',
+            path
+        });
+    };
+}
 
 export function setDebug(debug) {
     return {

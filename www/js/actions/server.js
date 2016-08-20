@@ -1,7 +1,7 @@
-import {hashHistory} from 'react-router';
-
 import {storeCreds} from '../lib';
 import {jsonGet, jsonPost} from '../lib/net';
+
+import {redirect} from './index';
 
 export const
     LOGIN_REQUEST = 'LOGIN_REQUEST',
@@ -70,7 +70,7 @@ export function showLogin(userName) {
             type: SHOW_LOGIN,
             userName
         });
-        hashHistory.push('/login');
+        redirect('/login');
     };
 }
 
