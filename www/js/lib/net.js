@@ -22,7 +22,12 @@ function checkStatus(response) {
                 var messages = [];
 
                 Object.keys(json).forEach((key) => {
-                    messages = [...messages, ...json[key]];
+                    var msgs = json[key];
+
+                    if (typeof msgs === 'string') {
+                        msgs = [msgs];
+                    }
+                    messages = [...messages, ...msgs];
                 });
                 error.messages = messages;
                 error.json = json;
