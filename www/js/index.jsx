@@ -47,7 +47,7 @@ const
                 cellHeight: 200
             },
             startup: {
-                messages: []
+                message: ''
             },
             login: {
                 error: null,
