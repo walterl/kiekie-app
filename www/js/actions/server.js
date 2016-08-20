@@ -114,12 +114,11 @@ export function loginRequest(userName, password) {
 
 export function registerSuccess(userName, authToken) {
     return (dispatch) => {
-        storeCreds(userName, authToken);
-
-        return dispatch({
+        dispatch({
             type: REGISTER_SUCCESS,
             userName, authToken
         });
+        dispatch(loginSuccess(userName, authToken));
     };
 }
 
