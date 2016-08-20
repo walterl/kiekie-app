@@ -52,7 +52,12 @@ class Login extends React.Component {
         if (error.messages) {
             errors.message = error.messages.join('<br/><br/>');
         } else if (error.message) {
-            errors.message = error.message;
+            if (error.name === 'TypeError' &&
+                error.message === 'Failed to fetch') {
+                errors.message = 'Can\'t connect to Kiekie server.';
+            } else {
+                errors.message = error.message;
+            }
         }
 
         switch (error) {
