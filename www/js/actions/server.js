@@ -56,6 +56,7 @@ export function loginWithToken(userName, authToken) {
                 dispatch(redirect('/pics'));
             } else {
                 dispatch(loginFail(userName, response));
+                dispatch(showLogin(userName));
             }
         })
         .catch((error) => {
