@@ -8,10 +8,13 @@ export const
     LOGIN_REQUEST = 'LOGIN_REQUEST',
     LOGIN_SUCCESS = 'LOGIN_SUCCESS',
     LOGIN_FAIL = 'LOGIN_FAIL',
-    SHOW_LOGIN = 'SHOW_LOGIN',
     REGISTER_REQUEST = 'REGISTER_REQUEST',
     REGISTER_SUCCESS = 'REGISTER_SUCCESS',
-    REGISTER_FAIL = 'REGISTER_FAIL';
+    REGISTER_FAIL = 'REGISTER_FAIL',
+    RETRIEVE_PICSLIST_REQUEST = 'RETRIEVE_PICS_REQUEST',
+    RETRIEVE_PICSLIST_SUCCESS = 'RETRIEVE_PICS_SUCCESS',
+    RETRIEVE_PICSLIST_FAIL = 'RETRIEVE_PICS_FAIL',
+    SHOW_LOGIN = 'SHOW_LOGIN';
 
 
 export function showLogin(userName) {
@@ -24,11 +27,37 @@ export function showLogin(userName) {
     };
 }
 
+export function receivePicsList(pics) {
+    return (dispatch) => {
+        dispatch({
+            type: RETRIEVE_PICSLIST_SUCCESS,
+            picsList: pics
+        });
+    };
+}
+
+export function requestRetrievePics() {
+    return (dispatch, getState) => {
+        const picsUrl = getState().server.picsUrl,
+            authToken = localStorage.getItem('authToken');
+
+        dispatch({type: RETRIEVE_PICSLIST_REQUEST});
+
+        return jsonGet(picsUrl, authToken)
+        .then((response) => dispatch(receivePicsList(response)))
+        .catch((error) => dispatch({
+            type: RETRIEVE_PICSLIST_FAIL, error
+        }));
+    };
+}
+
 export function loginSuccess(userName, authToken) {
     return (dispatch) => {
         storeCreds(userName, authToken);
         dispatch(setStartupMessage('Logged in.'));
+
         dispatch(loadTestImages());
+        dispatch(requestRetrievePics());
 
         return dispatch({
             type: LOGIN_SUCCESS,

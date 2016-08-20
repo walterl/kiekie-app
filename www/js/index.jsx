@@ -39,6 +39,7 @@ const
             authToken: null,
             userName: null,
             loginUrl: `${API_URL}/user/login`,
+            picsUrl: `${API_URL}/pics/`,
             registerUrl: `${API_URL}/user/register`,
             tokenEchoUrl: `${API_URL}/user/echo_token`
         },
