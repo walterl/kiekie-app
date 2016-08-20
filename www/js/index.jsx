@@ -13,7 +13,6 @@ import {initApp} from './actions';
 import configureStore from './store';
 
 const
-    API_URL = 'http://127.0.0.1:8008/api',
     store = configureStore({
         config: {
             debug: true,
@@ -38,10 +37,15 @@ const
         server: {
             authToken: null,
             userName: null,
-            loginUrl: `${API_URL}/user/login`,
-            picsUrl: `${API_URL}/pics/`,
-            registerUrl: `${API_URL}/user/register`,
-            tokenEchoUrl: `${API_URL}/user/echo_token`
+            urls: {
+                api: 'http://127.0.0.1:8008/api/',
+
+                login: 'user/login',
+                register: 'user/register',
+                tokenEcho: 'user/echo_token',
+
+                pics: 'pics/'
+            }
         },
         ui: {
             picsList: {

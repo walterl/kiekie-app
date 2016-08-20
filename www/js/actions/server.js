@@ -34,7 +34,8 @@ export function receivePicsList(pics) {
 
 export function fetchPicsList() {
     return (dispatch, getState) => {
-        const picsUrl = getState().server.picsUrl,
+        const urls = getState().server.urls,
+            picsUrl = urls.api + urls.pics,
             authToken = localStorage.getItem('authToken');
 
         dispatch({type: FETCH_PICSLIST_REQUEST});
@@ -80,7 +81,8 @@ export function loginFail(userName, error) {
 
 export function loginWithToken(userName, authToken) {
     return (dispatch, getState) => {
-        const echoUrl = getState().server.tokenEchoUrl;
+        const urls = getState().server.urls,
+            echoUrl = urls.api + urls.tokenEcho;
 
         return jsonGet(echoUrl, authToken)
         .then((response) => {
@@ -101,7 +103,8 @@ export function loginWithToken(userName, authToken) {
 
 export function loginRequest(userName, password) {
     return (dispatch, getState) => {
-        const loginUrl = getState().server.loginUrl;
+        const urls = getState().server.urls,
+            loginUrl = urls.api + urls.login;
 
         dispatch({
             type: LOGIN_REQUEST,
@@ -133,7 +136,8 @@ export function registerFail(userName, error) {
 
 export function registerRequest(userName, password) {
     return (dispatch, getState) => {
-        const registerUrl = getState().server.registerUrl;
+        const urls = getState().server.urls,
+            registerUrl = urls.api + urls.register;
 
         dispatch({
             type: REGISTER_REQUEST,
