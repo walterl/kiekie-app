@@ -17,16 +17,6 @@ export const
     SHOW_LOGIN = 'SHOW_LOGIN';
 
 
-export function showLogin(userName) {
-    return (dispatch) => {
-        dispatch({
-            type: SHOW_LOGIN,
-            userName
-        });
-        dispatch(redirect('/login'));
-    };
-}
-
 export function receivePicsList(pics) {
     return (dispatch) => {
     };
@@ -51,6 +41,16 @@ export function fetchPicsList() {
         .catch((error) => dispatch({
             type: FETCH_PICSLIST_FAIL, error
         }));
+    };
+}
+
+export function showLogin(userName) {
+    return (dispatch) => {
+        dispatch({
+            type: SHOW_LOGIN,
+            userName
+        });
+        dispatch(redirect('/login'));
     };
 }
 
