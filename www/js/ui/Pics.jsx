@@ -17,11 +17,9 @@ class Pics extends React.Component {
     render() {
         var {onCameraClick, onGalleryClick} = this.props,
             actions = null;
-        const {dispatch} = this.props;
 
         if (cordova.isBrowser) {
-            onCameraClick = onGalleryClick = () =>
-                dispatch(processPic(nextDebugPic(), Date.now()));
+            onCameraClick = onGalleryClick = this.props.addDebugPic;
         }
 
         actions = <div>
@@ -45,15 +43,14 @@ class Pics extends React.Component {
 
 
 Pics.propTypes = {
-    dispatch: React.PropTypes.func.isRequired,
     onCameraClick: React.PropTypes.func.isRequired
 };
 
 function mapDispatchToProps(dispatch) {
     return {
+        addDebugPic: () => dispatch(processPic(nextDebugPic(), Date.now())),
         onCameraClick: () => dispatch(requestPic()),
-        onGalleryClick: () => dispatch(requestPic('gallery')),
-        dispatch
+        onGalleryClick: () => dispatch(requestPic('gallery'))
     };
 }
 
