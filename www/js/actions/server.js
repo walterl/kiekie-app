@@ -29,10 +29,6 @@ export function showLogin(userName) {
 
 export function receivePicsList(pics) {
     return (dispatch) => {
-        dispatch({
-            type: FETCH_PICSLIST_SUCCESS,
-            picsList: pics
-        });
     };
 }
 
@@ -44,7 +40,13 @@ export function fetchPicsList() {
         dispatch({type: FETCH_PICSLIST_REQUEST});
 
         return jsonGet(picsUrl, authToken)
-        .then((response) => dispatch(receivePicsList(response)))
+        .then((response) => {
+            dispatch({
+                type: FETCH_PICSLIST_SUCCESS,
+                picsList: response
+            });
+            dispatch(receivePicsList(response));
+        })
         .catch((error) => dispatch({
             type: FETCH_PICSLIST_FAIL, error
         }));
