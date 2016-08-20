@@ -115,7 +115,10 @@ class Login extends React.Component {
         const {status, error} = this.props,
             btnDisabled = status === 'busy' || status === 'success',
             errors = this.lookupErrors(error),
-            {msg, msgClasses} = this.determineFeedback(status, errors);
+            {msg, msgClasses} = this.determineFeedback(status, errors),
+            setRef = (component, ref) => {
+                this[ref] = component;
+            };
 
         return <div className="login-screen">
             <div className="welcome">
@@ -126,14 +129,14 @@ class Login extends React.Component {
             <TextField
                 hintText="User name" floatingLabelText="User name"
                 errorText={errors.userName}
-                ref={(c) => this.userNameInput = c}
+                ref={(c) => setRef(c, 'userNameInput')}
             />
             <br/>
 
             <TextField
                 hintText="Password" floatingLabelText="Password" type="password"
                 errorText={errors.password}
-                ref={(c) => this.passwordInput = c}
+                ref={(c) => setRef(c, 'passwordInput')}
             />
             <br/>
 
