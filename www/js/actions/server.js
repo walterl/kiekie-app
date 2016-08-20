@@ -32,6 +32,7 @@ export function loginFail(userName, error) {
 export function loginWithToken(userName, authToken) {
     return (dispatch, getState) => {
         const echoUrl = getState().server.tokenEchoUrl;
+
         return jsonGet(echoUrl)
         .then((response) => {
             if (response.token && response.token === authToken) {

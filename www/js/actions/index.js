@@ -326,8 +326,7 @@ export function initDirectories(dataDirURL) {
         .then(() =>
             dispatch({
                 type: INIT_DIRECTORIES,
-                dataDirectory,
-                dirs
+                dataDirectory, dirs
             })
         );
     };
@@ -343,7 +342,7 @@ export function initLogin() {
             return dispatch(loginWithToken(userName, token));
         }
 
-        return dispatch(showLogin());
+        return dispatch(showLogin(userName));
     };
 }
 

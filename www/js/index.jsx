@@ -51,8 +51,8 @@ const
                 redirect: null
             },
             login: {
-                status: '',
                 error: null,
+                status: '',
                 userName: ''
             }
         }
