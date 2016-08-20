@@ -13,6 +13,16 @@ export const
     REGISTER_FAIL = 'REGISTER_FAIL';
 
 
+export function showLogin(userName) {
+    return (dispatch) => {
+        dispatch({
+            type: SHOW_LOGIN,
+            userName
+        });
+        dispatch(redirect('/login'));
+    };
+}
+
 export function loginSuccess(userName, authToken) {
     return (dispatch) => {
         storeCreds(userName, authToken);
@@ -48,6 +58,7 @@ export function loginWithToken(userName, authToken) {
         })
         .catch((error) => {
             dispatch(loginFail(userName, error));
+            dispatch(showLogin(userName));
         });
     };
 }
@@ -64,16 +75,6 @@ export function loginRequest(userName, password) {
         jsonPost(loginUrl, {username: userName, password})
         .then((response) => dispatch(loginSuccess(userName, response.token)))
         .catch((error) => dispatch(loginFail(userName, error)));
-    };
-}
-
-export function showLogin(userName) {
-    return (dispatch) => {
-        dispatch({
-            type: SHOW_LOGIN,
-            userName
-        });
-        dispatch(redirect('/login'));
     };
 }
 
