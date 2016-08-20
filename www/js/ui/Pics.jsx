@@ -10,10 +10,10 @@ import PhotoButton from './PhotoButton';
 import {processPic, requestPic} from '../actions';
 import {nextDebugPic} from '../lib';
 
-import '../../scss/app.scss';
+import '../../scss/pics.scss';
 
 
-class App extends React.Component {
+class Pics extends React.Component {
     render() {
         var {onCameraClick, onGalleryClick} = this.props,
             actions = null;
@@ -44,7 +44,7 @@ class App extends React.Component {
 }
 
 
-App.propTypes = {
+Pics.propTypes = {
     dispatch: React.PropTypes.func.isRequired,
     onCameraClick: React.PropTypes.func.isRequired
 };
@@ -57,4 +57,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(Pics);
