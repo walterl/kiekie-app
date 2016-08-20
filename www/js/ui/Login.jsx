@@ -77,14 +77,6 @@ class Login extends React.Component {
         return errors;
     }
 
-    renderDebugSkipButton() {
-        const onClick = this.props.redirectToPics;
-        if (this.props.debug) {
-            return <RaisedButton label="Skip >" onClick={onClick} />;
-        }
-        return null;
-    }
-
     onLoginClick() {
         const userName = this.userNameInput.getValue(),
             password = this.passwordInput.getValue();
@@ -155,8 +147,6 @@ class Login extends React.Component {
             />
 
             <div className={msgClasses.join(' ')}>{msg}</div>
-
-            {this.renderDebugSkipButton()}
         </div>;
     }
 }
