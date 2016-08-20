@@ -1,3 +1,5 @@
+import {hashHistory} from 'react-router';
+
 import {storeCreds} from '../lib';
 import {jsonGet, jsonPost} from '../lib/net';
 
@@ -62,14 +64,13 @@ export function loginRequest(userName, password) {
     };
 }
 
-export function showLogin() {
-    const storage = window.localStorage,
-        userName = storage.getItem('userName'),
-        password = storage.getItem('password');
-
-    return {
-        type: SHOW_LOGIN,
-        userName, password
+export function showLogin(userName) {
+    return (dispatch) => {
+        dispatch({
+            type: SHOW_LOGIN,
+            userName
+        });
+        hashHistory.push('/login');
     };
 }
 

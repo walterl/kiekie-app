@@ -33,6 +33,10 @@ function uiLogin(state={}, action) {
             userName: action.userName,
             error: action.error
         });
+    case SHOW_LOGIN:
+        return Object.assign({}, state, {
+            userName: action.userName
+        });
     default:
         return state;
     }
@@ -48,10 +52,6 @@ function uiStartup(state={}, action) {
         return Object.assign({}, state, {
             message: action.message
         });
-    case SHOW_LOGIN:
-        return Object.assign({}, state, {
-            redirect: '/login'
-        });
     default:
         return state;
     }
@@ -64,7 +64,6 @@ export default function ui(state={}, action) {
     switch (action.type) {
     case INIT_APP:
     case SET_STARTUP_MESSAGE:
-    case SHOW_LOGIN:
         newState.startup = uiStartup(state.startup, action);
         return newState;
     case LOGIN_REQUEST:
@@ -73,6 +72,7 @@ export default function ui(state={}, action) {
     case REGISTER_REQUEST:
     case REGISTER_SUCCESS:
     case REGISTER_FAIL:
+    case SHOW_LOGIN:
         newState.login = uiLogin(state.login, action);
         return newState;
     case SET_UI_STATE:
