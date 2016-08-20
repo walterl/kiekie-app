@@ -16,12 +16,6 @@ export const
     FETCH_PICSLIST_FAIL = 'FETCH_PICSLIST_FAIL',
     SHOW_LOGIN = 'SHOW_LOGIN';
 
-
-export function receivePicsList(pics) {
-    return (dispatch) => {
-    };
-}
-
 export function fetchPicsList() {
     return (dispatch, getState) => {
         const urls = getState().server.urls,
@@ -34,9 +28,8 @@ export function fetchPicsList() {
         .then((response) => {
             dispatch({
                 type: FETCH_PICSLIST_SUCCESS,
-                picsList: response
+                picsData: response
             });
-            dispatch(receivePicsList(response));
         })
         .catch((error) => dispatch({
             type: FETCH_PICSLIST_FAIL, error
