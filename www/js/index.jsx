@@ -47,10 +47,8 @@ const
                 cellHeight: 200
             },
             startup: {
-                status: '',
-                message: '',
-                initializing: [],
-                initRoutes: []
+                messages: [],
+                redirect: null
             },
             login: {
                 status: '',

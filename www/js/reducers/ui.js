@@ -1,6 +1,5 @@
 import {
-    START_INIT, FINISH_INIT, INIT_ROUTE_FINISH, INIT_APP, INIT_CAMERA,
-    INIT_DIRECTORIES, SHOW_LOGIN, SET_UI_STATE,
+    INIT_APP, SET_STARTUP_MESSAGE, SET_UI_STATE, SHOW_LOGIN,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from '../actions';
@@ -41,35 +40,17 @@ function uiLogin(state={}, action) {
 
 function uiStartup(state={}, action) {
     switch (action.type) {
-    case START_INIT:
-        return Object.assign({}, state, {
-            initializing: [...state.initializing, action.component]
-        });
-    case FINISH_INIT:
-        return Object.assign({}, state, {
-            initializing: state.initializing.filter(
-                (i) => i !== action.component)
-        });
-    case INIT_ROUTE_FINISH:
-        return Object.assign({}, state, {
-            initRoutes: state.initRoutes.filter((r) => r !== action.route)
-        });
     case INIT_APP:
         return Object.assign({}, state, {
-            message: 'Starting up...'
+            message: 'Starting app...'
         });
-    case INIT_CAMERA:
+    case SET_STARTUP_MESSAGE:
         return Object.assign({}, state, {
-            message: 'Camera found.'
-        });
-    case INIT_DIRECTORIES:
-        return Object.assign({}, state, {
-            message: 'Storage found.'
+            message: action.message
         });
     case SHOW_LOGIN:
         return Object.assign({}, state, {
-            message: 'Logging in...',
-            initRoutes: [...state.initRoutes, '/login']
+            redirect: '/login'
         });
     default:
         return state;
@@ -81,12 +62,8 @@ export default function ui(state={}, action) {
     var newState = Object.assign({}, state);
 
     switch (action.type) {
-    case START_INIT:
-    case FINISH_INIT:
-    case INIT_ROUTE_FINISH:
     case INIT_APP:
-    case INIT_CAMERA:
-    case INIT_DIRECTORIES:
+    case SET_STARTUP_MESSAGE:
     case SHOW_LOGIN:
         newState.startup = uiStartup(state.startup, action);
         return newState;

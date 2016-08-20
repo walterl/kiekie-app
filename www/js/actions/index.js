@@ -11,9 +11,6 @@ import {
 
 
 export const
-    START_INIT = 'START_INIT',
-    FINISH_INIT = 'FINISH_INIT',
-    INIT_ROUTE_FINISH = 'INIT_ROUTE_FINISH',
     INIT_APP = 'INIT_APP',
     INIT_CAMERA = 'INIT_CAMERA',
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
@@ -28,6 +25,7 @@ export const
     SAVE_PIC = 'SAVE_PIC',
     SET_PIC_SELECTED = 'SET_PIC_SELECTED',
     SET_NOTE = 'SET_NOTE',
+    SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE',
     SET_THUMBNAIL = 'SET_THUMBNAIL',
     SET_UI_STATE = 'SET_UI_STATE',
     RESIZE_ERROR = 'RESIZE_ERROR',
@@ -256,24 +254,10 @@ export function loadTestImages() {
     };
 }
 
-export function startInit(component) {
+export function setStartupMessage(message) {
     return {
-        type: START_INIT,
-        component
-    };
-}
-
-export function finishInit(component) {
-    return {
-        type: FINISH_INIT,
-        component
-    };
-}
-
-export function initRouteFinish(route) {
-    return {
-        type: INIT_ROUTE_FINISH,
-        route
+        type: SET_STARTUP_MESSAGE,
+        message
     };
 }
 
@@ -349,7 +333,7 @@ export function initDirectories(dataDirURL) {
     };
 }
 
-export function initAccount() {
+export function initLogin() {
     return (dispatch) => {
         const storage = window.localStorage,
             userName = storage.getItem('userName'),
@@ -366,19 +350,14 @@ export function initAccount() {
 export function initApp() {
     return (dispatch) => {
         dispatch({
-            type: INIT_APP,
-            done: false
+            type: INIT_APP
         });
 
-        dispatch(startInit('camera'));
+        dispatch(setStartupMessage('Looking for camera...'));
         dispatch(initCamera());
-        dispatch(finishInit('camera'));
-
-        dispatch(startInit('dirs'));
-        dispatch(initDirectories())
-            .then(() => dispatch(finishInit('dirs')));
-
-        dispatch(startInit('account'));
-        dispatch(initAccount());
+        dispatch(setStartupMessage('Setting up storage...'));
+        dispatch(initDirectories());
+        dispatch(setStartupMessage('Logging in...'));
+        dispatch(initLogin());
     };
 }
