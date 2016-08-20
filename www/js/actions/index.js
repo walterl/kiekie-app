@@ -21,6 +21,7 @@ export {
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL,
     SHOW_LOGIN
 };
+export * from './pics';
 
 var logError = () => {};
 
