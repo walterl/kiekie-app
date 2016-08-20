@@ -27,11 +27,11 @@ var logError = () => {};
 
 export function redirect(path) {
     return (dispatch) => {
-        hashHistory.push(path);
         dispatch({
-            type: 'REDIRECT',
+            type: REDIRECT,
             path
         });
+        hashHistory.push(path);
     };
 }
 
