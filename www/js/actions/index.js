@@ -353,7 +353,7 @@ export function initAccount() {
     return (dispatch) => {
         const storage = window.localStorage,
             userName = storage.getItem('userName'),
-            token = storage.getItem('apiToken');
+            token = storage.getItem('authToken');
 
         if (token) {
             return dispatch(loginWithToken(userName, token));
