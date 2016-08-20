@@ -11,9 +11,9 @@ export const
     REGISTER_REQUEST = 'REGISTER_REQUEST',
     REGISTER_SUCCESS = 'REGISTER_SUCCESS',
     REGISTER_FAIL = 'REGISTER_FAIL',
-    RETRIEVE_PICSLIST_REQUEST = 'RETRIEVE_PICS_REQUEST',
-    RETRIEVE_PICSLIST_SUCCESS = 'RETRIEVE_PICS_SUCCESS',
-    RETRIEVE_PICSLIST_FAIL = 'RETRIEVE_PICS_FAIL',
+    FETCH_PICSLIST_REQUEST = 'FETCH_PICS_REQUEST',
+    FETCH_PICSLIST_SUCCESS = 'FETCH_PICS_SUCCESS',
+    FETCH_PICSLIST_FAIL = 'FETCH_PICS_FAIL',
     SHOW_LOGIN = 'SHOW_LOGIN';
 
 
@@ -30,23 +30,23 @@ export function showLogin(userName) {
 export function receivePicsList(pics) {
     return (dispatch) => {
         dispatch({
-            type: RETRIEVE_PICSLIST_SUCCESS,
+            type: FETCH_PICSLIST_SUCCESS,
             picsList: pics
         });
     };
 }
 
-export function requestRetrievePics() {
+export function fetchPicsList() {
     return (dispatch, getState) => {
         const picsUrl = getState().server.picsUrl,
             authToken = localStorage.getItem('authToken');
 
-        dispatch({type: RETRIEVE_PICSLIST_REQUEST});
+        dispatch({type: FETCH_PICSLIST_REQUEST});
 
         return jsonGet(picsUrl, authToken)
         .then((response) => dispatch(receivePicsList(response)))
         .catch((error) => dispatch({
-            type: RETRIEVE_PICSLIST_FAIL, error
+            type: FETCH_PICSLIST_FAIL, error
         }));
     };
 }
@@ -57,7 +57,7 @@ export function loginSuccess(userName, authToken) {
         dispatch(setStartupMessage('Logged in.'));
 
         dispatch(loadTestImages());
-        dispatch(requestRetrievePics());
+        dispatch(fetchPicsList());
 
         return dispatch({
             type: LOGIN_SUCCESS,
