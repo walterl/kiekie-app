@@ -2,7 +2,8 @@ import {combineReducers} from 'redux';
 
 import {
     INIT_CAMERA, INIT_DIRECTORIES, SET_PIC_SELECTED, SET_DEBUG,
-    LOGIN_SUCCESS, REGISTER_SUCCESS
+    LOGIN_SUCCESS, REGISTER_SUCCESS,
+    FETCH_PICSLIST_SUCCESS
 } from '../actions';
 
 import pics from './pics';
@@ -56,6 +57,15 @@ function server(state={}, action) {
         return Object.assign({}, state, {
             userName: action.userName,
             authToken: action.authToken
+        });
+    case FETCH_PICSLIST_SUCCESS:
+        return Object.assign({}, state, {
+            data: Object.assign({}, state.data, {
+                pics: {
+                    data: action.picsData,
+                    fetchedAt: Date.now()
+                }
+            })
         });
     default:
         return state;

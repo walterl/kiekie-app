@@ -44,6 +44,12 @@ const store = configureStore({
             tokenEcho: 'user/echo_token',
 
             pics: 'pics/'
+        },
+        data: {
+            pics: {
+                data: [],
+                fetchedAt: null
+            }
         }
     },
     ui: {
