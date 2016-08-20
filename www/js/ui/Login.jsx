@@ -27,8 +27,6 @@ class Login extends React.Component {
 
         this.onRegisterClick = this.onRegisterClick.bind(this);
         this.onLoginClick = this.onLoginClick.bind(this);
-        this.onUserNameChange = this.onUserNameChange.bind(this);
-        this.onPasswordChange = this.onPasswordChange.bind(this);
     }
 
     determineFeedback(status, errors) {
@@ -94,7 +92,8 @@ class Login extends React.Component {
     }
 
     onLoginClick() {
-        const {userName, password} = this.state;
+        const userName = this.userNameInput.getValue(),
+            password = this.passwordInput.getValue();
         if (!userName) {
             this.props.loginFail(userName, 'empty-user-name');
             return;
@@ -107,7 +106,8 @@ class Login extends React.Component {
     }
 
     onRegisterClick() {
-        const {userName, password} = this.state;
+        const userName = this.userNameInput.getValue(),
+            password = this.passwordInput.getValue();
         if (!userName) {
             this.props.registerFail(userName, 'empty-user-name');
             return;
@@ -117,14 +117,6 @@ class Login extends React.Component {
             return;
         }
         this.props.registerRequest(userName, password);
-    }
-
-    onUserNameChange(e) {
-        this.setState({userName: e.target.value});
-    }
-
-    onPasswordChange(e) {
-        this.setState({password: e.target.value});
     }
 
     render() {
@@ -142,14 +134,14 @@ class Login extends React.Component {
             <TextField
                 hintText="User name" floatingLabelText="User name"
                 errorText={errors.userName}
-                onChange={this.onUserNameChange}
+                ref={(c) => this.userNameInput = c}
             />
             <br/>
 
             <TextField
                 hintText="Password" floatingLabelText="Password" type="password"
                 errorText={errors.password}
-                onChange={this.onPasswordChange}
+                ref={(c) => this.passwordInput = c}
             />
             <br/>
 
