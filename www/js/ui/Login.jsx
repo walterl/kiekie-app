@@ -110,7 +110,7 @@ class Login extends React.Component {
     }
 
     render() {
-        const {status, error} = this.props,
+        const {status, error, userName} = this.props,
             btnDisabled = status === 'busy' || status === 'success',
             errors = this.lookupErrors(error),
             {msg, msgClasses} = this.determineFeedback(status, errors),
@@ -128,6 +128,7 @@ class Login extends React.Component {
                 hintText="User name" floatingLabelText="User name"
                 errorText={errors.userName}
                 ref={(c) => setRef(c, 'userNameInput')}
+                defaultValue={userName}
             />
             <br/>
 
@@ -157,10 +158,10 @@ class Login extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {status, error} = state.ui.login;
+    const {status, error, userName} = state.ui.login;
     return {
         debug: state.config.debug,
-        status, error
+        status, error, userName
     };
 }
 
