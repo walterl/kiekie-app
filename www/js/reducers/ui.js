@@ -1,5 +1,5 @@
 import {
-    INIT_APP, SET_STARTUP_MESSAGE, SET_UI_STATE, SHOW_LOGIN,
+    INIT_APP, SET_STARTUP_MESSAGE, SHOW_LOGIN,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from '../actions';
@@ -75,8 +75,6 @@ export default function ui(state={}, action) {
     case SHOW_LOGIN:
         newState.login = uiLogin(state.login, action);
         return newState;
-    case SET_UI_STATE:
-        return Object.assign({}, state, action.config);
     default:
         return state;
     }
