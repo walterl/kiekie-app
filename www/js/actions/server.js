@@ -53,6 +53,7 @@ export function loginWithToken(userName, authToken) {
         .then((response) => {
             if (response.token && response.token === authToken) {
                 dispatch(loginSuccess(userName, authToken));
+                dispatch(redirect('/pics'));
             } else {
                 dispatch(loginFail(userName, response));
             }
