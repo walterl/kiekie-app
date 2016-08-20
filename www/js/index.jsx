@@ -12,55 +12,54 @@ import RoutedApp from './ui/RoutedApp';
 import {initApp} from './actions';
 import configureStore from './store';
 
-const
-    store = configureStore({
-        config: {
-            debug: true,
-            camera: {},
-            picMaxSize: 1280,
-            dirs: {
-                pics: 'pics',
-                gallery: 'gallery',
-                originals: 'originals',
-                thumbnails: 'thumbnails'
-            }
-        },
+const store = configureStore({
+    config: {
+        debug: true,
+        camera: {},
+        picMaxSize: 1280,
         dirs: {
-            root: null,
-            pics: null,
-            gallery: null,
-            originals: null,
-            thumbnails: null
-        },
-        pics: [],
-        selected: null,
-        server: {
-            authToken: null,
-            userName: null,
-            urls: {
-                api: 'http://127.0.0.1:8008/api/',
-
-                login: 'user/login',
-                register: 'user/register',
-                tokenEcho: 'user/echo_token',
-
-                pics: 'pics/'
-            }
-        },
-        ui: {
-            picsList: {
-                cellHeight: 200
-            },
-            startup: {
-                message: ''
-            },
-            login: {
-                error: null,
-                status: '',
-                userName: ''
-            }
+            pics: 'pics',
+            gallery: 'gallery',
+            originals: 'originals',
+            thumbnails: 'thumbnails'
         }
-    });
+    },
+    dirs: {
+        root: null,
+        pics: null,
+        gallery: null,
+        originals: null,
+        thumbnails: null
+    },
+    pics: [],
+    selected: null,
+    server: {
+        authToken: null,
+        userName: null,
+        urls: {
+            api: 'http://127.0.0.1:8008/api/',
+
+            login: 'user/login',
+            register: 'user/register',
+            tokenEcho: 'user/echo_token',
+
+            pics: 'pics/'
+        }
+    },
+    ui: {
+        picsList: {
+            cellHeight: 200
+        },
+        startup: {
+            message: ''
+        },
+        login: {
+            error: null,
+            status: '',
+            userName: ''
+        }
+    }
+});
 
 
 document.addEventListener('deviceready', () => {
