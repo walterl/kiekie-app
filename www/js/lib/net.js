@@ -1,4 +1,32 @@
 /**
+ * Extracts errors from the given object in a few formats:
+ *
+ *   * `json.error.message`
+ *   * `json.<fieldname> = [<errors>]`
+ *   * `json.<error_msg>`
+ *
+ * @returns list A list of error strings
+ */
+function extractErrors(json) {
+    var messages = [];
+
+    if (json.error && json.error.message) {
+        messages = [json.error.message];
+    } else {
+        Object.keys(json).forEach((key) => {
+            var msgs = json[key];
+
+            if (typeof msgs === 'string') {
+                msgs = [msgs];
+            }
+            messages = [...messages, ...msgs];
+        });
+    }
+
+    return messages;
+}
+
+/**
  * Returns a `Promise` that checks the HTTP response's status. Any non 2xx
  * status results in the promise rejecting with an error. If the reponse status
  * is good (2xx), the promise resolves with the response.
@@ -19,17 +47,7 @@ function checkStatus(response) {
             error.response = response;
             // Try and parse JSON from the (error) HTTP response
             response.json().then((json) => {
-                var messages = [];
-
-                Object.keys(json).forEach((key) => {
-                    var msgs = json[key];
-
-                    if (typeof msgs === 'string') {
-                        msgs = [msgs];
-                    }
-                    messages = [...messages, ...msgs];
-                });
-                error.messages = messages;
+                error.messages = extractErrors(json);
                 error.json = json;
                 reject(error);
             },
