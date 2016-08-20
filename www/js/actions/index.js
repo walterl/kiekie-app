@@ -144,8 +144,10 @@ export function initApp() {
         dispatch(setStartupMessage('Looking for camera...'));
         dispatch(initCamera());
         dispatch(setStartupMessage('Setting up storage...'));
-        dispatch(initDirectories());
-        dispatch(setStartupMessage('Logging in...'));
-        dispatch(initLogin());
+        dispatch(initDirectories())
+            .then(() => {
+                dispatch(setStartupMessage('Logging in...'));
+                dispatch(initLogin());
+            });
     };
 }
