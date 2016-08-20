@@ -166,7 +166,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        redirectToPics: dispatch(redirect('/pics')),
+        redirectToPics: () => dispatch(redirect('/pics')),
         loginRequest: (name, passwd) => dispatch(loginRequest(name, passwd)),
         loginFail: (name, error) => dispatch(loginFail(name, error)),
         registerRequest: (name) => dispatch(registerRequest(name)),
