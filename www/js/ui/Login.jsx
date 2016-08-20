@@ -33,7 +33,7 @@ class Login extends React.Component {
         if (['login-success', 'register-success'].includes(status)) {
             msg = MESSAGES[status];
             msgClasses.push('success-message');
-            this.props.redirectToPics();
+            window.setTimeout(this.props.redirectToPics, 2000);
         } else {
             msg = errors.message;
             msgClasses.push('error-message');
@@ -73,7 +73,7 @@ class Login extends React.Component {
     }
 
     renderDebugSkipButton() {
-        const onClick = () => hashHistory.push('/');
+        const onClick = this.props.redirectToPics;
         if (this.props.debug) {
             return <RaisedButton label="Skip >" onClick={onClick} />;
         }
@@ -166,9 +166,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        redirectToPics: () => {
-            window.setTimeout(() => dispatch(redirect('/pics')), 2000);
-        },
+        redirectToPics: dispatch(redirect('/pics')),
         loginRequest: (name, passwd) => dispatch(loginRequest(name, passwd)),
         loginFail: (name, error) => dispatch(loginFail(name, error)),
         registerRequest: (name) => dispatch(registerRequest(name)),
