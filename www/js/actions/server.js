@@ -26,6 +26,7 @@ export function showLogin(userName) {
 export function loginSuccess(userName, authToken) {
     return (dispatch) => {
         storeCreds(userName, authToken);
+        dispatch(setStartupMessage('Logged in.'));
 
         return dispatch({
             type: LOGIN_SUCCESS,
