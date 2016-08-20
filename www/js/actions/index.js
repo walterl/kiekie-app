@@ -1,4 +1,5 @@
 /* global cordova, Camera, LocalFileSystem */
+import {hashHistory} from 'react-router';
 
 import {
     loginWithToken, showLogin,
