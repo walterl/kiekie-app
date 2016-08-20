@@ -73,7 +73,7 @@ export function showLogin(userName) {
             type: SHOW_LOGIN,
             userName
         });
-        redirect('/login');
+        dispatch(redirect('/login'));
     };
 }
 
