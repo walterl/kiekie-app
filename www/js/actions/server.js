@@ -1,7 +1,7 @@
 import {storeCreds} from '../lib';
 import {jsonGet, jsonPost} from '../lib/net';
 
-import {redirect} from './index';
+import {redirect, setStartupMessage} from './index';
 
 export const
     LOGIN_REQUEST = 'LOGIN_REQUEST',
@@ -25,9 +25,12 @@ export function loginSuccess(userName, authToken) {
 }
 
 export function loginFail(userName, error) {
-    return {
-        type: LOGIN_FAIL,
-        userName, error
+    return (dispatch) => {
+        dispatch(setStartupMessage('Login failed.'));
+        return dispatch({
+            type: LOGIN_FAIL,
+            userName, error
+        });
     };
 }
 
