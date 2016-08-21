@@ -7,7 +7,7 @@ import PicsList from './PicsList';
 import GalleryButton from './GalleryButton';
 import PhotoButton from './PhotoButton';
 
-import {processPic, requestPic} from '../actions';
+import {receivePic, requestPic} from '../actions';
 import {nextDebugPic} from '../lib';
 
 import '../../scss/pics.scss';
@@ -48,7 +48,7 @@ Pics.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addDebugPic: () => dispatch(processPic(nextDebugPic(), Date.now())),
+        addDebugPic: () => dispatch(receivePic(nextDebugPic(), Date.now())),
         onCameraClick: () => dispatch(requestPic()),
         onGalleryClick: () => dispatch(requestPic('gallery'))
     };

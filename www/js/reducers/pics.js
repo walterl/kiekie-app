@@ -1,6 +1,6 @@
 import {
-    DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC, DELETE_PIC_REQUEST, SAVE_PIC,
-    SET_PIC_SELECTED, SET_NOTE, SET_THUMBNAIL, UPDATE_PIC
+    COPY_PIC, DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC, DELETE_PIC_REQUEST,
+    SAVE_PIC, SET_PIC_SELECTED, SET_NOTE, SET_THUMBNAIL, UPDATE_PIC
 } from '../actions';
 
 
@@ -21,6 +21,7 @@ function setStateProp(state, action, prop, extra={}) {
     });
 }
 
+// eslint-disable-next-line complexity
 function reducePic(state, action) {
     var newState = null;
 
@@ -29,11 +30,17 @@ function reducePic(state, action) {
     }
 
     switch (action.type) {
+    case COPY_PIC:
+        if (action.label) {
+            return Object.assign({}, state, {
+                [action.label]: action.dest
+            });
+        }
+        return state;
     case DELETE_PIC_REQUEST:
         return Object.assign({}, state, {
             confirmDelete: true
         });
-
     case DELETE_PIC_CANCEL:
         if (!state.confirmDelete) {
             return state;
@@ -41,26 +48,20 @@ function reducePic(state, action) {
         newState = Object.assign({}, state);
         Reflect.deleteProperty(newState, 'confirmDelete');
         return newState;
-
     case SAVE_PIC:
         return Object.assign({}, state, {
             saved: true
         });
-
     case SET_PIC_SELECTED:
         return Object.assign({}, state, {
             selected: true
         });
-
     case SET_NOTE:
         return setStateProp(state, action, 'note', {saved: false});
-
     case SET_THUMBNAIL:
         return setStateProp(state, action, 'thumbnail');
-
     case UPDATE_PIC:
         return setStateProp(state, action, 'uri', {originalUri: state.uri});
-
     default:
         return state;
     }
@@ -79,6 +80,7 @@ export default function pics(state=[], action) {
         }];
     case DELETE_PIC:
         return state.filter((p) => p.id !== action.id);
+    case COPY_PIC:
     case DELETE_PIC_CANCEL:
     case DELETE_PIC_REQUEST:
     case SAVE_PIC:

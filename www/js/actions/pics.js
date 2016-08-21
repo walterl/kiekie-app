@@ -8,6 +8,7 @@ import {logError} from './index';
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
     CAMERA_PIC_ERROR = 'CAMERA_PIC_ERROR',
+    COPY_PIC = 'COPY_PIC',
     RECEIVE_PIC = 'RECEIVE_PIC',
     UPDATE_PIC = 'UPDATE_PIC',
     DELETE_PIC = 'DELETE_PIC',
@@ -31,32 +32,37 @@ export function cameraPicError(error) {
     };
 }
 
-export function receivePic(uri, takenTime, id) {
-    const action = {
-        type: RECEIVE_PIC,
-        id, uri, takenTime
-    };
-
-    return (dispatch, getState) => {
-        const state = getState();
-        id = id || uuid.v1();
-
-        return new Promise((resolve, reject) => {
-            if (cordova.isBrowser) {
-                dispatch(action);
-                resolve();
-                return;
-            }
-
-            copyLocalFile(uri, state.dirs.originals, (entry) => {
-                dispatch(Object.assign(action, {uri: entry.toURL()}));
-                resolve();
-            }, () => {
-                dispatch(action);
-                reject();
+/**
+ * Copy pic `id` from `src` to `dest`.
+ *
+ * @arg String id Pic ID. Simply passed on via dispatched action.
+ * @arg String src Source URI string.
+ * @arg DirectoryEntry dest The directory (entry) to copy the file at the `src`
+ * URI to.
+ * @arg String label Simply passed on to the dispatched action. The pics
+ * reducer should set the destination URI at this key in the pic's state.
+ */
+export function copyPic(id, src, dest, label) {
+    return (dispatch) => new Promise((resolve, reject) => {
+        if (cordova.isBrowser) {
+            dispatch({
+                type: COPY_PIC,
+                dest: src,
+                id, src, label
             });
-        });
-    };
+            resolve();
+            return;
+        }
+
+        copyLocalFile(src, dest, (entry) => {
+            dispatch({
+                type: COPY_PIC,
+                dest: entry.toURL(),
+                id, src, label
+            });
+            resolve();
+        }, reject);
+    });
 }
 
 export function updatePic(id, uri) {
@@ -147,11 +153,19 @@ export function resizePic(id) {
     };
 }
 
-export function processPic(imgUri) {
-    return (dispatch) => {
-        const picId = uuid.v1();
+export function receivePic(imgUri) {
+    return (dispatch, getState) => {
+        const picId = uuid.v1(),
+            originalsDir = getState().dirs.originals;
 
-        return dispatch(receivePic(imgUri, Date.now(), picId))
+        dispatch({
+            type: RECEIVE_PIC,
+            id: picId,
+            uri: imgUri,
+            takenTime: Date.now()
+        });
+
+        return dispatch(copyPic(picId, imgUri, originalsDir, 'original'))
             .then(() => dispatch(generateThumbnail(picId)))
             .then(() => dispatch(resizePic(picId)));
     };
@@ -167,7 +181,7 @@ export function requestPic(source) {
 
         dispatch(requestCameraPic());
         navigator.camera.getPicture(
-            (imgUri) => dispatch(processPic(imgUri)),
+            (imgUri) => dispatch(receivePic(imgUri)),
             (message) => dispatch(cameraPicError(message)),
             options
         );
@@ -219,11 +233,11 @@ export function selectPic(id) {
 export function loadTestImages() {
     return (dispatch, getState) => {
         if (getState().config.debug) {
-            dispatch(processPic(nextDebugPic(), Date.now()));
-            dispatch(processPic(nextDebugPic(), Date.now()));
-            dispatch(processPic(nextDebugPic(), Date.now()));
-            dispatch(processPic(nextDebugPic(), Date.now()));
-            dispatch(processPic(nextDebugPic(), Date.now()));
+            dispatch(receivePic(nextDebugPic(), Date.now()));
+            dispatch(receivePic(nextDebugPic(), Date.now()));
+            dispatch(receivePic(nextDebugPic(), Date.now()));
+            dispatch(receivePic(nextDebugPic(), Date.now()));
+            dispatch(receivePic(nextDebugPic(), Date.now()));
         }
     };
 }
