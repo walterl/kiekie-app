@@ -6,13 +6,13 @@ import {GridList} from 'material-ui/GridList';
 
 import {selectPic} from '../actions';
 
-import PicIcon from './PicIcon';
+import PicTile from './PicTile';
 
 import '../../scss/picslist.scss';
 
 
 class PicsList extends React.Component {
-    handleIconClick(id) {
+    handleTileClick(id) {
         this.props.dispatch(selectPic(id));
         hashHistory.push(`/pic/${id}`);
     }
@@ -23,10 +23,10 @@ class PicsList extends React.Component {
             <div id="pics-list-root">
                 <GridList className="pics-list" cellHeight={cellHeight}>
                     {pics.map((pic) =>
-                    <PicIcon
+                    <PicTile
                         key={pic.id} title={pic.note}
                         src={pic.thumbnail || pic.uri}
-                        onClick={this.handleIconClick.bind(this, pic.id)}
+                        onClick={this.handleTileClick.bind(this, pic.id)}
                     />
                     )}
                 </GridList>
