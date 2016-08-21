@@ -8,7 +8,6 @@ import {logError} from './index';
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
     CAMERA_PIC_ERROR = 'CAMERA_PIC_ERROR',
-    COPY_PIC = 'COPY_PIC',
     RECEIVE_PIC = 'RECEIVE_PIC',
     UPDATE_PIC = 'UPDATE_PIC',
     DELETE_PIC = 'DELETE_PIC',
@@ -45,21 +44,19 @@ export function cameraPicError(error) {
 export function copyPic(id, src, dest, label) {
     return (dispatch) => new Promise((resolve, reject) => {
         if (cordova.isBrowser) {
-            dispatch({
-                type: COPY_PIC,
-                dest: src,
-                id, src, label
-            });
+            if (label) {
+                dispatch(setPicData(id, {[label]: src}));
+            }
             resolve();
             return;
         }
 
         copyLocalFile(src, dest, (entry) => {
-            dispatch({
-                type: COPY_PIC,
-                dest: entry.toURL(),
-                id, src, label
-            });
+            if (label) {
+                dispatch(setPicData(id, {
+                    [label]: entry.toURL()
+                }));
+            }
             resolve();
         }, reject);
     });

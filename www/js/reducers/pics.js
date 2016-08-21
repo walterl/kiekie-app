@@ -1,6 +1,6 @@
 import {
-    COPY_PIC, DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC, DELETE_PIC_REQUEST,
-    SAVE_PIC, SET_PIC_SELECTED, SET_NOTE, SET_PIC_DATA, UPDATE_PIC
+    DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC, DELETE_PIC_REQUEST, SAVE_PIC,
+    SET_PIC_SELECTED, SET_NOTE, SET_PIC_DATA, UPDATE_PIC
 } from '../actions';
 
 
@@ -30,13 +30,6 @@ function reducePic(state, action) {
     }
 
     switch (action.type) {
-    case COPY_PIC:
-        if (action.label) {
-            return Object.assign({}, state, {
-                [action.label]: action.dest
-            });
-        }
-        return state;
     case DELETE_PIC_REQUEST:
         return Object.assign({}, state, {
             confirmDelete: true
@@ -80,7 +73,6 @@ export default function pics(state=[], action) {
         }];
     case DELETE_PIC:
         return state.filter((p) => p.id !== action.id);
-    case COPY_PIC:
     case DELETE_PIC_CANCEL:
     case DELETE_PIC_REQUEST:
     case SAVE_PIC:
