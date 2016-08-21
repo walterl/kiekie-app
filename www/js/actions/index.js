@@ -77,6 +77,7 @@ export function initDirectories(dataDirURL) {
         const
             state = getState(),
             dirConf = state.config.dirs,
+            picsDirs = Object.keys(dirConf).filter((d) => d !== 'pics'),
             options = {create: true, exclusive: false};
         var dirs = {},
             dataDirectory = null;
@@ -98,15 +99,13 @@ export function initDirectories(dataDirURL) {
         return new Promise((resolve, reject) =>
             window.resolveLocalFileSystemURL(dataDirURL, resolve, reject)
         )
-        .then((dataDir) =>
-            new Promise((resolve, reject) => {
-                dataDirectory = dataDir;
-                dataDir.getDirectory(dirConf.pics, options, resolve, reject);
-            })
-        )
+        .then((dataDir) => new Promise((resolve, reject) => {
+            dataDirectory = dataDir;
+            dataDir.getDirectory(dirConf.pics, options, resolve, reject);
+        }))
         .then((picsEntry) => {
             dirs.pics = picsEntry;
-            return Promise.all(['gallery', 'originals', 'thumbnails'].map(
+            return Promise.all(picsDirs.map(
                 (dirName) => new Promise((resolve, reject) => {
                     picsEntry.getDirectory(dirName, options, (dirEntry) => {
                         dirs[dirName] = dirEntry;
@@ -115,12 +114,10 @@ export function initDirectories(dataDirURL) {
                 })
             ));
         })
-        .then(() =>
-            dispatch({
-                type: INIT_DIRECTORIES,
-                dataDirectory, dirs
-            })
-        );
+        .then(() => dispatch({
+            type: INIT_DIRECTORIES,
+            dataDirectory, dirs
+        }));
     };
 }
 
