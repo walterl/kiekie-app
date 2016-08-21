@@ -1,5 +1,5 @@
 import {
-    DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SELECT_PIC, SET_PIC_DATA
+    DELETE_PIC, RECEIVE_PIC, RESTORE_PIC, SAVE_PIC, SELECT_PIC, SET_PIC_DATA
 } from '../actions';
 
 function reducePic(state, action) {
@@ -30,6 +30,8 @@ function pics(state=[], action) {
             saved: Boolean(action.saved),
             selected: false
         }];
+    case RESTORE_PIC:
+        return [...state, action.pic];
     case DELETE_PIC:
         return state.filter((p) => p.id !== action.id);
     case SAVE_PIC:

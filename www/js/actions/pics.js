@@ -1,7 +1,7 @@
 /* global cordova, Camera */
 import uuid from 'uuid';
 
-import {copyLocalFile, nextDebugPic, resizeImage} from '../lib';
+import {copyLocalFile, fileExists, nextDebugPic, resizeImage} from '../lib';
 
 import {setError} from './index';
 
@@ -9,6 +9,7 @@ export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
     RECEIVE_PIC = 'RECEIVE_PIC',
     DELETE_PIC = 'DELETE_PIC',
+    RESTORE_PIC = 'RESTORE_PIC',
     SAVE_PIC = 'SAVE_PIC',
     SELECT_PIC = 'SAVE_PIC',
     SET_PIC_DATA = 'SET_PIC_DATA';
@@ -139,6 +140,13 @@ export function requestPic(source) {
     };
 }
 
+export function restorePic(pic) {
+    return {
+        type: RESTORE_PIC,
+        pic
+    };
+}
+
 export function deletePic(id) {
     return {
         type: DELETE_PIC,
@@ -198,9 +206,24 @@ export function loadTestImages() {
 
 export function loadLocalPics() {
     return (dispatch) => {
+        const picsInfo = JSON.parse(window.localStorage.getItem('picsInfo'));
+
         if (cordova.isBrowser) {
             dispatch(loadTestImages());
             return;
         }
+
+        if (!picsInfo) {
+            return;
+        }
+
+        picsInfo.forEach((pic) => {
+            const missingFiles = ['uri', 'thumbnail', 'original']
+                .filter((key) => key in pic)
+                .filter((key) => !fileExists(pic[key]));
+            if (!missingFiles.length) {
+                dispatch(restorePic(pic));
+            }
+        });
     };
 }

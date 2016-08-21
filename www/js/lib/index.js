@@ -65,3 +65,9 @@ export function storeCreds(userName, authToken) {
     storage.setItem('authToken', authToken);
     storage.setItem('userName', userName);
 }
+
+export function fileExists(uri) {
+    return new Promise((resolve, reject) => {
+        window.resolveLocalFileSystemURL(uri, resolve, reject);
+    });
+}
