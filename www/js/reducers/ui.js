@@ -1,5 +1,5 @@
 import {
-    INIT_APP, SET_STARTUP_MESSAGE, SHOW_LOGIN,
+    INIT_APP, SET_ERROR, SET_STARTUP_MESSAGE, SHOW_LOGIN,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from '../actions';
@@ -62,6 +62,9 @@ export default function ui(state={}, action) {
     var newState = Object.assign({}, state);
 
     switch (action.type) {
+    case SET_ERROR:
+        newState.error = action.error;
+        return newState;
     case INIT_APP:
     case SET_STARTUP_MESSAGE:
         newState.startup = uiStartup(state.startup, action);

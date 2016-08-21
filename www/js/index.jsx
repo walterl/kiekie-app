@@ -52,6 +52,7 @@ const store = configureStore({
         }
     },
     ui: {
+        error: null,
         picsList: {
             cellHeight: 200
         },
