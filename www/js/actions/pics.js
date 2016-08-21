@@ -3,7 +3,7 @@ import uuid from 'uuid';
 
 import {copyLocalFile, nextDebugPic, resizeImage} from '../lib';
 
-import {logError} from './index';
+import {setError} from './index';
 
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
@@ -82,7 +82,7 @@ export function generateThumbnail(id, uri) {
                 // `result` is a FileEntry
                 thumbnailUrl = outputDir.toURL() + filename;
             return dispatch(setPicData(id, {thumbnail: thumbnailUrl}));
-        }, logError);
+        }, (error) => dispatch(setError(error)));
     };
 }
 
@@ -108,7 +108,7 @@ export function resizePic(id, uri) {
             return dispatch(setPicData(id, {
                 uri: resizedUrl, originalUri: uri
             }));
-        }, logError);
+        }, (error) => dispatch(setError(error)));
     };
 }
 

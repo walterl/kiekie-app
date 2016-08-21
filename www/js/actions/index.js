@@ -16,6 +16,7 @@ export const
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
     REDIRECT = 'REDIRECT',
     SET_DEBUG = 'SET_DEBUG',
+    SET_ERROR = 'SET_ERROR',
     SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE';
 export {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
@@ -24,8 +25,6 @@ export {
     SHOW_LOGIN
 };
 export * from './pics';
-
-var logError = () => {};
 
 
 export function redirect(path) {
@@ -49,6 +48,13 @@ export function setStartupMessage(message) {
     return {
         type: SET_STARTUP_MESSAGE,
         message
+    };
+}
+
+export function setError(error) {
+    return {
+        type: SET_ERROR,
+        error
     };
 }
 
@@ -87,11 +93,6 @@ export function initDirectories(dataDirURL) {
                 .then((fsURL) => dispatch(initDirectories(fsURL)));
             }
             dataDirURL = cordova.file.externalDataDirectory;
-        }
-
-        if (state.config.debug) {
-            // eslint-disable-next-line no-console
-            logError = (err) => console.error(err);
         }
 
         return new Promise((resolve, reject) =>
