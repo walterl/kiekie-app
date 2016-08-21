@@ -19,7 +19,7 @@ function reducePic(state, action) {
     }
 }
 
-export default function pics(state=[], action) {
+function pics(state=[], action) {
     switch (action.type) {
     case RECEIVE_PIC:
         return [...state, {
@@ -42,4 +42,10 @@ export default function pics(state=[], action) {
     default:
         return state;
     }
+}
+
+export default function storePics(state, action) {
+    const newState = pics(state, action);
+    window.localStorage.setItem('picsInfo', JSON.stringify(newState));
+    return newState;
 }
