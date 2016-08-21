@@ -21,6 +21,7 @@ export const
 export function fetchPic(pic) {
     return (dispatch, getState) => {
         const {id, download, filename, note} = pic,
+            takenTime = pic.created_at,
             state = getState(),
             originalsDir = state.dirs.originals,
             originalUri = originalsDir.toURL() + filename,
@@ -41,9 +42,8 @@ export function fetchPic(pic) {
                 .then((blob) => writeBlob(blob, originalsDir, filename));
             })
             .then((uri) => dispatch(receivePic(uri, {
-                id, note,
-                saved: true,
-                takenTime: pic.created_at
+                id, note, takenTime,
+                saved: true
             })))
             .catch((error) => dispatch(setError(error, 'fetchPic')));
         }
