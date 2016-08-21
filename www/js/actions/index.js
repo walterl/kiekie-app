@@ -51,10 +51,10 @@ export function setStartupMessage(message) {
     };
 }
 
-export function setError(error) {
+export function setError(error, src) {
     return {
         type: SET_ERROR,
-        error
+        error, src
     };
 }
 

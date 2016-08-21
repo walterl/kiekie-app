@@ -74,7 +74,7 @@ export function generateThumbnail(id, uri) {
                 // `result` is a FileEntry
                 thumbnailUrl = outputDir.toURL() + filename;
             return dispatch(setPicData(id, {thumbnail: thumbnailUrl}));
-        }, (error) => dispatch(setError(error)));
+        }, (error) => dispatch(setError(error, 'generateThumbnail')));
     };
 }
 
@@ -100,7 +100,7 @@ export function resizePic(id, uri) {
             return dispatch(setPicData(id, {
                 uri: resizedUrl, originalUri: uri
             }));
-        }, (error) => dispatch(setError(error)));
+        }, (error) => dispatch(setError(error, 'resizePic')));
     };
 }
 
@@ -133,7 +133,7 @@ export function requestPic(source) {
         dispatch(requestCameraPic());
         navigator.camera.getPicture(
             (imgUri) => dispatch(receivePic(imgUri)),
-            (message) => dispatch(setError(message)),
+            (message) => dispatch(setError(message, 'requestPic')),
             options
         );
     };

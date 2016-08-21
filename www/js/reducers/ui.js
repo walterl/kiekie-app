@@ -63,7 +63,10 @@ export default function ui(state={}, action) {
 
     switch (action.type) {
     case SET_ERROR:
-        newState.error = action.error;
+        newState.error = {
+            message: action.error,
+            src: action.src
+        };
         return newState;
     case INIT_APP:
     case SET_STARTUP_MESSAGE:
