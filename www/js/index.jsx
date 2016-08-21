@@ -23,6 +23,16 @@ const store = configureStore({
             gallery: 'gallery',
             originals: 'originals',
             thumbnails: 'thumbnails'
+        },
+        urls: {
+            // FIXME Update this URL before building final app!
+            api: 'http://127.0.0.1:8008/api/',
+
+            login: 'user/login',
+            register: 'user/register',
+            tokenEcho: 'user/echo_token',
+
+            pics: 'pics/'
         }
     },
     dirs: {
@@ -36,15 +46,6 @@ const store = configureStore({
     server: {
         authToken: null,
         userName: null,
-        urls: {
-            api: 'http://127.0.0.1:8008/api/',
-
-            login: 'user/login',
-            register: 'user/register',
-            tokenEcho: 'user/echo_token',
-
-            pics: 'pics/'
-        },
         data: {
             pics: {
                 data: [],

@@ -62,7 +62,7 @@ export function fetchPic(pic) {
 
 export function fetchPicsList() {
     return (dispatch, getState) => {
-        const urls = getState().server.urls,
+        const urls = getState().config.urls,
             picsUrl = urls.api + urls.pics,
             authToken = localStorage.getItem('authToken');
 
@@ -123,7 +123,7 @@ export function loginFail(userName, error) {
 
 export function loginWithToken(userName, authToken) {
     return (dispatch, getState) => {
-        const urls = getState().server.urls,
+        const urls = getState().config.urls,
             echoUrl = urls.api + urls.tokenEcho;
 
         return jsonGet(echoUrl, authToken)
@@ -145,7 +145,7 @@ export function loginWithToken(userName, authToken) {
 
 export function loginRequest(userName, password) {
     return (dispatch, getState) => {
-        const urls = getState().server.urls,
+        const urls = getState().config.urls,
             loginUrl = urls.api + urls.login;
 
         dispatch({
@@ -178,7 +178,7 @@ export function registerFail(userName, error) {
 
 export function registerRequest(userName, password) {
     return (dispatch, getState) => {
-        const urls = getState().server.urls,
+        const urls = getState().config.urls,
             registerUrl = urls.api + urls.register;
 
         dispatch({
