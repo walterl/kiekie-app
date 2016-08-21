@@ -79,7 +79,7 @@ export function thumbnailError(id, error) {
     };
 }
 
-export function setPicDetail(id, data) {
+export function setPicData(id, data) {
     return {
         type: SET_PIC_DATA,
         id, data
@@ -93,7 +93,7 @@ export function generateThumbnail(id, uri) {
             outputDir = state.dirs.thumbnails;
 
         if (cordova.isBrowser) {
-            return dispatch(setPicDetail(id, {thumbnail: uri}));
+            return dispatch(setPicData(id, {thumbnail: uri}));
         }
 
         resizeImage(uri, {
@@ -105,7 +105,7 @@ export function generateThumbnail(id, uri) {
                 // ^ Sometimes -- when result is copied, not resized --
                 // `result` is a FileEntry
                 thumbnailUrl = outputDir.toURL() + filename;
-            return dispatch(setPicDetail(id, {thumbnail: thumbnailUrl}));
+            return dispatch(setPicData(id, {thumbnail: thumbnailUrl}));
         }, logError);
     };
 }
