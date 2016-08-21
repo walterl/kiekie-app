@@ -82,8 +82,7 @@ export function requestData(url, token, options) {
     options.headers = buildHeaders(token);
     return fetch(url, options)
     .then(checkStatus)
-    .then((response) => response.blob())
-    .then((blob) => URL.createObjectURL(blob));
+    .then((response) => response.blob());
 }
 
 function jsonRequest(url, token, options) {
