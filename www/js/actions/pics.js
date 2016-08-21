@@ -1,7 +1,7 @@
 /* global cordova, Camera */
 import uuid from 'uuid';
 
-import {copyLocalFile, fileExists, nextDebugPic, resizeImage} from '../lib';
+import {copyLocalFile, fileExists, resizeImage} from '../lib';
 
 import {setError} from './index';
 
@@ -192,26 +192,9 @@ export function selectPic(id) {
     };
 }
 
-export function loadTestImages() {
-    return (dispatch, getState) => {
-        if (getState().config.debug) {
-            dispatch(receivePic(nextDebugPic()));
-            dispatch(receivePic(nextDebugPic()));
-            dispatch(receivePic(nextDebugPic()));
-            dispatch(receivePic(nextDebugPic()));
-            dispatch(receivePic(nextDebugPic()));
-        }
-    };
-}
-
 export function loadLocalPics() {
     return (dispatch) => {
         const picsInfo = JSON.parse(window.localStorage.getItem('picsInfo'));
-
-        if (cordova.isBrowser) {
-            dispatch(loadTestImages());
-            return;
-        }
 
         if (!picsInfo) {
             return;
