@@ -16,7 +16,7 @@ export function copyLocalFile(uri, destDir, callback, errorCallback) {
 
     window.resolveLocalFileSystemURL(uri, (fileEntry) => {
         fileEntry.copyTo(destDir, fileEntry.name, callback, errorCallback);
-    });
+    }, errorCallback);
 }
 
 export function resizeImage(uri, options, callback, errorCallback) {
