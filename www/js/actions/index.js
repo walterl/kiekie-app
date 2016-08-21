@@ -142,9 +142,12 @@ export function initLogin() {
 }
 
 export function initApp() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const storedConfig = JSON.parse(window.localStorage.getItem('config'));
+
         dispatch({
-            type: INIT_APP
+            type: INIT_APP,
+            config: Object.assign({}, getState().config, storedConfig)
         });
 
         dispatch(setStartupMessage('Looking for camera...'));
