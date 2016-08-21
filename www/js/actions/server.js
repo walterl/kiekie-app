@@ -1,7 +1,7 @@
-import {storeCreds} from '../lib';
+import {fileExists, storeCreds, writeBlob} from '../lib';
 import {jsonGet, jsonPost, requestData} from '../lib/net';
 
-import {redirect, setStartupMessage} from './index';
+import {redirect, setError, setStartupMessage} from './index';
 import {loadLocalPics, receivePic} from './pics';
 
 export const
@@ -16,11 +16,37 @@ export const
     FETCH_PICSLIST_FAIL = 'FETCH_PICSLIST_FAIL',
     SHOW_LOGIN = 'SHOW_LOGIN';
 
+
+export function fetchPic(pic) {
+    return (dispatch, getState) => {
+        const {id, download, filename, note} = pic,
+            state = getState(),
+            originalsDir = state.dirs.originals,
+            originalUri = originalsDir.toURL() + filename,
+            knownPicIds = state.pics.map((p) => p.id);
+
+        if (!knownPicIds.includes(id)) {
+            fileExists(originalUri)
+            .then(({uri, exists}) => {
+                if (exists) {
+                    return uri;
+                }
+                return requestData(download)
+                .then((blob) => writeBlob(blob, originalsDir, filename));
+            })
+            .then((uri) => dispatch(receivePic(uri, {
+                id, note,
+                saved: true,
+                takenTime: pic.created_at
+            })))
+            .catch((error) => dispatch(setError(error, 'fetchPic')));
+        }
+    };
+}
+
 export function fetchPicsList() {
     return (dispatch, getState) => {
-        const statePics = getState().pics,
-            statePicsIds = statePics.map((pic) => pic.id),
-            urls = getState().server.urls,
+        const urls = getState().server.urls,
             picsUrl = urls.api + urls.pics,
             authToken = localStorage.getItem('authToken');
 
@@ -35,19 +61,7 @@ export function fetchPicsList() {
             return response;
         })
         .then((pics) => {
-            pics.forEach((pic) => {
-                if (!statePicsIds.includes(pic.id)) {
-                    requestData(pic.download)
-                    .then((data) => dispatch(receivePic(
-                        data, {
-                            id: pic.id,
-                            note: pic.note,
-                            saved: true,
-                            takenTime: pic.created_at
-                        }
-                    )));
-                }
-            });
+            pics.forEach((pic) => dispatch(fetchPic(pic)));
             return pics;
         })
         .catch((error) => dispatch({
