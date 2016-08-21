@@ -14,6 +14,7 @@ export const
     FETCH_PICSLIST_REQUEST = 'FETCH_PICSLIST_REQUEST',
     FETCH_PICSLIST_SUCCESS = 'FETCH_PICSLIST_SUCCESS',
     FETCH_PICSLIST_FAIL = 'FETCH_PICSLIST_FAIL',
+    FETCH_PIC = 'FETCH_PIC',
     SHOW_LOGIN = 'SHOW_LOGIN';
 
 
@@ -24,6 +25,11 @@ export function fetchPic(pic) {
             originalsDir = state.dirs.originals,
             originalUri = originalsDir.toURL() + filename,
             knownPicIds = state.pics.map((p) => p.id);
+
+        dispatch({
+            type: FETCH_PIC,
+            id, download, filename, note
+        });
 
         if (!knownPicIds.includes(id)) {
             fileExists(originalUri)
