@@ -86,23 +86,17 @@ export function setThumbnail(id, thumbnail) {
     };
 }
 
-export function generateThumbnail(id) {
+export function generateThumbnail(id, uri) {
     return (dispatch, getState) => {
         const state = getState(),
             cellHeight = state.ui.picsList.cellHeight,
             outputDir = state.dirs.thumbnails;
-        var pic = state.pics.filter((p) => p.id === id);
-
-        if (!pic || !pic.length) {
-            return dispatch(thumbnailError(id, 'Picture does not exist'));
-        }
-        pic = pic[0];
 
         if (cordova.isBrowser) {
-            return dispatch(setThumbnail(id, pic.uri));
+            return dispatch(setThumbnail(id, uri));
         }
 
-        resizeImage(pic.uri, {
+        resizeImage(uri, {
             height: cellHeight,
             width: cellHeight,
             outputDir
@@ -166,7 +160,7 @@ export function receivePic(imgUri) {
         });
 
         return dispatch(copyPic(picId, imgUri, originalsDir, 'original'))
-            .then(() => dispatch(generateThumbnail(picId)))
+            .then(() => dispatch(generateThumbnail(picId, imgUri)))
             .then(() => dispatch(resizePic(picId)));
     };
 }
