@@ -7,7 +7,6 @@ import {setError} from './index';
 
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
-    CAMERA_PIC_ERROR = 'CAMERA_PIC_ERROR',
     RECEIVE_PIC = 'RECEIVE_PIC',
     DELETE_PIC = 'DELETE_PIC',
     SAVE_PIC = 'SAVE_PIC',
@@ -15,13 +14,6 @@ export const
 
 export function requestCameraPic() {
     return {type: CAMERA_PIC_REQUEST};
-}
-
-export function cameraPicError(error) {
-    return {
-        type: CAMERA_PIC_ERROR,
-        error
-    };
 }
 
 export function setPicData(id, data) {
@@ -141,7 +133,7 @@ export function requestPic(source) {
         dispatch(requestCameraPic());
         navigator.camera.getPicture(
             (imgUri) => dispatch(receivePic(imgUri)),
-            (message) => dispatch(cameraPicError(message)),
+            (message) => dispatch(setError(message)),
             options
         );
     };
