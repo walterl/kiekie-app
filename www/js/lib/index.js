@@ -1,3 +1,5 @@
+import {requestData} from './net';
+
 const noop = () => {};
 var browserPic = 0;
 
@@ -7,7 +9,8 @@ var browserPic = 0;
  */
 export function nextDebugPic() {
     browserPic = browserPic % 5 + 1;
-    return `/ignoreme/${browserPic}.jpg`;
+    return requestData(`/ignoreme/${browserPic}.jpg`)
+    .then((blob) => window.URL.createObjectURL(blob));
 }
 
 export function copyLocalFile(uri, destDir, callback, errorCallback) {

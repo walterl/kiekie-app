@@ -48,7 +48,8 @@ Pics.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addDebugPic: () => dispatch(receivePic(nextDebugPic())),
+        addDebugPic: () => nextDebugPic().then(
+            (uri) => dispatch(receivePic(uri))),
         onCameraClick: () => dispatch(requestPic()),
         onGalleryClick: () => dispatch(requestPic('gallery'))
     };
