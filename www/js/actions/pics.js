@@ -106,7 +106,7 @@ export function resizePic(id, uri) {
     };
 }
 
-export function receivePic(uri, {id, note, saved, takenTime}) {
+export function receivePic(uri, {id, note, saved, takenTime}={}) {
     return (dispatch, getState) => {
         const originalsDir = getState().dirs.originals;
         id = id || uuid.v1();
