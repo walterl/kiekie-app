@@ -2,7 +2,7 @@ import {storeCreds} from '../lib';
 import {jsonGet, jsonPost} from '../lib/net';
 
 import {redirect, setStartupMessage} from './index';
-import {loadTestImages} from './pics';
+import {loadLocalPics, receivePic} from './pics';
 
 export const
     LOGIN_REQUEST = 'LOGIN_REQUEST',
@@ -52,7 +52,7 @@ export function loginSuccess(userName, authToken) {
         storeCreds(userName, authToken);
         dispatch(setStartupMessage('Logged in.'));
 
-        dispatch(loadTestImages());
+        dispatch(loadLocalPics());
         dispatch(fetchPicsList());
 
         return dispatch({

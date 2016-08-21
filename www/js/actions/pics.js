@@ -204,3 +204,12 @@ export function loadTestImages() {
         }
     };
 }
+
+export function loadLocalPics() {
+    return (dispatch) => {
+        if (cordova.isBrowser) {
+            dispatch(loadTestImages());
+            return;
+        }
+    };
+}
