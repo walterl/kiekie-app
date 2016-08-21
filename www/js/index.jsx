@@ -1,4 +1,5 @@
 /* global cordova */
+import './polyfill/arrayincludes.js';
 import './polyfill/objectassign.js';
 
 import React from 'react';
