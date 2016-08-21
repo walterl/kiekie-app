@@ -72,7 +72,7 @@ export function fileExists(uri) {
             uri,
             (entry) => resolve({uri, exists: entry.isFile}),
             (error) => {
-                if (error.name === 'NotFoundError') {
+                if (error.code === FileError.NOT_FOUND_ERR) {
                     resolve({uri, exists: false});
                     return;
                 }
