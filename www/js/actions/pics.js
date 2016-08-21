@@ -105,21 +105,20 @@ export function resizePic(id, uri) {
     };
 }
 
-export function receivePic(imgUri) {
+export function receivePic(uri) {
     return (dispatch, getState) => {
-        const picId = uuid.v1(),
+        const id = uuid.v1(),
             originalsDir = getState().dirs.originals;
 
         dispatch({
             type: RECEIVE_PIC,
-            id: picId,
-            uri: imgUri,
+            id, uri,
             takenTime: Date.now()
         });
 
-        return dispatch(copyPic(picId, imgUri, originalsDir, 'original'))
-            .then(() => dispatch(generateThumbnail(picId, imgUri)))
-            .then(() => dispatch(resizePic(picId, imgUri)));
+        return dispatch(copyPic(id, uri, originalsDir, 'original'))
+            .then(() => dispatch(generateThumbnail(id, uri)))
+            .then(() => dispatch(resizePic(id, uri)));
     };
 }
 
