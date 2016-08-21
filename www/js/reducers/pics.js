@@ -1,6 +1,6 @@
 import {
     COPY_PIC, DELETE_PIC_CANCEL, DELETE_PIC, RECEIVE_PIC, DELETE_PIC_REQUEST,
-    SAVE_PIC, SET_PIC_SELECTED, SET_NOTE, SET_THUMBNAIL, UPDATE_PIC
+    SAVE_PIC, SET_PIC_SELECTED, SET_NOTE, SET_PIC_DATA, UPDATE_PIC
 } from '../actions';
 
 
@@ -58,8 +58,8 @@ function reducePic(state, action) {
         });
     case SET_NOTE:
         return setStateProp(state, action, 'note', {saved: false});
-    case SET_THUMBNAIL:
-        return setStateProp(state, action, 'thumbnail');
+    case SET_PIC_DATA:
+        return Object.assign({}, state, action.data);
     case UPDATE_PIC:
         return setStateProp(state, action, 'uri', {originalUri: state.uri});
     default:
@@ -86,7 +86,7 @@ export default function pics(state=[], action) {
     case SAVE_PIC:
     case SET_PIC_SELECTED:
     case SET_NOTE:
-    case SET_THUMBNAIL:
+    case SET_PIC_DATA:
     case UPDATE_PIC:
         return state.map((p) => reducePic(p, action));
     default:
