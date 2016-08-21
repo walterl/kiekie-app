@@ -10,7 +10,7 @@ export function nextDebugPic() {
     return `/ignoreme/${browserPic}.jpg`;
 }
 
-export function copyPic(uri, destDir, callback, errorCallback) {
+export function copyLocalFile(uri, destDir, callback, errorCallback) {
     callback = callback || noop;
     errorCallback = errorCallback || noop;
 
@@ -32,7 +32,7 @@ export function resizeImage(uri, options, callback, errorCallback) {
                 width = 0;
 
             if (result.height <= maxHeight && result.width <= maxWidth) {
-                copyPic(uri, outputDir, callback, errorCallback);
+                copyLocalFile(uri, outputDir, callback, errorCallback);
                 return;
             }
 

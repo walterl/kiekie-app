@@ -1,7 +1,7 @@
 /* global cordova, Camera */
 import uuid from 'uuid';
 
-import {copyPic, nextDebugPic, resizeImage} from '../lib';
+import {copyLocalFile, nextDebugPic, resizeImage} from '../lib';
 
 import {logError} from './index';
 
@@ -48,7 +48,7 @@ export function receivePic(uri, takenTime, id) {
                 return;
             }
 
-            copyPic(uri, state.dirs.originals, (entry) => {
+            copyLocalFile(uri, state.dirs.originals, (entry) => {
                 dispatch(Object.assign(action, {uri: entry.toURL()}));
                 resolve();
             }, () => {
