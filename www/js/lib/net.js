@@ -72,18 +72,30 @@ function buildHeaders(token) {
     return headers;
 }
 
+function jsonRequest(url, token, options) {
+    options = options || {};
+
+    if (typeof token === 'undefined') {
+        token = window.localStorage.getItem('authToken');
+    }
+
+    options.headers = buildHeaders(token);
+    if (options.body && typeof body !== 'string') {
+        options.body = JSON.stringify(options.body);
+    }
+
+    return fetch(url, options)
+    .then(checkStatus)
+    .then((response) => response.json());
+}
+
 export function jsonGet(url, token) {
-    return fetch(url, {headers: buildHeaders(token)})
-        .then(checkStatus)
-        .then((response) => response.json());
+    return jsonRequest(url, token);
 }
 
 export function jsonPost(url, json, token) {
-    return fetch(url, {
+    return jsonRequest(url, token, {
         method: 'POST',
-        headers: buildHeaders(token),
-        body: JSON.stringify(json)
-    })
-    .then(checkStatus)
-    .then((response) => response.json());
+        body: json
+    });
 }
