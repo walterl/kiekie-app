@@ -1,4 +1,5 @@
-import {fileExists, storeCreds, writeBlob} from '../lib';
+/* global cordova */
+import {fileExists, readBlob, storeCreds, writeBlob} from '../lib';
 import {jsonGet, jsonPost, requestData} from '../lib/net';
 
 import {redirect, setError, setStartupMessage} from './index';
@@ -40,6 +41,15 @@ export function fetchPic(pic) {
                 }
                 return requestData(download)
                 .then((blob) => writeBlob(blob, originalsDir, filename));
+            })
+            .then((uri) => {
+                // Get data URL for file contents blob, since browser doesn't
+                // seem to support filesystem URLs.
+                if (cordova.isBrowser) {
+                    return readBlob(uri)
+                    .then((blob) => window.URL.createObjectURL(blob));
+                }
+                return uri;
             })
             .then((uri) => dispatch(receivePic(uri, {
                 id, note, takenTime,
