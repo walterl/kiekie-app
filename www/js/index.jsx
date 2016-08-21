@@ -32,7 +32,6 @@ const store = configureStore({
         thumbnails: null
     },
     pics: [],
-    selected: null,
     server: {
         authToken: null,
         userName: null,

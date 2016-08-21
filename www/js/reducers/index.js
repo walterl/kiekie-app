@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_CAMERA, INIT_DIRECTORIES, SET_PIC_SELECTED, SET_DEBUG,
+    INIT_CAMERA, INIT_DIRECTORIES, SET_DEBUG,
     LOGIN_SUCCESS, REGISTER_SUCCESS,
     FETCH_PICSLIST_SUCCESS
 } from '../actions';
@@ -41,15 +41,6 @@ function dirs(state={
     }
 }
 
-function selected(state=null, action) {
-    switch (action.type) {
-    case SET_PIC_SELECTED:
-        return action.id;
-    default:
-        return state;
-    }
-}
-
 function server(state={}, action) {
     switch (action.type) {
     case LOGIN_SUCCESS:
@@ -73,6 +64,6 @@ function server(state={}, action) {
 }
 
 const rootReducer = combineReducers({
-    config, dirs, pics, selected, server, ui
+    config, dirs, pics, server, ui
 });
 export default rootReducer;

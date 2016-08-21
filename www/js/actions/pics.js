@@ -9,16 +9,9 @@ export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
     CAMERA_PIC_ERROR = 'CAMERA_PIC_ERROR',
     RECEIVE_PIC = 'RECEIVE_PIC',
-    UPDATE_PIC = 'UPDATE_PIC',
     DELETE_PIC = 'DELETE_PIC',
-    DELETE_PIC_REQUEST = 'DELETE_PIC_REQUEST',
-    DELETE_PIC_CANCEL = 'DELETE_PIC_CANCEL',
-    RESIZE_ERROR = 'RESIZE_ERROR',
     SAVE_PIC = 'SAVE_PIC',
-    SET_PIC_SELECTED = 'SET_PIC_SELECTED',
-    SET_NOTE = 'SET_NOTE',
-    SET_PIC_DATA = 'SET_PIC_DATA',
-    THUMBNAIL_ERROR = 'THUMBNAIL_ERROR';
+    SET_PIC_DATA = 'SET_PIC_DATA';
 
 export function requestCameraPic() {
     return {type: CAMERA_PIC_REQUEST};
@@ -69,20 +62,6 @@ export function copyPic(id, src, dest, label) {
     });
 }
 
-export function updatePic(id, uri) {
-    return {
-        type: UPDATE_PIC,
-        id, uri
-    };
-}
-
-export function thumbnailError(id, error) {
-    return {
-        type: THUMBNAIL_ERROR,
-        id, error
-    };
-}
-
 export function generateThumbnail(id, uri) {
     return (dispatch, getState) => {
         const state = getState(),
@@ -107,13 +86,6 @@ export function generateThumbnail(id, uri) {
     };
 }
 
-export function resizeError(id, error) {
-    return {
-        type: RESIZE_ERROR,
-        id, error
-    };
-}
-
 export function resizePic(id, uri) {
     return (dispatch, getState) => {
         const state = getState(),
@@ -133,7 +105,9 @@ export function resizePic(id, uri) {
                 // ^ Sometimes -- when result is copied, not resized --
                 // `result` is a FileEntry
                 resizedUrl = outputDir.toURL() + filename;
-            return dispatch(updatePic(id, resizedUrl));
+            return dispatch(setPicData(id, {
+                uri: resizedUrl, originalUri: uri
+            }));
         }, logError);
     };
 }
@@ -182,15 +156,17 @@ export function deletePic(id) {
 
 export function requestDeletePic(id) {
     return {
-        type: DELETE_PIC_REQUEST,
-        id
+        type: SET_PIC_DATA,
+        id,
+        data: {confirmDelete: true}
     };
 }
 
 export function cancelDeletePic(id) {
     return {
-        type: DELETE_PIC_CANCEL,
-        id
+        type: SET_PIC_DATA,
+        id,
+        data: {confirmDelete: null}
     };
 }
 
@@ -203,15 +179,17 @@ export function savePic(id) {
 
 export function setNote(id, note) {
     return {
-        type: SET_NOTE,
-        id, note
+        type: SET_PIC_DATA,
+        id,
+        data: {note, saved: false}
     };
 }
 
 export function selectPic(id) {
     return {
-        type: SET_PIC_SELECTED,
-        id
+        type: SET_PIC_DATA,
+        id,
+        data: {selected: true}
     };
 }
 
