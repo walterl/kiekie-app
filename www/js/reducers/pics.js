@@ -26,8 +26,8 @@ function pics(state=[], action) {
             uri: action.uri,
             takenTime: action.takenTime,
             id: action.id,
-            note: '',
-            saved: false,
+            note: action.note || '',
+            saved: Boolean(action.saved),
             selected: false
         }];
     case DELETE_PIC:

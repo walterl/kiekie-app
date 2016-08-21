@@ -105,15 +105,15 @@ export function resizePic(id, uri) {
     };
 }
 
-export function receivePic(uri) {
+export function receivePic(uri, {id, note, saved, takenTime}) {
     return (dispatch, getState) => {
-        const id = uuid.v1(),
-            originalsDir = getState().dirs.originals;
+        const originalsDir = getState().dirs.originals;
+        id = id || uuid.v1();
+        takenTime = takenTime || Date.now();
 
         dispatch({
             type: RECEIVE_PIC,
-            id, uri,
-            takenTime: Date.now()
+            id, uri, note, saved, takenTime
         });
 
         return dispatch(copyPic(id, uri, originalsDir, 'original'))
@@ -187,11 +187,11 @@ export function selectPic(id) {
 export function loadTestImages() {
     return (dispatch, getState) => {
         if (getState().config.debug) {
-            dispatch(receivePic(nextDebugPic(), Date.now()));
-            dispatch(receivePic(nextDebugPic(), Date.now()));
-            dispatch(receivePic(nextDebugPic(), Date.now()));
-            dispatch(receivePic(nextDebugPic(), Date.now()));
-            dispatch(receivePic(nextDebugPic(), Date.now()));
+            dispatch(receivePic(nextDebugPic()));
+            dispatch(receivePic(nextDebugPic()));
+            dispatch(receivePic(nextDebugPic()));
+            dispatch(receivePic(nextDebugPic()));
+            dispatch(receivePic(nextDebugPic()));
         }
     };
 }
