@@ -72,6 +72,20 @@ function buildHeaders(token) {
     return headers;
 }
 
+export function requestData(url, token, options) {
+    options = options || {};
+
+    if (typeof token === 'undefined') {
+        token = window.localStorage.getItem('authToken');
+    }
+
+    options.headers = buildHeaders(token);
+    return fetch(url, options)
+    .then(checkStatus)
+    .then((response) => response.blob())
+    .then((blob) => URL.createObjectURL(blob));
+}
+
 function jsonRequest(url, token, options) {
     options = options || {};
 
