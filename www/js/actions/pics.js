@@ -117,23 +117,17 @@ export function resizeError(id, error) {
     };
 }
 
-export function resizePic(id) {
+export function resizePic(id, uri) {
     return (dispatch, getState) => {
         const state = getState(),
             maxSize = state.config.picMaxSize,
             outputDir = state.dirs.gallery;
-        var pic = state.pics.filter((p) => p.id === id);
-
-        if (!pic || !pic.length) {
-            return dispatch(resizeError(id, 'Picture does not exizt'));
-        }
-        pic = pic[0];
 
         if (cordova.isBrowser) {
             return;
         }
 
-        resizeImage(pic.uri, {
+        resizeImage(uri, {
             height: maxSize,
             width: maxSize,
             outputDir
@@ -161,7 +155,7 @@ export function receivePic(imgUri) {
 
         return dispatch(copyPic(picId, imgUri, originalsDir, 'original'))
             .then(() => dispatch(generateThumbnail(picId, imgUri)))
-            .then(() => dispatch(resizePic(picId)));
+            .then(() => dispatch(resizePic(picId, imgUri)));
     };
 }
 
