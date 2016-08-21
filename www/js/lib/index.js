@@ -68,6 +68,35 @@ export function storeCreds(userName, authToken) {
 
 export function fileExists(uri) {
     return new Promise((resolve, reject) => {
-        window.resolveLocalFileSystemURL(uri, resolve, reject);
+        window.resolveLocalFileSystemURL(
+            uri,
+            (entry) => resolve({uri, exists: entry.isFile}),
+            (error) => {
+                if (error.name === 'NotFoundError') {
+                    resolve({uri, exists: false});
+                    return;
+                }
+                reject(error);
+            }
+        );
+    });
+}
+
+export function writeBlob(blob, dir, filename) {
+    return new Promise((resolve, reject) => {
+        const options = {create: true, exclusive: true},
+            rejectOnError = (error) => reject(error);
+        dir.getFile(
+            filename, options,
+            (entry) => entry.createWriter(
+                (writer) => {
+                    writer.onwriteend = () => resolve(entry.toURL());
+                    writer.onerror = rejectOnError;
+                    writer.write(blob);
+                },
+                rejectOnError
+            ),
+            rejectOnError
+        );
     });
 }
