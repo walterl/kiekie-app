@@ -10,6 +10,7 @@ export const
     RECEIVE_PIC = 'RECEIVE_PIC',
     DELETE_PIC = 'DELETE_PIC',
     SAVE_PIC = 'SAVE_PIC',
+    SELECT_PIC = 'SAVE_PIC',
     SET_PIC_DATA = 'SET_PIC_DATA';
 
 export function requestCameraPic() {
@@ -179,9 +180,8 @@ export function setNote(id, note) {
 
 export function selectPic(id) {
     return {
-        type: SET_PIC_DATA,
-        id,
-        data: {selected: true}
+        type: SELECT_PIC,
+        id
     };
 }
 

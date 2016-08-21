@@ -1,4 +1,6 @@
-import {DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SET_PIC_DATA} from '../actions';
+import {
+    DELETE_PIC, RECEIVE_PIC, SAVE_PIC, SELECT_PIC, SET_PIC_DATA
+} from '../actions';
 
 function reducePic(state, action) {
     if (state.id !== action.id) {
@@ -33,6 +35,10 @@ export default function pics(state=[], action) {
     case SAVE_PIC:
     case SET_PIC_DATA:
         return state.map((p) => reducePic(p, action));
+    case SELECT_PIC:
+        return state.map((pic) => Object.assign({}, pic, {
+            selected: pic.id === action.id
+        }));
     default:
         return state;
     }
