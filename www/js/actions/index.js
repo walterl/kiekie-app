@@ -15,6 +15,7 @@ export const
     INIT_CAMERA = 'INIT_CAMERA',
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
     REDIRECT = 'REDIRECT',
+    SAVE_CONFIG = 'SAVE_CONFIG',
     SET_ERROR = 'SET_ERROR',
     SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE';
 export {
@@ -33,6 +34,19 @@ export function redirect(path) {
             path
         });
         hashHistory.push(path);
+    };
+}
+
+export function saveConfig() {
+    return (dispatch, getState) => {
+        const config = getState().config;
+
+        dispatch({
+            type: SAVE_CONFIG,
+            config
+        });
+
+        window.localStorage.setItem('config', JSON.stringify(config));
     };
 }
 
@@ -141,5 +155,7 @@ export function initApp() {
                 dispatch(setStartupMessage('Logging in...'));
                 dispatch(initLogin());
             });
+
+        dispatch(saveConfig());
     };
 }
