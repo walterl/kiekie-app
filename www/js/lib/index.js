@@ -82,6 +82,16 @@ export function fileExists(uri) {
     });
 }
 
+export function readBlob(uri) {
+    return new Promise((resolve, reject) => {
+        window.resolveLocalFileSystemURL(
+            uri,
+            (entry) => entry.file((f) => resolve(f), (e) => reject(e)),
+            (error) => reject(error)
+        );
+    });
+}
+
 export function writeBlob(blob, dir, filename) {
     return new Promise((resolve, reject) => {
         const options = {create: true, exclusive: true},
