@@ -31,6 +31,13 @@ export function cameraPicError(error) {
     };
 }
 
+export function setPicData(id, data) {
+    return {
+        type: SET_PIC_DATA,
+        id, data
+    };
+}
+
 /**
  * Copy pic `id` from `src` to `dest`.
  *
@@ -73,13 +80,6 @@ export function thumbnailError(id, error) {
     return {
         type: THUMBNAIL_ERROR,
         id, error
-    };
-}
-
-export function setPicData(id, data) {
-    return {
-        type: SET_PIC_DATA,
-        id, data
     };
 }
 
