@@ -1,5 +1,5 @@
 import {storeCreds} from '../lib';
-import {jsonGet, jsonPost} from '../lib/net';
+import {jsonGet, jsonPost, requestData} from '../lib/net';
 
 import {redirect, setStartupMessage} from './index';
 import {loadLocalPics, receivePic} from './pics';
@@ -18,7 +18,9 @@ export const
 
 export function fetchPicsList() {
     return (dispatch, getState) => {
-        const urls = getState().server.urls,
+        const statePics = getState().pics,
+            statePicsIds = statePics.map((pic) => pic.id),
+            urls = getState().server.urls,
             picsUrl = urls.api + urls.pics,
             authToken = localStorage.getItem('authToken');
 
@@ -30,6 +32,23 @@ export function fetchPicsList() {
                 type: FETCH_PICSLIST_SUCCESS,
                 picsData: response
             });
+            return response;
+        })
+        .then((pics) => {
+            pics.forEach((pic) => {
+                if (!statePicsIds.includes(pic.id)) {
+                    requestData(pic.download)
+                    .then((data) => dispatch(receivePic(
+                        data, {
+                            id: pic.id,
+                            note: pic.note,
+                            saved: true,
+                            takenTime: pic.created_at
+                        }
+                    )));
+                }
+            });
+            return pics;
         })
         .catch((error) => dispatch({
             type: FETCH_PICSLIST_FAIL, error
