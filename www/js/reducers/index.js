@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_CAMERA, INIT_DIRECTORIES, SET_DEBUG,
+    INIT_CAMERA, INIT_DIRECTORIES,
     LOGIN_SUCCESS, REGISTER_SUCCESS,
     FETCH_PICSLIST_SUCCESS
 } from '../actions';
@@ -15,10 +15,6 @@ function config(state={debug: false}, action) {
     case INIT_CAMERA:
         return Object.assign({}, state, {
             camera: action.config
-        });
-    case SET_DEBUG:
-        return Object.assign({}, state, {
-            debug: action.debug
         });
     default:
         return state;

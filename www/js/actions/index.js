@@ -15,7 +15,6 @@ export const
     INIT_CAMERA = 'INIT_CAMERA',
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
     REDIRECT = 'REDIRECT',
-    SET_DEBUG = 'SET_DEBUG',
     SET_ERROR = 'SET_ERROR',
     SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE';
 export {
@@ -34,13 +33,6 @@ export function redirect(path) {
             path
         });
         hashHistory.push(path);
-    };
-}
-
-export function setDebug(debug) {
-    return {
-        type: SET_DEBUG,
-        debug: Boolean(debug)
     };
 }
 
