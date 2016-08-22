@@ -43,7 +43,8 @@ class Pics extends React.Component {
 
 
 Pics.propTypes = {
-    onCameraClick: React.PropTypes.func.isRequired
+    onCameraClick: React.PropTypes.func.isRequired,
+    onGalleryClick: React.PropTypes.func.isRequired
 };
 
 function mapDispatchToProps(dispatch) {
