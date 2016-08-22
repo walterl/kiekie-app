@@ -9,11 +9,15 @@ import '../../scss/pictile.scss';
 
 export default class PicTile extends React.Component {
     render() {
-        const {isSaved, src, title, onClick} = this.props;
-        var icon = null;
+        const {isSaved, src, onClick} = this.props;
+        var {title} = this.props,
+            icon = null;
 
         if (!isSaved) {
             icon = <ContentSave className="action-icon" color={yellow500}/>;
+
+            // We need a truthy title for the tile title overlay to display
+            title = title || ' ';
         }
 
         return (
