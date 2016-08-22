@@ -113,7 +113,7 @@ class PicView extends React.Component {
                 <IconButton
                     onClick={() => this.props.savePic()}
                     tooltip="Save picture"
-                    disabled={pic.saved}
+                    disabled={pic ? pic.saved : true}
                 >
                     <ContentSave color={white} />
                 </IconButton>
