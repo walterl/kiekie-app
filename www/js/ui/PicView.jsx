@@ -8,11 +8,12 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import ContentSave from 'material-ui/svg-icons/content/save';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import {yellow500, white} from 'material-ui/styles/colors';
+import {white} from 'material-ui/styles/colors';
 
 import Pic from './Pic';
+import SaveButton from './SaveButton';
+
 import {
     cancelDeletePic, deletePic, requestDeletePic, setNote, savePic,
     selectPic
@@ -110,13 +111,10 @@ class PicView extends React.Component {
                 >
                     <ActionDelete color={white} />
                 </IconButton>
-                <IconButton
+                <SaveButton
                     onClick={() => this.props.savePic()}
-                    tooltip="Save picture"
                     disabled={pic ? pic.saved : true}
-                >
-                    <ContentSave color={yellow500} />
-                </IconButton>
+                />
             </div>,
             appBar = <AppBar
                 iconElementLeft={this.renderCloseButton()}
