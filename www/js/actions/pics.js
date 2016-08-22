@@ -11,7 +11,7 @@ export const
     DELETE_PIC = 'DELETE_PIC',
     RESTORE_PIC = 'RESTORE_PIC',
     SAVE_PIC = 'SAVE_PIC',
-    SELECT_PIC = 'SAVE_PIC',
+    SELECT_PIC = 'SELECT_PIC',
     SET_PIC_DATA = 'SET_PIC_DATA';
 
 export function requestCameraPic() {
