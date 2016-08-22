@@ -6,8 +6,9 @@ import AppBar from 'material-ui/AppBar';
 import PicsList from './PicsList';
 import GalleryButton from './GalleryButton';
 import PhotoButton from './PhotoButton';
+import SaveButton from './SaveButton';
 
-import {receivePic, requestPic} from '../actions';
+import {receivePic, requestPic, saveAllPics} from '../actions';
 import {nextDebugPic} from '../lib';
 
 import '../../scss/pics.scss';
@@ -15,7 +16,8 @@ import '../../scss/pics.scss';
 
 class Pics extends React.Component {
     render() {
-        var {onCameraClick, onGalleryClick} = this.props,
+        const {allPicsSaved} = this.props;
+        var {onCameraClick, onGalleryClick, onSaveClick} = this.props,
             actions = null;
 
         if (cordova.isBrowser) {
@@ -23,6 +25,10 @@ class Pics extends React.Component {
         }
 
         actions = <div>
+            <SaveButton
+                tooltip={"Save all pictures"} disabled={allPicsSaved}
+                onClick={onSaveClick}
+            />
             <GalleryButton onClick={onGalleryClick} />
             <PhotoButton onClick={onCameraClick} />
         </div>;
@@ -47,13 +53,20 @@ Pics.propTypes = {
     onGalleryClick: React.PropTypes.func.isRequired
 };
 
+function mapStateToProps(state) {
+    return {
+        allPicsSaved: state.pics.every((pic) => pic.saved)
+    };
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         addDebugPic: () => nextDebugPic().then(
             (uri) => dispatch(receivePic(uri))),
         onCameraClick: () => dispatch(requestPic()),
-        onGalleryClick: () => dispatch(requestPic('gallery'))
+        onGalleryClick: () => dispatch(requestPic('gallery')),
+        onSaveClick: () => dispatch(saveAllPics())
     };
 }
 
-export default connect(null, mapDispatchToProps)(Pics);
+export default connect(mapStateToProps, mapDispatchToProps)(Pics);

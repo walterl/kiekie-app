@@ -11,6 +11,7 @@ export const
     DELETE_PIC = 'DELETE_PIC',
     RESTORE_PIC = 'RESTORE_PIC',
     SAVE_PIC = 'SAVE_PIC',
+    SAVE_ALL_PICS = 'SAVE_ALL_PICS',
     SELECT_PIC = 'SELECT_PIC',
     SET_PIC_DATA = 'SET_PIC_DATA';
 
@@ -174,6 +175,16 @@ export function savePic(id) {
     return {
         type: SAVE_PIC,
         id
+    };
+}
+
+export function saveAllPics() {
+    return (dispatch, getState) => {
+        dispatch({type: SAVE_ALL_PICS});
+
+        getState().pics
+            .filter((pic) => !pic.saved)
+            .forEach((pic) => dispatch(savePic(pic.id)));
     };
 }
 
