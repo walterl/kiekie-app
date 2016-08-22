@@ -10,7 +10,7 @@ import Paper from 'material-ui/Paper';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import {white} from 'material-ui/styles/colors';
+import {yellow500, white} from 'material-ui/styles/colors';
 
 import Pic from './Pic';
 import {
@@ -115,7 +115,7 @@ class PicView extends React.Component {
                     tooltip="Save picture"
                     disabled={pic ? pic.saved : true}
                 >
-                    <ContentSave color={white} />
+                    <ContentSave color={yellow500} />
                 </IconButton>
             </div>,
             appBar = <AppBar
