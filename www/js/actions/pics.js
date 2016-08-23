@@ -4,6 +4,7 @@ import uuid from 'uuid';
 import {copyLocalFile, fileExists, resizeImage} from '../lib';
 
 import {setError} from './index';
+import {sendPicNote} from './server';
 
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
@@ -11,6 +12,7 @@ export const
     DELETE_PIC = 'DELETE_PIC',
     RESTORE_PIC = 'RESTORE_PIC',
     SAVE_PIC = 'SAVE_PIC',
+    SAVE_PIC_REQUEST = 'SAVE_PIC_REQUEST',
     SAVE_ALL_PICS = 'SAVE_ALL_PICS',
     SELECT_PIC = 'SELECT_PIC',
     SET_PIC_DATA = 'SET_PIC_DATA';
@@ -172,9 +174,18 @@ export function cancelDeletePic(id) {
 }
 
 export function savePic(id) {
-    return {
-        type: SAVE_PIC,
-        id
+    return (dispatch) => {
+        dispatch({
+            type: SAVE_PIC_REQUEST,
+            id
+        });
+
+        dispatch(sendPicNote(id))
+        .then(() => dispatch({
+            type: SAVE_PIC,
+            id
+        }))
+        .catch((error) => dispatch(setError(error, 'savePic')));
     };
 }
 

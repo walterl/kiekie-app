@@ -1,9 +1,9 @@
 /* global cordova */
 import {fileExists, readBlob, storeCreds, writeBlob} from '../lib';
-import {jsonGet, jsonPost, requestData} from '../lib/net';
+import {jsonGet, jsonPost, jsonPut, requestData} from '../lib/net';
 
 import {redirect, setError, setStartupMessage} from './index';
-import {loadLocalPics, receivePic} from './pics';
+import {loadLocalPics, receivePic, setPicData} from './pics';
 
 export const
     LOGIN_REQUEST = 'LOGIN_REQUEST',
@@ -83,6 +83,35 @@ export function fetchPicsList() {
         .catch((error) => dispatch({
             type: FETCH_PICSLIST_FAIL, error
         }));
+    };
+}
+
+export function sendPicNote(id) {
+    return (dispatch, getState) => {
+        const urls = getState().config.urls,
+            updateUrl = `${urls.api}${urls.pics}${id}/`;
+        var pic = getState().pics.filter((p) => p.id === id),
+            error = null;
+
+        return new Promise((resolve, reject) => {
+            if (!pic.length) {
+                error = new Error('Picture not found');
+                error.id = id;
+                reject(error);
+            }
+            pic = pic[0];
+
+            jsonPut(updateUrl, {note: pic.note})
+            .then((response) => {
+                dispatch(setPicData(id, {
+                    note: response.note,
+                    saved: true
+                }));
+                return response;
+            })
+            .then(resolve)
+            .catch(reject);
+        });
     };
 }
 
