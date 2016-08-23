@@ -10,10 +10,15 @@ $red500: #f44336;
   .welcome {
     color: $grey700;
     text-align: left;
-    margin: 2em;
+    margin: 2em auto;
 
     h1, h2, h3 {
       text-align: center;
+    }
+
+    p {
+      margin: 16px auto;
+      max-width: 370px;
     }
   }
   .action-btn {
