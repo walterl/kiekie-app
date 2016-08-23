@@ -1,9 +1,11 @@
 /* global cordova */
 import {fileExists, readBlob, storeCreds, writeBlob} from '../lib';
-import {jsonGet, jsonPost, jsonPut, requestData} from '../lib/net';
+import {
+    HTTP_NOT_FOUND, formPost, jsonGet, jsonPost, jsonPut, requestData
+} from '../lib/net';
 
 import {redirect, setError, setStartupMessage} from './index';
-import {loadLocalPics, receivePic, setPicData} from './pics';
+import {loadLocalPics, receivePic} from './pics';
 
 export const
     LOGIN_REQUEST = 'LOGIN_REQUEST',
@@ -16,7 +18,13 @@ export const
     FETCH_PICSLIST_SUCCESS = 'FETCH_PICSLIST_SUCCESS',
     FETCH_PICSLIST_FAIL = 'FETCH_PICSLIST_FAIL',
     FETCH_PIC = 'FETCH_PIC',
-    SHOW_LOGIN = 'SHOW_LOGIN';
+    SHOW_LOGIN = 'SHOW_LOGIN',
+    UPDATE_PIC_REQUEST = 'UPDATE_PIC_REQUEST',
+    UPDATE_PIC_SUCCESS = 'UPDATE_PIC_SUCCESS',
+    UPDATE_PIC_FAIL = 'UPDATE_PIC_FAIL',
+    UPLOAD_PIC_REQUEST = 'UPLOAD_PIC_REQUEST',
+    UPLOAD_PIC_SUCCESS = 'UPLOAD_PIC_SUCCESS',
+    UPLOAD_PIC_FAIL = 'UPLOAD_PIC_FAIL';
 
 
 export function fetchPic(pic) {
@@ -86,10 +94,46 @@ export function fetchPicsList() {
     };
 }
 
-export function sendPicNote(id) {
+export function uploadPic({id, note, uri} = {}) {
     return (dispatch, getState) => {
-        const urls = getState().config.urls,
-            updateUrl = `${urls.api}${urls.pics}${id}/`;
+        const urls = getState().config.urls;
+
+        dispatch({
+            type: UPLOAD_PIC_REQUEST,
+            id, note, uri
+        });
+
+        return new Promise((resolve, reject) => {
+            readBlob(uri)
+            .then((blob) => {
+                const formData = new FormData();
+                formData.append('id', id);
+                formData.append('note', note);
+                formData.append('file', blob);
+                return formData;
+            })
+            .then((data) => formPost(`${urls.api}${urls.pics}`, data))
+            .then((response) => {
+                dispatch({
+                    type: UPLOAD_PIC_SUCCESS,
+                    id, response
+                });
+                resolve();
+            })
+            .catch((error) => {
+                dispatch({
+                    type: UPLOAD_PIC_FAIL,
+                    id, error
+                });
+                reject(error);
+            });
+        });
+    };
+}
+
+export function updatePicRequest(id) {
+    return (dispatch, getState) => {
+        const urls = getState().config.urls;
         var pic = getState().pics.filter((p) => p.id === id),
             error = null;
 
@@ -98,19 +142,39 @@ export function sendPicNote(id) {
                 error = new Error('Picture not found');
                 error.id = id;
                 reject(error);
+                return;
             }
             pic = pic[0];
 
-            jsonPut(updateUrl, {note: pic.note})
-            .then((response) => {
-                dispatch(setPicData(id, {
-                    note: response.note,
-                    saved: true
-                }));
-                return response;
+            dispatch({
+                type: UPDATE_PIC_REQUEST,
+                pic
+            });
+
+            jsonPut(`${urls.api}${urls.pics}${id}/`, {note: pic.note})
+            .then(() => {
+                // If the PUT succeeded, it means that the pic was previously
+                // created (and presumably uploaded). Therefore we don't upload
+                // it again.
+                dispatch({
+                    type: UPDATE_PIC_SUCCESS,
+                    id
+                });
+                resolve();
             })
-            .then(resolve)
-            .catch(reject);
+            .catch((err) => {
+                if (err.response.status === HTTP_NOT_FOUND) {
+                    // Pic does not yet exist on server. Let's create it.
+                    return dispatch(uploadPic(pic))
+                    .then(resolve)
+                    .catch(reject);
+                }
+                dispatch({
+                    type: UPDATE_PIC_FAIL,
+                    id, err
+                });
+                reject(err);
+            });
         });
     };
 }

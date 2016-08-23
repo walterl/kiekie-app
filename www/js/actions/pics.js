@@ -4,7 +4,7 @@ import uuid from 'uuid';
 import {copyLocalFile, fileExists, resizeImage} from '../lib';
 
 import {setError} from './index';
-import {sendPicNote} from './server';
+import {updatePicRequest} from './server';
 
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
@@ -180,7 +180,7 @@ export function savePic(id) {
             id
         });
 
-        dispatch(sendPicNote(id))
+        dispatch(updatePicRequest(id))
         .then(() => dispatch({
             type: SAVE_PIC,
             id
