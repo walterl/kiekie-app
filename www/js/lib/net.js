@@ -1,3 +1,8 @@
+export const
+    HTTP_OK = 200,
+    HTTP_REDIRECT = 300,
+    HTTP_NOT_FOUND = 404;
+
 /**
  * Extracts errors from the given object in a few formats:
  *
@@ -38,8 +43,6 @@ function extractErrors(json) {
  */
 function checkStatus(response) {
     var error = null;
-    const HTTP_OK = 200,
-        HTTP_REDIRECT = 300;
 
     return new Promise((resolve, reject) => {
         if (!(response.status >= HTTP_OK && response.status < HTTP_REDIRECT)) {
