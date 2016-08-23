@@ -75,6 +75,23 @@ function buildHeaders(token) {
     return headers;
 }
 
+export function formPost(url, data, token, options) {
+    options = options || {};
+
+    if (typeof token === 'undefined') {
+        token = window.localStorage.getItem('authToken');
+    }
+
+    options.method = 'POST';
+    options.headers = {
+        'Authorization': `Token ${token}`
+    };
+    options.body = data;
+
+    return fetch(url, options)
+    .then(checkStatus);
+}
+
 export function requestData(url, token, options) {
     options = options || {};
 
