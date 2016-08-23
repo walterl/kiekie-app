@@ -86,6 +86,11 @@ export function fileExists(uri) {
 }
 
 export function readBlob(uri) {
+    if (uri.startsWith('blob:')) {
+        return fetch(uri)
+        .then((response) => response.blob());
+    }
+
     return new Promise((resolve, reject) => {
         window.resolveLocalFileSystemURL(
             uri,
