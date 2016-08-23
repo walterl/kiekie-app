@@ -112,3 +112,10 @@ export function jsonPost(url, json, token) {
         body: json
     });
 }
+
+export function jsonPut(url, json, token) {
+    return jsonRequest(url, token, {
+        method: 'PUT',
+        body: json
+    });
+}
