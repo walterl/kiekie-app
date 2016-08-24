@@ -27,10 +27,10 @@ class Pics extends React.Component {
         actions = <div>
             <SaveButton
                 tooltip={"Save all pictures"} disabled={allPicsSaved}
-                onClick={onSaveClick}
+                onTouchTap={onSaveClick}
             />
-            <GalleryButton onClick={onGalleryClick} />
-            <PhotoButton onClick={onCameraClick} />
+            <GalleryButton onTouchTap={onGalleryClick} />
+            <PhotoButton onTouchTap={onCameraClick} />
         </div>;
 
         return (

@@ -26,7 +26,7 @@ class PicsList extends React.Component {
                     <PicTile
                         key={pic.id} title={pic.note} isSaved={pic.saved}
                         src={pic.thumbnail || pic.uri}
-                        onClick={this.handleTileClick.bind(this, pic.id)}
+                        onTouchTap={this.handleTileClick.bind(this, pic.id)}
                     />
                     )}
                 </GridList>

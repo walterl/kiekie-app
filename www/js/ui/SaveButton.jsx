@@ -7,13 +7,13 @@ import ContentSave from 'material-ui/svg-icons/content/save';
 
 export default class SaveButton extends React.Component {
     render() {
-        const {disabled, onClick} = this.props,
+        const {disabled, onTouchTap} = this.props,
             tooltip = this.props.tooltip || 'Save picture';
 
         return (
             <IconButton
                 tooltip={tooltip} disabled={disabled}
-                onClick={onClick}
+                onTouchTap={onTouchTap}
             >
                 <ContentSave color={yellow500} />
             </IconButton>
@@ -24,5 +24,5 @@ export default class SaveButton extends React.Component {
 SaveButton.propTypes = {
     disabled: React.PropTypes.bool.isRequired,
     tooltip: React.PropTypes.string,
-    onClick: React.PropTypes.func.isRequired
+    onTouchTap: React.PropTypes.func.isRequired
 };

@@ -8,7 +8,7 @@ import ImagePhotoLibrary from 'material-ui/svg-icons/image/photo-library';
 export default class GalleryButton extends React.Component {
     render() {
         return (
-            <IconButton onClick={this.props.onClick}>
+            <IconButton onTouchTap={this.props.onTouchTap}>
                 <ImagePhotoLibrary color={white} />
             </IconButton>
         );
@@ -16,5 +16,5 @@ export default class GalleryButton extends React.Component {
 }
 
 GalleryButton.propTypes = {
-    onClick: React.PropTypes.func.isRequired
+    onTouchTap: React.PropTypes.func.isRequired
 };

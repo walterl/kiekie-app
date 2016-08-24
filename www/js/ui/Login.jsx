@@ -138,12 +138,12 @@ class Login extends React.Component {
             <RaisedButton
                 className="action-btn"
                 label="Login" primary={true} disabled={btnDisabled}
-                onClick={this.onLoginClick}
+                onTouchTap={this.onLoginClick}
             />
             <RaisedButton
                 className="action-btn"
                 label="Register" secondary={true} disabled={btnDisabled}
-                onClick={this.onRegisterClick}
+                onTouchTap={this.onRegisterClick}
             />
 
             <div className={msgClasses.join(' ')}>{msg}</div>

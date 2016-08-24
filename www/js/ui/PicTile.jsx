@@ -9,7 +9,7 @@ import '../../scss/pictile.scss';
 
 export default class PicTile extends React.Component {
     render() {
-        const {isSaved, src, onClick} = this.props;
+        const {isSaved, src, onTouchTap} = this.props;
         var {title} = this.props,
             icon = null;
 
@@ -22,7 +22,7 @@ export default class PicTile extends React.Component {
 
         return (
             <GridTile
-                className="pic-tile" onClick={onClick} title={title}
+                className="pic-tile" onTouchTap={onTouchTap} title={title}
                 actionIcon={icon}
             >
                 <img src={src} />
@@ -35,5 +35,5 @@ PicTile.propTypes = {
     isSaved: PropTypes.bool.isRequired,
     src: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    onClick: PropTypes.func
+    onTouchTap: PropTypes.func
 };

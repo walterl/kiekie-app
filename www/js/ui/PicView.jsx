@@ -31,7 +31,7 @@ class PicView extends React.Component {
 
     renderCloseButton() {
         return (
-            <IconButton onClick={this.handleCloseClick}>
+            <IconButton onTouchTap={this.handleCloseClick}>
                 <NavigationClose/>
             </IconButton>
         );
@@ -65,12 +65,12 @@ class PicView extends React.Component {
                 <FlatButton
                     label="Cancel"
                     primary={true}
-                    onClick={() => this.props.cancelDeletePic()}
+                    onTouchTap={() => this.props.cancelDeletePic()}
                 />,
                 <FlatButton
                     label="Delete"
                     primary={true}
-                    onClick={this.handleDeleteConfirm}
+                    onTouchTap={this.handleDeleteConfirm}
                 />
             ];
 
@@ -106,13 +106,13 @@ class PicView extends React.Component {
             {pic} = this.props,
             actions = <div>
                 <IconButton
-                    onClick={() => this.props.confirmDeletePic()}
+                    onTouchTap={() => this.props.confirmDeletePic()}
                     tooltip="Delete picture"
                 >
                     <ActionDelete color={white} />
                 </IconButton>
                 <SaveButton
-                    onClick={() => this.props.savePic()}
+                    onTouchTap={() => this.props.savePic()}
                     disabled={pic ? pic.saved : true}
                 />
             </div>,
