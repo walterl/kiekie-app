@@ -5,7 +5,7 @@ import {
     requestData
 } from '../lib/net';
 
-import {redirect, setError, setStartupMessage} from './index';
+import {redirect, setError, setStartupMessage, showLogin} from './index';
 import {loadLocalPics, receivePic} from './pics';
 
 export const
@@ -234,16 +234,6 @@ export function deletePicRequest(id) {
             type: DELETE_PIC_FAIL,
             error
         }));
-    };
-}
-
-export function showLogin(userName) {
-    return (dispatch) => {
-        dispatch({
-            type: SHOW_LOGIN,
-            userName
-        });
-        dispatch(redirect('/login'));
     };
 }
 

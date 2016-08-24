@@ -2,7 +2,7 @@
 import {hashHistory} from 'react-router';
 
 import {
-    loginWithToken, showLogin,
+    loginWithToken,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL,
     FETCH_PICSLIST_REQUEST, FETCH_PICSLIST_SUCCESS, FETCH_PICSLIST_FAIL,
@@ -62,6 +62,16 @@ export function setError(error, src) {
     return {
         type: SET_ERROR,
         error, src
+    };
+}
+
+export function showLogin(userName) {
+    return (dispatch) => {
+        dispatch({
+            type: SHOW_LOGIN,
+            userName
+        });
+        dispatch(redirect('/login'));
     };
 }
 
