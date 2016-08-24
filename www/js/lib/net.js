@@ -1,3 +1,5 @@
+import 'whatwg-fetch';
+
 export const
     HTTP_OK = 200,
     HTTP_REDIRECT = 300,
