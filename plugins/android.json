@@ -18,6 +18,9 @@
         },
         "cordova-plugin-image-resizer": {
             "PACKAGE_NAME": "za.co.wrl.kiekie"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "za.co.wrl.kiekie"
         }
     },
     "dependent_plugins": {
