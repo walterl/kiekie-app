@@ -5,7 +5,9 @@ import {
     requestData
 } from '../lib/net';
 
-import {redirect, setError, setStartupMessage, showLogin} from './index';
+import {
+    setError, setStartupFinished, setStartupMessage, showLogin
+} from './index';
 import {loadLocalPics, receivePic} from './pics';
 
 export const
@@ -271,7 +273,7 @@ export function loginWithToken(userName, authToken) {
         .then((response) => {
             if (response.token && response.token === authToken) {
                 dispatch(loginSuccess(userName, authToken));
-                dispatch(redirect('/pics'));
+                dispatch(setStartupFinished());
             } else {
                 dispatch(loginFail(userName, response));
                 dispatch(showLogin(userName));

@@ -17,6 +17,7 @@ export const
     REDIRECT = 'REDIRECT',
     SAVE_CONFIG = 'SAVE_CONFIG',
     SET_ERROR = 'SET_ERROR',
+    SET_STARTUP_FINISHED = 'SET_STARTUP_FINISHED',
     SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE';
 
 export {
@@ -48,6 +49,17 @@ export function saveConfig() {
         });
 
         window.localStorage.setItem('config', JSON.stringify(config));
+    };
+}
+
+export function setStartupFinished(finished=true) {
+    return (dispatch) => {
+        dispatch({
+            type: SET_STARTUP_FINISHED,
+            finished
+        });
+
+        dispatch(redirect('/pics'));
     };
 }
 

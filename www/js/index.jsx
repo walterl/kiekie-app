@@ -62,6 +62,7 @@ const store = configureStore({
             cellHeight: 200
         },
         startup: {
+            finished: false,
             message: ''
         },
         login: {

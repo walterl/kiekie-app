@@ -1,5 +1,5 @@
 import {
-    INIT_APP, SET_ERROR, SET_STARTUP_MESSAGE, SHOW_LOGIN,
+    INIT_APP, SET_ERROR, SET_STARTUP_FINISHED, SET_STARTUP_MESSAGE, SHOW_LOGIN,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from '../actions';
@@ -48,6 +48,10 @@ function uiStartup(state={}, action) {
         return Object.assign({}, state, {
             message: 'Starting app...'
         });
+    case SET_STARTUP_FINISHED:
+        return Object.assign({}, state, {
+            finished: action.finished
+        });
     case SET_STARTUP_MESSAGE:
         return Object.assign({}, state, {
             message: action.message
@@ -69,6 +73,7 @@ export default function ui(state={}, action) {
         };
         return newState;
     case INIT_APP:
+    case SET_STARTUP_FINISHED:
     case SET_STARTUP_MESSAGE:
         newState.startup = uiStartup(state.startup, action);
         return newState;
