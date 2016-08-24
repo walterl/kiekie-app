@@ -106,13 +106,13 @@ class PicView extends React.Component {
             {pic} = this.props,
             actions = <div>
                 <IconButton
-                    onTouchTap={() => this.props.confirmDeletePic()}
+                    onTouchTap={this.props.confirmDeletePic}
                     tooltip="Delete picture"
                 >
                     <ActionDelete color={white} />
                 </IconButton>
                 <SaveButton
-                    onTouchTap={() => this.props.savePic()}
+                    onTouchTap={this.props.savePic}
                     disabled={pic ? pic.saved : true}
                 />
             </div>,
