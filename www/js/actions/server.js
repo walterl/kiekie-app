@@ -1,4 +1,4 @@
-/* global cordova */
+/* global cordova, FileTransfer */
 import {fileExists, readBlob, storeCreds, writeBlob} from '../lib';
 import {
     HTTP_NOT_FOUND, formPost, jsonGet, jsonPost, jsonPut, requestData
@@ -103,30 +103,62 @@ export function uploadPic({id, note, uri} = {}) {
             id, note, uri
         });
 
-        return new Promise((resolve, reject) => {
-            readBlob(uri)
-            .then((blob) => {
-                const formData = new FormData();
-                formData.append('id', id);
-                formData.append('note', note);
-                formData.append('file', blob);
-                return formData;
-            })
-            .then((data) => formPost(`${urls.api}${urls.pics}`, data))
-            .then((response) => {
-                dispatch({
-                    type: UPLOAD_PIC_SUCCESS,
-                    id, response
+        if (cordova.isBrowser) {
+            return new Promise((resolve, reject) => {
+                readBlob(uri)
+                .then((blob) => {
+                    const formData = new FormData();
+                    formData.append('id', id);
+                    formData.append('note', note);
+                    formData.append('file', blob);
+                    return formData;
+                })
+                .then((data) => formPost(`${urls.api}${urls.pics}`, data))
+                .then((response) => {
+                    dispatch({
+                        type: UPLOAD_PIC_SUCCESS,
+                        id, response
+                    });
+                    resolve();
+                })
+                .catch((error) => {
+                    dispatch({
+                        type: UPLOAD_PIC_FAIL,
+                        id, error
+                    });
+                    reject(error);
                 });
-                resolve();
-            })
-            .catch((error) => {
-                dispatch({
-                    type: UPLOAD_PIC_FAIL,
-                    id, error
-                });
-                reject(error);
             });
+        }
+
+        return new Promise((resolve, reject) => {
+            const authToken = window.localStorage.getItem('authToken'),
+                options = {
+                    fileKey: 'file',
+                    fileName: uri.substr(uri.lastIndexOf('/') + 1),
+                    mimeType: 'image/jpeg',
+                    params: {id, note},
+                    headers: {'Authorization': `Token ${authToken}`}
+                },
+                ft = new FileTransfer();
+            ft.upload(
+                uri, encodeURI(`${urls.api}${urls.pics}`),
+                (response) => {
+                    dispatch({
+                        type: UPLOAD_PIC_SUCCESS,
+                        id, response
+                    });
+                    resolve();
+                },
+                (error) => {
+                    dispatch({
+                        type: UPLOAD_PIC_FAIL,
+                        id, error
+                    });
+                    reject(error);
+                },
+                options
+            );
         });
     };
 }
