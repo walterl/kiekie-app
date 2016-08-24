@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import {redirect} from '../actions';
+import {setStartupFinished} from '../actions';
 import {
     loginRequest, loginFail, registerRequest, registerFail
 } from '../actions/server';
@@ -33,7 +33,7 @@ class Login extends React.Component {
         if (['login-success', 'register-success'].includes(status)) {
             msg = MESSAGES[status];
             msgClasses.push('success-message');
-            window.setTimeout(this.props.redirectToPics, 2000);
+            window.setTimeout(this.props.finishStartup, 2000);
         } else {
             msg = errors.message;
             msgClasses.push('error-message');
@@ -161,7 +161,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        redirectToPics: () => dispatch(redirect('/pics')),
+        finishStartup: () => dispatch(setStartupFinished()),
         loginRequest: (name, pw) => dispatch(loginRequest(name, pw)),
         loginFail: (name, error) => dispatch(loginFail(name, error)),
         registerRequest: (name, pw) => dispatch(registerRequest(name, pw)),
