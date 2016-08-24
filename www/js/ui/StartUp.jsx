@@ -3,12 +3,19 @@ import {connect} from 'react-redux';
 
 import Paper from 'material-ui/Paper';
 
+import {redirect} from '../actions';
+
 import '../../scss/startup.scss';
 
 
 class StartUp extends React.Component {
     render() {
-        const {message} = this.props;
+        const {finished, message} = this.props;
+
+        if (finished) {
+            this.props.redirectToPics();
+            return null;
+        }
 
         return <div className="startup-bg">
             <Paper className="startup-paper">
@@ -19,8 +26,14 @@ class StartUp extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {message} = state.ui.startup;
-    return {message};
+    const {finished, message} = state.ui.startup;
+    return {finished, message};
 }
 
-export default connect(mapStateToProps)(StartUp);
+function mapDispatchToProps(dispatch) {
+    return {
+        redirectToPics: () => dispatch(redirect('/pics'))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StartUp);
