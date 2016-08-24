@@ -124,6 +124,10 @@ function jsonRequest(url, token, options) {
     .then((response) => response.json());
 }
 
+export function jsonDelete(url, token) {
+    return jsonRequest(url, token, {method: 'DELETE'});
+}
+
 export function jsonGet(url, token) {
     return jsonRequest(url, token);
 }
