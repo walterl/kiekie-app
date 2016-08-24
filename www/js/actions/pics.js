@@ -4,7 +4,7 @@ import uuid from 'uuid';
 import {copyLocalFile, fileExists, resizeImage} from '../lib';
 
 import {setError} from './index';
-import {updatePicRequest} from './server';
+import {deletePicRequest, updatePicRequest} from './server';
 
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
@@ -151,9 +151,13 @@ export function restorePic(pic) {
 }
 
 export function deletePic(id) {
-    return {
-        type: DELETE_PIC,
-        id
+    return (dispatch) => {
+        dispatch({
+            type: DELETE_PIC,
+            id
+        });
+
+        dispatch(deletePicRequest(id));
     };
 }
 

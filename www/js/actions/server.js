@@ -1,13 +1,17 @@
 /* global cordova, FileTransfer */
 import {fileExists, readBlob, storeCreds, writeBlob} from '../lib';
 import {
-    HTTP_NOT_FOUND, formPost, jsonGet, jsonPost, jsonPut, requestData
+    HTTP_NOT_FOUND, formPost, jsonDelete, jsonGet, jsonPost, jsonPut,
+    requestData
 } from '../lib/net';
 
 import {redirect, setError, setStartupMessage} from './index';
 import {loadLocalPics, receivePic} from './pics';
 
 export const
+    DELETE_PIC_REQUEST = 'DELETE_PIC_REQUEST',
+    DELETE_PIC_SUCCESS = 'DELETE_PIC_SUCCESS',
+    DELETE_PIC_FAIL = 'DELETE_PIC_FAIL',
     LOGIN_REQUEST = 'LOGIN_REQUEST',
     LOGIN_SUCCESS = 'LOGIN_SUCCESS',
     LOGIN_FAIL = 'LOGIN_FAIL',
@@ -208,6 +212,28 @@ export function updatePicRequest(id) {
                 reject(err);
             });
         });
+    };
+}
+
+export function deletePicRequest(id) {
+    return (dispatch, getState) => {
+        const urls = getState().config.urls,
+            picUrl = `${urls.api}${urls.pics}${id}/`;
+
+        dispatch({
+            type: DELETE_PIC_REQUEST,
+            id
+        });
+
+        jsonDelete(picUrl)
+        .then(() => dispatch({
+            type: DELETE_PIC_SUCCESS,
+            id
+        }))
+        .catch((error) => dispatch({
+            type: DELETE_PIC_FAIL,
+            error
+        }));
     };
 }
 
