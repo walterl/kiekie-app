@@ -29,13 +29,14 @@ export {
 export * from './pics';
 
 
-export function redirect(path) {
+export function redirect(path, replace=false) {
     return (dispatch) => {
         dispatch({
             type: REDIRECT,
             path
         });
-        hashHistory.push(path);
+
+        hashHistory[replace ? 'replace' : 'push'](path);
     };
 }
 
@@ -59,7 +60,7 @@ export function setStartupFinished(finished=true) {
             finished
         });
 
-        dispatch(redirect('/pics'));
+        dispatch(redirect('/pics', true));
     };
 }
 
