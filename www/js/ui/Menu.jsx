@@ -18,18 +18,14 @@ export default class MenuButton extends React.Component {
         this.state = {open: false};
     }
 
-    render() {
+    renderMenuDrawer() {
         const toggleMenu = () => this.setState({open: !this.state.open}),
             menuCloseBtn =
                 <IconButton onTouchTap={toggleMenu}>
                     <NavigationArrowBack color={darkBlack} />
                 </IconButton>;
 
-        return <div>
-            <IconButton onTouchTap={toggleMenu}>
-                <NavigationMenu color={white} />
-            </IconButton>
-
+        return (
             <Drawer
                 docked={false}
                 open={this.state.open}
@@ -42,6 +38,18 @@ export default class MenuButton extends React.Component {
                 <MenuItem>Settings</MenuItem>
                 <MenuItem>About Kiekie</MenuItem>
             </Drawer>
+        );
+    }
+
+    render() {
+        const toggleMenu = () => this.setState({open: !this.state.open});
+
+        return <div>
+            <IconButton onTouchTap={toggleMenu}>
+                <NavigationMenu color={white} />
+            </IconButton>
+
+            {this.renderMenuDrawer()}
         </div>;
     }
 }
