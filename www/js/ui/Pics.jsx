@@ -5,6 +5,7 @@ import AppBar from 'material-ui/AppBar';
 
 import PicsList from './PicsList';
 import GalleryButton from './GalleryButton';
+import MenuButton from './Menu';
 import PhotoButton from './PhotoButton';
 import SaveButton from './SaveButton';
 
@@ -37,9 +38,9 @@ class Pics extends React.Component {
             <div>
                 <AppBar
                     title="Kiekie"
+                    iconElementLeft={<MenuButton />}
                     iconElementRight={actions}
                     className="appbar"
-                    showMenuIconButton={false}
                 />
                 <PicsList />
             </div>
