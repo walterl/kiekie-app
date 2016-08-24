@@ -8,7 +8,7 @@ import ImagePhotoCamera from 'material-ui/svg-icons/image/photo-camera';
 export default class PhotoButton extends React.Component {
     render() {
         return (
-            <IconButton onClick={this.props.onClick}>
+            <IconButton onTouchTap={this.props.onTouchTap}>
                 <ImagePhotoCamera color={white} />
             </IconButton>
         );
@@ -16,5 +16,5 @@ export default class PhotoButton extends React.Component {
 }
 
 PhotoButton.propTypes = {
-    onClick: React.PropTypes.func.isRequired
+    onTouchTap: React.PropTypes.func.isRequired
 };
