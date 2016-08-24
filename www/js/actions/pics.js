@@ -157,7 +157,7 @@ export function deletePic(id) {
     };
 }
 
-export function requestDeletePic(id) {
+export function confirmDeletePic(id) {
     return {
         type: SET_PIC_DATA,
         id,

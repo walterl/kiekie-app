@@ -15,7 +15,7 @@ import Pic from './Pic';
 import SaveButton from './SaveButton';
 
 import {
-    cancelDeletePic, deletePic, requestDeletePic, setNote, savePic,
+    cancelDeletePic, deletePic, confirmDeletePic, setNote, savePic,
     selectPic
 } from '../actions';
 
@@ -106,7 +106,7 @@ class PicView extends React.Component {
             {pic} = this.props,
             actions = <div>
                 <IconButton
-                    onClick={() => this.props.requestDeletePic()}
+                    onClick={() => this.props.confirmDeletePic()}
                     tooltip="Delete picture"
                 >
                     <ActionDelete color={white} />
@@ -151,7 +151,7 @@ function mapDispatchToProps(dispatch, ownProps) {
         close: () => dispatch(selectPic(null)),
         cancelDeletePic: () => dispatch(cancelDeletePic(picId)),
         deletePic: () => dispatch(deletePic(picId)),
-        requestDeletePic: () => dispatch(requestDeletePic(picId)),
+        confirmDeletePic: () => dispatch(confirmDeletePic(picId)),
         noteChanged: (newValue) => dispatch(setNote(picId, newValue)),
         savePic: () => dispatch(savePic(picId))
     };
