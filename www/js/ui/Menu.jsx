@@ -36,7 +36,10 @@ export default class MenuButton extends React.Component {
     renderUserMenu() {
         const menuIcon = <IconButton><NavigationMoreVert /></IconButton>,
             onHelpClick = this.props.onHelpClick,
-            onRefreshClick = this.props.onRefreshClick,
+            onRefreshClick = () => {
+                this.toggleMenu();
+                this.props.onRefreshClick();
+            },
             onSignoutClick = this.props.onLogoutClick;
 
         return (
