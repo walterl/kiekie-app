@@ -31,21 +31,34 @@ class Settings extends React.Component {
         return () => this.setState({[stateItem]: !this.state[stateItem]});
     }
 
+    renderCancelButton(showStateItem) {
+        return <FlatButton
+            label="Cancel"
+            onTouchTap={this.toggleState(showStateItem)}
+        />;
+    }
+
+    renderSaveButton(showStateItem, fnSave) {
+        return <FlatButton
+            label="Save"
+            primary={true}
+            onTouchTap={() => {
+                fnSave();
+                this.toggleState(showStateItem)();
+            }}
+        />;
+    }
+
+    renderActions(showStateItem, fnSave) {
+        return [this.renderCancelButton(showStateItem),
+                this.renderSaveButton(showStateItem, fnSave)];
+    }
+
     renderApiServerInputDialog() {
-        const actions = [
-            <FlatButton
-                label="Cancel"
-                onTouchTap={this.toggleState('apiDialogOpen')}
-            />,
-            <FlatButton
-                label="Save"
-                primary={true}
-                onTouchTap={() => {
-                    this.props.saveApiServerUrl(this.apiServerInput.getValue());
-                    this.toggleState('apiDialogOpen')();
-                }}
-            />
-        ];
+        const actions = this.renderActions(
+            'apiDialogOpen',
+            () => this.props.saveApiServerUrl(this.apiServerInput.getValue())
+        );
 
         return (
             <Dialog
@@ -66,20 +79,10 @@ class Settings extends React.Component {
     }
 
     renderPicSizeDialog() {
-        const actions = [
-            <FlatButton
-                label="Cancel"
-                onTouchTap={this.toggleState('picSizeDialogOpen')}
-            />,
-            <FlatButton
-                label="Save"
-                primary={true}
-                onTouchTap={() => {
-                    this.props.savePicMaxSize(this.picSizeInput.getValue());
-                    this.toggleState('picSizeDialogOpen')();
-                }}
-            />
-        ];
+        const actions = this.renderActions(
+            'picSizeDialogOpen',
+            () => this.props.savePicMaxSize(this.picSizeInput.getValue())
+        );
 
         return (
             <Dialog
