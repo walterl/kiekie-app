@@ -12,10 +12,11 @@ import {
 import '../../scss/login.scss';
 
 
-const MESSAGES = {
-    'login-success': 'Login successful!',
-    'register-success': 'Registration successful!'
-};
+const ENTER_KEY = 13,
+    MESSAGES = {
+        'login-success': 'Login successful!',
+        'register-success': 'Registration successful!'
+    };
 
 
 class Login extends React.Component {
@@ -110,6 +111,16 @@ class Login extends React.Component {
             btnDisabled = status === 'busy' || status.endsWith('-success'),
             errors = this.lookupErrors(error),
             {msg, msgClasses} = this.determineFeedback(status, errors),
+            onUserNameKey = (e) => {
+                if (e.keyCode === ENTER_KEY) {
+                    this.passwordInput.focus();
+                }
+            },
+            onPasswordKey = (e) => {
+                if (e.keyCode === ENTER_KEY) {
+                    this.loginButton.props.onTouchTap();
+                }
+            },
             setRef = (component, ref) => {
                 this[ref] = component;
             };
@@ -125,6 +136,7 @@ class Login extends React.Component {
                 errorText={errors.userName}
                 ref={(c) => setRef(c, 'userNameInput')}
                 defaultValue={userName}
+                onKeyDown={onUserNameKey}
             />
             <br/>
 
@@ -132,12 +144,14 @@ class Login extends React.Component {
                 hintText="Password" floatingLabelText="Password" type="password"
                 errorText={errors.password}
                 ref={(c) => setRef(c, 'passwordInput')}
+                onKeyDown={onPasswordKey}
             />
             <br/>
 
             <RaisedButton
                 className="action-btn"
                 label="Login" primary={true} disabled={btnDisabled}
+                ref={(c) => setRef(c, 'loginButton')}
                 onTouchTap={this.onLoginClick}
             />
             <RaisedButton
