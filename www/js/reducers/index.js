@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_APP, INIT_CAMERA, INIT_DIRECTORIES,
+    INIT_APP, INIT_CAMERA, INIT_DIRECTORIES, SET_CONFIG_URL,
     LOGIN_SUCCESS, REGISTER_SUCCESS,
     FETCH_PICSLIST_SUCCESS
 } from '../actions';
@@ -17,6 +17,12 @@ function config(state={debug: false}, action) {
     case INIT_CAMERA:
         return Object.assign({}, state, {
             camera: action.config
+        });
+    case SET_CONFIG_URL:
+        return Object.assign({}, state, {
+            urls: Object.assign({}, state.urls, {
+                [action.key]: action.url
+            })
         });
     default:
         return state;
