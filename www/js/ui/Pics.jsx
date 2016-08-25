@@ -59,8 +59,14 @@ class Pics extends React.Component {
 
 
 Pics.propTypes = {
+    allPicsSaved: React.PropTypes.bool.isRequired,
+
+    addDebugPic: React.PropTypes.func.isRequired,
     onCameraClick: React.PropTypes.func.isRequired,
-    onGalleryClick: React.PropTypes.func.isRequired
+    onGalleryClick: React.PropTypes.func.isRequired,
+    onMenuAboutClick: React.PropTypes.func.isRequired,
+    onMenuSettingsClick: React.PropTypes.func.isRequired,
+    onSaveClick: React.PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
