@@ -2,6 +2,7 @@ import React from 'react';
 import {Router, Route, hashHistory} from 'react-router';
 
 import About from './About';
+import Help from './Help';
 import Pics from './Pics';
 import PicView from './PicView';
 import Login from './Login';
@@ -18,6 +19,7 @@ export default class RoutedApp extends React.Component {
                 <Route path="/pics" component={Pics} />
                 <Route path="/pic/:picId" component={PicView} />
                 <Route path="/settings" component={Settings} />
+                <Route path="/help" component={Help} />
                 <Route path="/about" component={About} />
             </Router>
         );
