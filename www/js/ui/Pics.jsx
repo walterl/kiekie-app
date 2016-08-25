@@ -9,13 +9,22 @@ import MenuButton from './Menu';
 import PhotoButton from './PhotoButton';
 import SaveButton from './SaveButton';
 
-import {receivePic, requestPic, saveAllPics} from '../actions';
+import {receivePic, redirect, requestPic, saveAllPics} from '../actions';
 import {nextDebugPic} from '../lib';
 
 import '../../scss/pics.scss';
 
 
 class Pics extends React.Component {
+    renderMenuButton() {
+        const {onMenuAboutClick, onMenuSettingsClick} = this.props;
+
+        return <MenuButton
+            onAboutClick={onMenuAboutClick}
+            onSettingsClick={onMenuSettingsClick}
+        />;
+    }
+
     render() {
         const {allPicsSaved} = this.props;
         var {onCameraClick, onGalleryClick, onSaveClick} = this.props,
@@ -38,7 +47,7 @@ class Pics extends React.Component {
             <div>
                 <AppBar
                     title="Kiekie"
-                    iconElementLeft={<MenuButton />}
+                    iconElementLeft={this.renderMenuButton()}
                     iconElementRight={actions}
                     className="appbar"
                 />
@@ -66,6 +75,8 @@ function mapDispatchToProps(dispatch) {
             (uri) => dispatch(receivePic(uri))),
         onCameraClick: () => dispatch(requestPic()),
         onGalleryClick: () => dispatch(requestPic('gallery')),
+        onMenuAboutClick: () => dispatch(redirect('/about')),
+        onMenuSettingsClick: () => dispatch(redirect('/settings')),
         onSaveClick: () => dispatch(saveAllPics())
     };
 }
