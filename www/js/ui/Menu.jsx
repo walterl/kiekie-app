@@ -43,8 +43,6 @@ export default class MenuButton extends React.Component {
                 <MenuItem onTouchTap={onMenuSettingsClick}>Settings</MenuItem>
                 <MenuItem onTouchTap={onMenuAboutClick}>About Kiekie</MenuItem>
             </Drawer>
-
-            {this.renderMenuDrawer()}
         </div>;
     }
 }
