@@ -16,6 +16,7 @@ export const
     REDIRECT = 'REDIRECT',
     SAVE_CONFIG = 'SAVE_CONFIG',
     SET_CONFIG_URL = 'SET_CONFIG_URL',
+    SET_CONFIG_SETTING = 'SET_CONFIG_SETTING',
     SET_ERROR = 'SET_ERROR',
     SET_STARTUP_FINISHED = 'SET_STARTUP_FINISHED',
     SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE',
@@ -59,6 +60,16 @@ export function setConfigUrl(key, url) {
             type: SET_CONFIG_URL,
             key,
             url
+        });
+        dispatch(saveConfig());
+    };
+}
+
+export function setConfigSetting(key, value) {
+    return (dispatch) => {
+        dispatch({
+            type: SET_CONFIG_SETTING,
+            key, value
         });
         dispatch(saveConfig());
     };
