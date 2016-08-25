@@ -57,7 +57,12 @@ class Settings extends React.Component {
     renderApiServerInputDialog() {
         const actions = this.renderActions(
             'apiDialogOpen',
-            () => this.props.saveApiServerUrl(this.apiServerInput.getValue())
+            () => {
+                const newValue = this.apiServerInput.getValue();
+                if (newValue !== this.props.apiServerUrl) {
+                    this.props.saveApiServerUrl(newValue);
+                }
+            }
         );
 
         return (
@@ -81,7 +86,12 @@ class Settings extends React.Component {
     renderPicSizeDialog() {
         const actions = this.renderActions(
             'picSizeDialogOpen',
-            () => this.props.savePicMaxSize(this.picSizeInput.getValue())
+            () => {
+                const newValue = parseInt(this.picSizeInput.getValue(), 10);
+                if (newValue !== this.props.picMaxSize) {
+                    this.props.savePicMaxSize(newValue);
+                }
+            }
         );
 
         return (
