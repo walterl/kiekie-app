@@ -18,14 +18,19 @@ export default class MenuButton extends React.Component {
         this.state = {open: false};
     }
 
-    renderMenuDrawer() {
-        const toggleMenu = () => this.setState({open: !this.state.open}),
+    render() {
+        const {onMenuAboutClick, onMenuSettingsClick} = this.props,
+            toggleMenu = () => this.setState({open: !this.state.open}),
             menuCloseBtn =
                 <IconButton onTouchTap={toggleMenu}>
                     <NavigationArrowBack color={darkBlack} />
                 </IconButton>;
 
-        return (
+        return <div>
+            <IconButton onTouchTap={toggleMenu}>
+                <NavigationMenu color={white} />
+            </IconButton>
+
             <Drawer
                 docked={false}
                 open={this.state.open}
@@ -35,19 +40,9 @@ export default class MenuButton extends React.Component {
                     className="menu-appbar"
                     iconElementLeft={menuCloseBtn}
                 />
-                <MenuItem>Settings</MenuItem>
-                <MenuItem>About Kiekie</MenuItem>
+                <MenuItem onTouchTap={onMenuSettingsClick}>Settings</MenuItem>
+                <MenuItem onTouchTap={onMenuAboutClick}>About Kiekie</MenuItem>
             </Drawer>
-        );
-    }
-
-    render() {
-        const toggleMenu = () => this.setState({open: !this.state.open});
-
-        return <div>
-            <IconButton onTouchTap={toggleMenu}>
-                <NavigationMenu color={white} />
-            </IconButton>
 
             {this.renderMenuDrawer()}
         </div>;
