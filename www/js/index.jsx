@@ -1,6 +1,8 @@
 /* global cordova */
 import './polyfill/arrayincludes.js';
 import './polyfill/objectassign.js';
+import './polyfill/stringstartswith.js';
+import './polyfill/stringendswith.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
