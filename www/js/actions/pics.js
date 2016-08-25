@@ -11,6 +11,7 @@ export const
     RECEIVE_PIC = 'RECEIVE_PIC',
     DELETE_PIC = 'DELETE_PIC',
     LOAD_ALL_PICS = 'LOAD_ALL_PICS',
+    CLEAR_PICS_LIST = 'CLEAR_PICS_LIST',
     RESTORE_PIC = 'RESTORE_PIC',
     SAVE_PIC = 'SAVE_PIC',
     SAVE_PIC_REQUEST = 'SAVE_PIC_REQUEST',
@@ -244,4 +245,8 @@ export function loadAllPics() {
         dispatch(loadLocalPics());
         dispatch(fetchPicsList());
     };
+}
+
+export function clearPicsList() {
+    return {type: CLEAR_PICS_LIST};
 }

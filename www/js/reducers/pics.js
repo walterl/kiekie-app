@@ -1,5 +1,6 @@
 import {
-    DELETE_PIC, RECEIVE_PIC, RESTORE_PIC, SAVE_PIC, SELECT_PIC, SET_PIC_DATA
+    CLEAR_PICS_LIST, DELETE_PIC, RECEIVE_PIC, RESTORE_PIC, SAVE_PIC,
+    SELECT_PIC, SET_PIC_DATA
 } from '../actions';
 
 function reducePic(state, action) {
@@ -21,6 +22,8 @@ function reducePic(state, action) {
 
 function pics(state=[], action) {
     switch (action.type) {
+    case CLEAR_PICS_LIST:
+        return [];
     case RECEIVE_PIC:
         return [...state, {
             uri: action.uri,
