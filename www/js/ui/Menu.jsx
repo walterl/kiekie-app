@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {white} from 'material-ui/styles/colors';
+import ActionHelp from 'material-ui/svg-icons/action/help';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import AppBar from 'material-ui/AppBar';
@@ -9,6 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import NavigationMoreVert from 'material-ui/svg-icons/navigation/more-vert';
 
@@ -35,11 +37,6 @@ export default class MenuButton extends React.Component {
 
     renderUserMenu() {
         const menuIcon = <IconButton><NavigationMoreVert /></IconButton>,
-            onHelpClick = this.props.onHelpClick,
-            onRefreshClick = () => {
-                this.toggleMenu();
-                this.props.onRefreshClick();
-            },
             onSignoutClick = this.props.onLogoutClick;
 
         return (
@@ -48,15 +45,18 @@ export default class MenuButton extends React.Component {
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}
             >
-                <MenuItem primaryText="Refresh" onTouchTap={onRefreshClick} />
-                <MenuItem primaryText="Help" onTouchTap={onHelpClick} />
                 <MenuItem primaryText="Sign out" onTouchTap={onSignoutClick} />
             </IconMenu>
         );
     }
 
     render() {
-        const {userName, onAboutClick, onSettingsClick} = this.props,
+        const
+            {userName, onAboutClick, onHelpClick, onSettingsClick} = this.props,
+            onRefreshClick = () => {
+                this.toggleMenu();
+                this.props.onRefreshClick();
+            },
             menuCloseBtn = this.renderBackButton(this.toggleMenu),
             userMenu = this.renderUserMenu();
 
@@ -77,9 +77,19 @@ export default class MenuButton extends React.Component {
                     iconElementRight={userMenu}
                 />
                 <MenuItem
+                    primaryText="Reload pictures"
+                    onTouchTap={onRefreshClick}
+                    leftIcon={<NavigationRefresh/>}
+                />
+                <MenuItem
                     primaryText="Settings"
                     onTouchTap={onSettingsClick}
                     leftIcon={<ActionSettings/>}
+                />
+                <MenuItem
+                    primaryText="Help"
+                    onTouchTap={onHelpClick}
+                    leftIcon={<ActionHelp/>}
                 />
                 <MenuItem
                     primaryText="About Kiekie"
