@@ -8,7 +8,7 @@ import {
 import {
     setError, setStartupFinished, setStartupMessage, showLogin
 } from './index';
-import {loadLocalPics, receivePic} from './pics';
+import {loadAllPics, receivePic} from './pics';
 
 export const
     DELETE_PIC_REQUEST = 'DELETE_PIC_REQUEST',
@@ -242,10 +242,7 @@ export function loginSuccess(userName, authToken) {
     return (dispatch) => {
         storeCreds(userName, authToken);
         dispatch(setStartupMessage('Logged in.'));
-
-        dispatch(loadLocalPics());
-        dispatch(fetchPicsList());
-
+        dispatch(loadAllPics());
         return dispatch({
             type: LOGIN_SUCCESS,
             userName, authToken
