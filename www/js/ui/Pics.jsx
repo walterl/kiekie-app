@@ -17,9 +17,10 @@ import '../../scss/pics.scss';
 
 class Pics extends React.Component {
     renderMenuButton() {
-        const {onMenuAboutClick, onMenuSettingsClick} = this.props;
+        const {userName, onMenuAboutClick, onMenuSettingsClick} = this.props;
 
         return <MenuButton
+            userName={userName}
             onAboutClick={onMenuAboutClick}
             onSettingsClick={onMenuSettingsClick}
         />;
@@ -71,7 +72,8 @@ Pics.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        allPicsSaved: state.pics.every((pic) => pic.saved)
+        allPicsSaved: state.pics.every((pic) => pic.saved),
+        userName: state.server.userName
     };
 }
 
