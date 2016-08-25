@@ -58,3 +58,10 @@ export default class MenuButton extends React.Component {
         </div>;
     }
 }
+
+MenuButton.propTypes = {
+    userName: React.PropTypes.string,
+
+    onAboutClick: React.PropTypes.func.isRequired,
+    onSettingsClick: React.PropTypes.func.isRequired
+};
