@@ -20,13 +20,18 @@ export default class MenuButton extends React.Component {
         this.state = {open: false};
     }
 
+    renderBackButton(toggleMenu) {
+        return (
+            <IconButton onTouchTap={toggleMenu}>
+                <NavigationArrowBack color={darkBlack} />
+            </IconButton>
+        );
+    }
+
     render() {
         const {onAboutClick, onSettingsClick} = this.props,
             toggleMenu = () => this.setState({open: !this.state.open}),
-            menuCloseBtn =
-                <IconButton onTouchTap={toggleMenu}>
-                    <NavigationArrowBack color={darkBlack} />
-                </IconButton>;
+            menuCloseBtn = this.renderBackButton(toggleMenu),
 
         return <div>
             <IconButton onTouchTap={toggleMenu}>
