@@ -19,7 +19,7 @@ export default class MenuButton extends React.Component {
     }
 
     render() {
-        const {onMenuAboutClick, onMenuSettingsClick} = this.props,
+        const {onAboutClick, onSettingsClick} = this.props,
             toggleMenu = () => this.setState({open: !this.state.open}),
             menuCloseBtn =
                 <IconButton onTouchTap={toggleMenu}>
@@ -40,8 +40,8 @@ export default class MenuButton extends React.Component {
                     className="menu-appbar"
                     iconElementLeft={menuCloseBtn}
                 />
-                <MenuItem onTouchTap={onMenuSettingsClick}>Settings</MenuItem>
-                <MenuItem onTouchTap={onMenuAboutClick}>About Kiekie</MenuItem>
+                <MenuItem onTouchTap={onSettingsClick}>Settings</MenuItem>
+                <MenuItem onTouchTap={onAboutClick}>About Kiekie</MenuItem>
             </Drawer>
         </div>;
     }
