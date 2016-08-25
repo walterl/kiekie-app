@@ -11,7 +11,7 @@ import pics from './pics';
 import ui from './ui';
 
 
-function config(state={debug: false}, action) {
+function config(state={}, action) {
     switch (action.type) {
     case INIT_APP:
         return Object.assign({}, state, action.config);

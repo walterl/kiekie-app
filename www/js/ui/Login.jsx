@@ -153,10 +153,7 @@ class Login extends React.Component {
 
 function mapStateToProps(state) {
     const {status, error, userName} = state.ui.login;
-    return {
-        debug: state.config.debug,
-        status, error, userName
-    };
+    return {status, error, userName};
 }
 
 function mapDispatchToProps(dispatch) {
