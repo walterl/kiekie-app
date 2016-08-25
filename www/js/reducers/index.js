@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_APP, INIT_CAMERA, INIT_DIRECTORIES, SET_CONFIG_URL,
-    SET_CONFIG_SETTING,
+    INIT_APP, INIT_CAMERA, INIT_DIRECTORIES, LOGOUT,
+    SET_CONFIG_URL, SET_CONFIG_SETTING,
     LOGIN_SUCCESS, REGISTER_SUCCESS,
     FETCH_PICSLIST_SUCCESS
 } from '../actions';
@@ -66,6 +66,10 @@ function server(state={}, action) {
                     fetchedAt: Date.now()
                 }
             })
+        });
+    case LOGOUT:
+        return Object.assign({}, state, {
+            authToken: null
         });
     default:
         return state;

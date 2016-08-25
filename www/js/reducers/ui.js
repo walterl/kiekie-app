@@ -1,5 +1,6 @@
 import {
-    INIT_APP, SET_ERROR, SET_STARTUP_FINISHED, SET_STARTUP_MESSAGE, SHOW_LOGIN,
+    INIT_APP, LOGOUT, SET_ERROR, SET_STARTUP_FINISHED, SET_STARTUP_MESSAGE,
+    SHOW_LOGIN,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from '../actions';
@@ -36,6 +37,10 @@ function uiLogin(state={}, action) {
     case SHOW_LOGIN:
         return Object.assign({}, state, {
             userName: action.userName
+        });
+    case LOGOUT:
+        return Object.assign({}, state, {
+            error: null, status: ''
         });
     default:
         return state;
@@ -80,6 +85,7 @@ export default function ui(state={}, action) {
     case LOGIN_REQUEST:
     case LOGIN_SUCCESS:
     case LOGIN_FAIL:
+    case LOGOUT:
     case REGISTER_REQUEST:
     case REGISTER_SUCCESS:
     case REGISTER_FAIL:
