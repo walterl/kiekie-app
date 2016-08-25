@@ -250,3 +250,10 @@ export function loadAllPics() {
 export function clearPicsList() {
     return {type: CLEAR_PICS_LIST};
 }
+
+export function reloadPics() {
+    return (dispatch) => {
+        dispatch(clearPicsList());
+        dispatch(loadAllPics());
+    };
+}

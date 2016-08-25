@@ -1,6 +1,7 @@
 /* global cordova, Camera, LocalFileSystem */
 import {hashHistory} from 'react-router';
 
+import {reloadPics} from './pics';
 import {
     loginWithToken,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
@@ -62,6 +63,7 @@ export function setConfigUrl(key, url) {
             url
         });
         dispatch(saveConfig());
+        dispatch(reloadPics());
     };
 }
 
@@ -72,6 +74,7 @@ export function setConfigSetting(key, value) {
             key, value
         });
         dispatch(saveConfig());
+        dispatch(reloadPics());
     };
 }
 
