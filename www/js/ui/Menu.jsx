@@ -90,5 +90,8 @@ MenuButton.propTypes = {
     userName: React.PropTypes.string,
 
     onAboutClick: React.PropTypes.func.isRequired,
+    onHelpClick: React.PropTypes.func.isRequired,
+    onLogoutClick: React.PropTypes.func.isRequired,
+    onRefreshClick: React.PropTypes.func.isRequired,
     onSettingsClick: React.PropTypes.func.isRequired
 };
