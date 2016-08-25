@@ -77,13 +77,15 @@ export default class MenuButton extends React.Component {
                     iconElementRight={userMenu}
                 />
                 <MenuItem
+                    primaryText="Settings"
                     onTouchTap={onSettingsClick}
                     leftIcon={<ActionSettings/>}
-                >Settings</MenuItem>
+                />
                 <MenuItem
+                    primaryText="About Kiekie"
                     onTouchTap={onAboutClick}
                     leftIcon={<ActionInfo/>}
-                >About Kiekie</MenuItem>
+                />
             </Drawer>
         </div>;
     }
