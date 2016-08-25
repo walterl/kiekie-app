@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
+import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import {List, ListItem} from 'material-ui/List';
@@ -10,7 +11,7 @@ import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import Subheader from 'material-ui/Subheader';
 import TextField from 'material-ui/TextField';
 
-import {redirect, setConfigUrl} from '../actions';
+import {redirect, setConfigSetting, setConfigUrl} from '../actions';
 
 import '../../scss/settings.scss';
 
@@ -19,7 +20,7 @@ class Settings extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {apiDialogOpen: false};
+        this.state = {apiDialogOpen: false, picSizeDialogOpen: false};
     }
 
     setRef(component, ref) {
@@ -48,7 +49,7 @@ class Settings extends React.Component {
 
         return (
             <Dialog
-                title="API Server URL"
+                title="API server URL"
                 actions={actions}
                 modal={true}
                 open={this.state.apiDialogOpen}
@@ -58,6 +59,41 @@ class Settings extends React.Component {
                     name="api-server-url-input"
                     defaultValue={this.props.apiServerUrl}
                     ref={(c) => this.setRef(c, 'apiServerInput')}
+                    fullWidth={true}
+                />
+            </Dialog>
+        );
+    }
+
+    renderPicSizeDialog() {
+        const actions = [
+            <FlatButton
+                label="Cancel"
+                onTouchTap={this.toggleState('picSizeDialogOpen')}
+            />,
+            <FlatButton
+                label="Save"
+                primary={true}
+                onTouchTap={() => {
+                    this.props.savePicMaxSize(this.picSizeInput.getValue());
+                    this.toggleState('picSizeDialogOpen')();
+                }}
+            />
+        ];
+
+        return (
+            <Dialog
+                title="Maximum picture dimention size (px)"
+                actions={actions}
+                modal={true}
+                open={this.state.picSizeDialogOpen}
+                onRequestChange={(o) => this.setState({picSizeDialogOpen: o})}
+            >
+                <TextField
+                    name="pic-size-input"
+                    type="number"
+                    defaultValue={this.props.picMaxSize}
+                    ref={(c) => this.setRef(c, 'picSizeInput')}
                     fullWidth={true}
                 />
             </Dialog>
@@ -85,9 +121,19 @@ class Settings extends React.Component {
                         onTouchTap={this.toggleState('apiDialogOpen')}
                     />
                 </List>
+                <Divider/>
+                <List>
+                    <Subheader>Photo Resizing</Subheader>
+                    <ListItem
+                        primaryText="Maximum picture dimention size (px)"
+                        secondaryText={this.props.picMaxSize}
+                        onTouchTap={this.toggleState('picSizeDialogOpen')}
+                    />
+                </List>
             </div>
 
             {this.renderApiServerInputDialog()}
+            {this.renderPicSizeDialog()}
         </div>;
     }
 }
@@ -95,13 +141,15 @@ class Settings extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        apiServerUrl: state.config.urls.api
+        apiServerUrl: state.config.urls.api,
+        picMaxSize: state.config.picMaxSize
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         saveApiServerUrl: (url) => dispatch(setConfigUrl('api', url)),
+        savePicMaxSize: (sz) => dispatch(setConfigSetting('picMaxSize', sz)),
         redirectToPics: () => dispatch(redirect('/pics'))
     };
 }
