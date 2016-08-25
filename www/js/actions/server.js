@@ -300,11 +300,13 @@ export function loginRequest(userName, password) {
 
 export function registerSuccess(userName, authToken) {
     return (dispatch) => {
-        dispatch({
+        storeCreds(userName, authToken);
+        dispatch(setStartupMessage('Registered on server.'));
+        dispatch(loadAllPics());
+        return dispatch({
             type: REGISTER_SUCCESS,
             userName, authToken
         });
-        dispatch(loginSuccess(userName, authToken));
     };
 }
 
