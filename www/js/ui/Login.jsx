@@ -118,6 +118,7 @@ class Login extends React.Component {
             },
             onPasswordKey = (e) => {
                 if (e.keyCode === ENTER_KEY) {
+                    this.passwordInput.blur();
                     this.loginButton.props.onTouchTap();
                 }
             },
