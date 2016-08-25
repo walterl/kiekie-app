@@ -1,0 +1,26 @@
+= Kiekie TODO =
+== Deployment ==
+* [ ] Deploy server to Amazon EC2
+
+== Server ==
+* [ ] Merge viewer's server in
+
+== App ==
+* [ ] Figure out why images are not resized before being uploaded
+* [ ] Make image resizing configurable
+  * [ ] Add resizing profiles?
+* [ ] Add progress spinners to pics while network operation is in progress
+* [ ] Add keyboard hints to input fields to make enter key more useful on mobile devices
+  * [ ] Set tab order where applicable (e.g. login screen)
+* [ ] Get app uploaded to app stores
+  * [ ] Update default configuration for production build
+  * [ ] Play Store
+  * [ ] iStore
+* [ ] Add and set application icon/logo
+* [ ] Fill up "About" page
+  * [ ] Big logo
+* [ ] Fill up "Settings" page
+  * [ ] Server URL
+
+== Viewer ==
+* [ ] Merge viewer's server into Kiekie server (see above)
