@@ -107,7 +107,7 @@ class Login extends React.Component {
 
     render() {
         const {status, error, userName} = this.props,
-            btnDisabled = status === 'busy' || status === 'success',
+            btnDisabled = status === 'busy' || status.endsWith('-success'),
             errors = this.lookupErrors(error),
             {msg, msgClasses} = this.determineFeedback(status, errors),
             setRef = (component, ref) => {
