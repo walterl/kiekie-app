@@ -28,7 +28,7 @@ export {
 export * from './pics';
 
 
-export function redirect(path, replace=false) {
+export function redirect(path, replace=true) {
     return (dispatch) => {
         dispatch({
             type: REDIRECT,
@@ -59,7 +59,7 @@ export function setStartupFinished(finished=true) {
             finished
         });
 
-        dispatch(redirect('/pics', true));
+        dispatch(redirect('/pics'));
     };
 }
 

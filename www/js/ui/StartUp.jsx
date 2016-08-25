@@ -32,7 +32,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        redirectToPics: () => dispatch(redirect('/pics', true))
+        redirectToPics: () => dispatch(redirect('/pics'))
     };
 }
 
