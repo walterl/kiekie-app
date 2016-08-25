@@ -1,6 +1,8 @@
 import React from 'react';
 
 import {white, darkBlack} from 'material-ui/styles/colors';
+import ActionInfo from 'material-ui/svg-icons/action/info';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
@@ -40,8 +42,14 @@ export default class MenuButton extends React.Component {
                     className="menu-appbar"
                     iconElementLeft={menuCloseBtn}
                 />
-                <MenuItem onTouchTap={onSettingsClick}>Settings</MenuItem>
-                <MenuItem onTouchTap={onAboutClick}>About Kiekie</MenuItem>
+                <MenuItem
+                    onTouchTap={onSettingsClick}
+                    leftIcon={<ActionSettings/>}
+                >Settings</MenuItem>
+                <MenuItem
+                    onTouchTap={onAboutClick}
+                    leftIcon={<ActionInfo/>}
+                >About Kiekie</MenuItem>
             </Drawer>
         </div>;
     }
