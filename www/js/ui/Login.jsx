@@ -107,7 +107,7 @@ class Login extends React.Component {
 
     render() {
         const {status, error, userName} = this.props,
-            btnDisabled = status === 'busy' || status === 'success',
+            btnDisabled = status === 'busy' || status.endsWith('-success'),
             errors = this.lookupErrors(error),
             {msg, msgClasses} = this.determineFeedback(status, errors),
             setRef = (component, ref) => {
@@ -153,10 +153,7 @@ class Login extends React.Component {
 
 function mapStateToProps(state) {
     const {status, error, userName} = state.ui.login;
-    return {
-        debug: state.config.debug,
-        status, error, userName
-    };
+    return {status, error, userName};
 }
 
 function mapDispatchToProps(dispatch) {

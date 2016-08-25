@@ -19,8 +19,10 @@
 * [ ] Add and set application icon/logo
 * [ ] Fill up "About" page
   * [ ] Big logo
-* [ ] Fill up "Settings" page
-  * [ ] Server URL
+* [ ] Fill up "Help" page
+* [X] Fill up "Settings" page
+  * [X] Server URL
+  * [X] Picture max dimension size
 
 == Viewer ==
 * [ ] Merge viewer's server into Kiekie server (see above)

@@ -69,8 +69,15 @@ export function storeCreds(userName, authToken) {
     storage.setItem('userName', userName);
 }
 
+export function removeAuthToken() {
+    window.localStorage.removeItem('authToken');
+}
+
 export function fileExists(uri) {
     return new Promise((resolve, reject) => {
+        if (uri.startsWith('blob:') || uri.startsWith('data:')) {
+            resolve({uri, exists: true});
+        }
         window.resolveLocalFileSystemURL(
             uri,
             (entry) => resolve({uri, exists: entry.isFile}),

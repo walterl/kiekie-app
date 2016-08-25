@@ -1,6 +1,9 @@
 /* global cordova, Camera, LocalFileSystem */
 import {hashHistory} from 'react-router';
 
+import {removeAuthToken} from '../lib';
+
+import {clearPicsList, reloadPics} from './pics';
 import {
     loginWithToken,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
@@ -13,8 +16,11 @@ export const
     INIT_APP = 'INIT_APP',
     INIT_CAMERA = 'INIT_CAMERA',
     INIT_DIRECTORIES = 'INIT_DIRECTORIES',
+    LOGOUT = 'LOGOUT',
     REDIRECT = 'REDIRECT',
     SAVE_CONFIG = 'SAVE_CONFIG',
+    SET_CONFIG_URL = 'SET_CONFIG_URL',
+    SET_CONFIG_SETTING = 'SET_CONFIG_SETTING',
     SET_ERROR = 'SET_ERROR',
     SET_STARTUP_FINISHED = 'SET_STARTUP_FINISHED',
     SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE',
@@ -52,6 +58,29 @@ export function saveConfig() {
     };
 }
 
+export function setConfigUrl(key, url) {
+    return (dispatch) => {
+        dispatch({
+            type: SET_CONFIG_URL,
+            key,
+            url
+        });
+        dispatch(saveConfig());
+        dispatch(reloadPics());
+    };
+}
+
+export function setConfigSetting(key, value) {
+    return (dispatch) => {
+        dispatch({
+            type: SET_CONFIG_SETTING,
+            key, value
+        });
+        dispatch(saveConfig());
+        dispatch(reloadPics());
+    };
+}
+
 export function setStartupFinished(finished=true) {
     return (dispatch) => {
         dispatch({
@@ -84,6 +113,15 @@ export function showLogin(userName) {
             userName
         });
         dispatch(redirect('/login'));
+    };
+}
+
+export function logout() {
+    return (dispatch) => {
+        dispatch({type: LOGOUT});
+        removeAuthToken();
+        dispatch(clearPicsList());
+        dispatch(showLogin());
     };
 }
 

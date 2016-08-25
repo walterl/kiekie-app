@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
 
 import {
-    INIT_APP, INIT_CAMERA, INIT_DIRECTORIES,
+    INIT_APP, INIT_CAMERA, INIT_DIRECTORIES, LOGOUT,
+    SET_CONFIG_URL, SET_CONFIG_SETTING,
     LOGIN_SUCCESS, REGISTER_SUCCESS,
     FETCH_PICSLIST_SUCCESS
 } from '../actions';
@@ -10,13 +11,23 @@ import pics from './pics';
 import ui from './ui';
 
 
-function config(state={debug: false}, action) {
+function config(state={}, action) {
     switch (action.type) {
     case INIT_APP:
         return Object.assign({}, state, action.config);
     case INIT_CAMERA:
         return Object.assign({}, state, {
             camera: action.config
+        });
+    case SET_CONFIG_SETTING:
+        return Object.assign({}, state, {
+            [action.key]: action.value
+        });
+    case SET_CONFIG_URL:
+        return Object.assign({}, state, {
+            urls: Object.assign({}, state.urls, {
+                [action.key]: action.url
+            })
         });
     default:
         return state;
@@ -55,6 +66,10 @@ function server(state={}, action) {
                     fetchedAt: Date.now()
                 }
             })
+        });
+    case LOGOUT:
+        return Object.assign({}, state, {
+            authToken: null
         });
     default:
         return state;

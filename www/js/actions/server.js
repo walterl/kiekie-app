@@ -8,7 +8,7 @@ import {
 import {
     setError, setStartupFinished, setStartupMessage, showLogin
 } from './index';
-import {loadLocalPics, receivePic} from './pics';
+import {loadAllPics, receivePic} from './pics';
 
 export const
     DELETE_PIC_REQUEST = 'DELETE_PIC_REQUEST',
@@ -242,10 +242,7 @@ export function loginSuccess(userName, authToken) {
     return (dispatch) => {
         storeCreds(userName, authToken);
         dispatch(setStartupMessage('Logged in.'));
-
-        dispatch(loadLocalPics());
-        dispatch(fetchPicsList());
-
+        dispatch(loadAllPics());
         return dispatch({
             type: LOGIN_SUCCESS,
             userName, authToken
@@ -303,11 +300,13 @@ export function loginRequest(userName, password) {
 
 export function registerSuccess(userName, authToken) {
     return (dispatch) => {
-        dispatch({
+        storeCreds(userName, authToken);
+        dispatch(setStartupMessage('Registered on server.'));
+        dispatch(loadAllPics());
+        return dispatch({
             type: REGISTER_SUCCESS,
             userName, authToken
         });
-        dispatch(loginSuccess(userName, authToken));
     };
 }
 

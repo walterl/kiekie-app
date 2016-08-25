@@ -9,7 +9,10 @@ import MenuButton from './Menu';
 import PhotoButton from './PhotoButton';
 import SaveButton from './SaveButton';
 
-import {receivePic, redirect, requestPic, saveAllPics} from '../actions';
+import {
+    logout, receivePic, redirect, requestPic, saveAllPics
+} from '../actions';
+import {reloadPics} from '../actions/pics';
 import {nextDebugPic} from '../lib';
 
 import '../../scss/pics.scss';
@@ -17,10 +20,19 @@ import '../../scss/pics.scss';
 
 class Pics extends React.Component {
     renderMenuButton() {
-        const {onMenuAboutClick, onMenuSettingsClick} = this.props;
+        const {
+            userName,
+            onMenuAboutClick, onMenuHelpClick, onMenuRefreshClick,
+            onMenuSettingsClick, onMenuLogoutClick
+        } = this.props;
 
         return <MenuButton
+            userName={userName}
+
             onAboutClick={onMenuAboutClick}
+            onHelpClick={onMenuHelpClick}
+            onLogoutClick={onMenuLogoutClick}
+            onRefreshClick={onMenuRefreshClick}
             onSettingsClick={onMenuSettingsClick}
         />;
     }
@@ -71,7 +83,8 @@ Pics.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        allPicsSaved: state.pics.every((pic) => pic.saved)
+        allPicsSaved: state.pics.every((pic) => pic.saved),
+        userName: state.server.userName
     };
 }
 
@@ -82,6 +95,9 @@ function mapDispatchToProps(dispatch) {
         onCameraClick: () => dispatch(requestPic()),
         onGalleryClick: () => dispatch(requestPic('gallery')),
         onMenuAboutClick: () => dispatch(redirect('/about')),
+        onMenuHelpClick: () => dispatch(redirect('/help')),
+        onMenuLogoutClick: () => dispatch(logout()),
+        onMenuRefreshClick: () => dispatch(reloadPics()),
         onMenuSettingsClick: () => dispatch(redirect('/settings')),
         onSaveClick: () => dispatch(saveAllPics())
     };
