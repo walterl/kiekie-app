@@ -29,6 +29,25 @@ class PicView extends React.Component {
         this.handleNoteChange = this.handleNoteChange.bind(this);
     }
 
+    renderAppBar() {
+        const {pic} = this.props,
+            saveBtn = <SaveButton onTouchTap={this.props.savePic} />,
+            actions = <div>
+                <IconButton
+                    onTouchTap={this.props.confirmDeletePic}
+                    tooltip="Delete picture"
+                >
+                    <ActionDelete color={white} />
+                </IconButton>
+                {pic && pic.saved ? null : saveBtn}
+            </div>;
+
+        return <AppBar
+            iconElementLeft={this.renderCloseButton()}
+            iconElementRight={actions}
+        />;
+    }
+
     renderCloseButton() {
         return (
             <IconButton onTouchTap={this.handleCloseClick}>
@@ -102,22 +121,7 @@ class PicView extends React.Component {
     }
 
     render() {
-        const
-            {pic} = this.props,
-            saveBtn = <SaveButton onTouchTap={this.props.savePic} />,
-            actions = <div>
-                <IconButton
-                    onTouchTap={this.props.confirmDeletePic}
-                    tooltip="Delete picture"
-                >
-                    <ActionDelete color={white} />
-                </IconButton>
-                {pic && pic.saved ? null : saveBtn}
-            </div>,
-            appBar = <AppBar
-                iconElementLeft={this.renderCloseButton()}
-                iconElementRight={actions}
-            />;
+        const {pic} = this.props;
 
         if (!pic) {
             return this.renderEmptyView();
@@ -125,7 +129,7 @@ class PicView extends React.Component {
 
         return (
             <div>
-                {appBar}
+                {this.renderAppBar()}
                 <Pic
                     uri={pic.uri} note={pic.note}
                     onNoteChange={this.handleNoteChange}
