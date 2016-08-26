@@ -22,6 +22,7 @@ export const
     SET_CONFIG_URL = 'SET_CONFIG_URL',
     SET_CONFIG_SETTING = 'SET_CONFIG_SETTING',
     SET_ERROR = 'SET_ERROR',
+    DISMISS_ERROR = 'DISMISS_ERROR',
     SET_STARTUP_FINISHED = 'SET_STARTUP_FINISHED',
     SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE',
     SHOW_LOGIN = 'SHOW_LOGIN';
@@ -103,6 +104,13 @@ export function setError(error, src) {
     return {
         type: SET_ERROR,
         error, src
+    };
+}
+
+export function dismissError(error) {
+    return {
+        type: DISMISS_ERROR,
+        error
     };
 }
 
