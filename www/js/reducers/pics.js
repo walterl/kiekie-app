@@ -25,14 +25,14 @@ function pics(state=[], action) {
     case CLEAR_PICS_LIST:
         return [];
     case RECEIVE_PIC:
-        return [...state, {
+        return [{
             uri: action.uri,
             takenTime: action.takenTime,
             id: action.id,
             note: action.note || '',
             saved: Boolean(action.saved),
             selected: false
-        }];
+        }, ...state];
     case RESTORE_PIC:
         return [...state, action.pic];
     case DELETE_PIC:
