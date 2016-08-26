@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 
 import {yellow500} from 'material-ui/styles/colors';
 import {GridTile} from 'material-ui/GridList';
+import CircularProgress from 'material-ui/CircularProgress';
 import ContentSave from 'material-ui/svg-icons/content/save';
 
 import '../../scss/pictile.scss';
@@ -9,13 +10,18 @@ import '../../scss/pictile.scss';
 
 export default class PicTile extends React.Component {
     render() {
-        const {isSaved, src, onTouchTap} = this.props;
+        const {isBusy, isSaved, src, onTouchTap} = this.props;
         var {title} = this.props,
             icon = null;
 
         if (!isSaved) {
             icon = <ContentSave className="action-icon" color={yellow500}/>;
+            // We need a truthy title for the tile title overlay to display
+            title = title || ' ';
+        }
 
+        if (isBusy) {
+            icon = <CircularProgress size={0.5} />;
             // We need a truthy title for the tile title overlay to display
             title = title || ' ';
         }
