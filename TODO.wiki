@@ -6,6 +6,7 @@
 * [ ] Merge viewer's server in
 
 == App ==
+* [ ] Move "Take picture" button to floating action button
 * [ ] Figure out why images are not resized before being uploaded
 * [ ] Make image resizing configurable
   * [ ] Add resizing profiles?
