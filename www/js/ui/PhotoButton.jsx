@@ -1,16 +1,21 @@
 import React from 'react';
 
 import {white} from 'material-ui/styles/colors';
-import IconButton from 'material-ui/IconButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ImagePhotoCamera from 'material-ui/svg-icons/image/photo-camera';
+
+import '../../scss/photobutton.scss';
 
 
 export default class PhotoButton extends React.Component {
     render() {
         return (
-            <IconButton onTouchTap={this.props.onTouchTap}>
+            <FloatingActionButton
+                className="photo-btn"
+                onTouchTap={this.props.onTouchTap}
+            >
                 <ImagePhotoCamera color={white} />
-            </IconButton>
+            </FloatingActionButton>
         );
     }
 }
