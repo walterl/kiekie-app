@@ -9,13 +9,12 @@ import '../../scss/savebutton.scss';
 
 export default class SaveButton extends React.Component {
     render() {
-        const {disabled, onTouchTap} = this.props,
-            tooltip = this.props.tooltip || 'Save picture';
+        const {disabled, onTouchTap} = this.props;
 
         return (
             <FloatingActionButton
                 className="floating-save-btn"
-                tooltip={tooltip} disabled={disabled}
+                disabled={disabled}
                 onTouchTap={onTouchTap}
             >
                 <ContentSave color={yellow500} />
@@ -25,6 +24,5 @@ export default class SaveButton extends React.Component {
 }
 
 SaveButton.propTypes = {
-    tooltip: React.PropTypes.string,
     onTouchTap: React.PropTypes.func.isRequired
 };
