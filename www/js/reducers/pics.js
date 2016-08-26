@@ -1,6 +1,6 @@
 import {
-    CLEAR_PICS_LIST, DELETE_PIC, RECEIVE_PIC, RESTORE_PIC, SAVE_PIC,
-    SELECT_PIC, SET_PIC_DATA
+    CLEAR_PICS_LIST, DELETE_PIC, RECEIVE_PIC, RESTORE_PIC,
+    SAVE_PIC_REQUEST, SAVE_PIC, SELECT_PIC, SET_PIC_DATA
 } from '../actions';
 
 function reducePic(state, action) {
@@ -9,8 +9,13 @@ function reducePic(state, action) {
     }
 
     switch (action.type) {
+    case SAVE_PIC_REQUEST:
+        return Object.assign({}, state, {
+            busy: true
+        });
     case SAVE_PIC:
         return Object.assign({}, state, {
+            busy: false,
             saved: true
         });
     case SET_PIC_DATA:
@@ -31,12 +36,14 @@ function pics(state=[], action) {
             id: action.id,
             note: action.note || '',
             saved: Boolean(action.saved),
-            selected: false
+            selected: false,
+            busy: false
         }, ...state];
     case RESTORE_PIC:
         return [...state, action.pic];
     case DELETE_PIC:
         return state.filter((p) => p.id !== action.id);
+    case SAVE_PIC_REQUEST:
     case SAVE_PIC:
     case SET_PIC_DATA:
         return state.map((p) => reducePic(p, action));
