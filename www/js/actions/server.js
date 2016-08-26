@@ -200,7 +200,7 @@ export function updatePicRequest(id) {
                 resolve();
             })
             .catch((err) => {
-                if (err.response.status === HTTP_NOT_FOUND) {
+                if (err.response && err.response.status === HTTP_NOT_FOUND) {
                     // Pic does not yet exist on server. Let's create it.
                     return dispatch(uploadPic(pic))
                     .then(resolve)
