@@ -113,12 +113,12 @@ class PicView extends React.Component {
 
     handleCloseClick() {
         this.props.close();
-        hashHistory.push('/pics');
+        hashHistory.goBack();
     }
 
     handleDeleteConfirm() {
         this.props.deletePic();
-        hashHistory.push('/pics');
+        hashHistory.goBack();
     }
 
     handleNoteChange(event) {
