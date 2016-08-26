@@ -83,7 +83,7 @@ Pics.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        allPicsSaved: state.pics.every((pic) => pic.saved),
+        allPicsSaved: state.pics.every((pic) => pic.saved || pic.busy),
         userName: state.server.userName
     };
 }
