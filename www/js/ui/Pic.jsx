@@ -16,6 +16,7 @@ export default class Pic extends React.Component {
                     <TextField
                         floatingLabelText="Note" multiLine={true}
                         value={note}
+                        style={{maxWidth: 'calc(100% - 80px)'}}
                         onChange={onNoteChange}
                     />
                 </CardText>

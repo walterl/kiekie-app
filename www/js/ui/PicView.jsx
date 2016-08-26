@@ -12,7 +12,7 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import {white} from 'material-ui/styles/colors';
 
 import Pic from './Pic';
-import SaveButton from './SaveButton';
+import SaveButton from './FloatingSaveButton';
 
 import {
     cancelDeletePic, deletePic, confirmDeletePic, setNote, savePic,
@@ -27,6 +27,25 @@ class PicView extends React.Component {
         this.handleCloseClick = this.handleCloseClick.bind(this);
         this.handleDeleteConfirm = this.handleDeleteConfirm.bind(this);
         this.handleNoteChange = this.handleNoteChange.bind(this);
+    }
+
+    renderAppBar() {
+        const {pic} = this.props,
+            saveBtn = <SaveButton onTouchTap={this.props.savePic} />,
+            actions = <div>
+                <IconButton
+                    onTouchTap={this.props.confirmDeletePic}
+                    tooltip="Delete picture"
+                >
+                    <ActionDelete color={white} />
+                </IconButton>
+                {pic && pic.saved ? null : saveBtn}
+            </div>;
+
+        return <AppBar
+            iconElementLeft={this.renderCloseButton()}
+            iconElementRight={actions}
+        />;
     }
 
     renderCloseButton() {
@@ -102,24 +121,7 @@ class PicView extends React.Component {
     }
 
     render() {
-        const
-            {pic} = this.props,
-            actions = <div>
-                <IconButton
-                    onTouchTap={this.props.confirmDeletePic}
-                    tooltip="Delete picture"
-                >
-                    <ActionDelete color={white} />
-                </IconButton>
-                <SaveButton
-                    onTouchTap={this.props.savePic}
-                    disabled={pic ? pic.saved : true}
-                />
-            </div>,
-            appBar = <AppBar
-                iconElementLeft={this.renderCloseButton()}
-                iconElementRight={actions}
-            />;
+        const {pic} = this.props;
 
         if (!pic) {
             return this.renderEmptyView();
@@ -127,7 +129,7 @@ class PicView extends React.Component {
 
         return (
             <div>
-                {appBar}
+                {this.renderAppBar()}
                 <Pic
                     uri={pic.uri} note={pic.note}
                     onNoteChange={this.handleNoteChange}
