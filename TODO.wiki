@@ -6,13 +6,15 @@
 * [ ] Merge viewer's server in
 
 == App ==
-* [ ] Move "Take picture" button to floating action button
+* [X] Move "Take picture" button to floating action button
 * [ ] Figure out why images are not resized before being uploaded
-* [ ] Make image resizing configurable
-  * [ ] Add resizing profiles?
+* [X] Make image resizing configurable
+  * [X] Add resizing profiles?
+    * Profiles unnecessary: there is only one value to change: max pic dimension size, and that has been done
 * [ ] Add progress spinners to pics while network operation is in progress
-* [ ] Add keyboard hints to input fields to make enter key more useful on mobile devices
-  * [ ] Set tab order where applicable (e.g. login screen)
+* [X] Add keyboard hints to input fields to make enter key more useful on mobile devices
+  * [X] Set tab order where applicable (e.g. login screen)
+    * Manually coded
 * [ ] Get app uploaded to app stores
   * [ ] Update default configuration for production build
   * [ ] Play Store
