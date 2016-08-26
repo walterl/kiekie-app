@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 
+import {darkWhite, red500} from 'material-ui/styles/colors';
+import AlertError from 'material-ui/svg-icons/alert/error';
 import Card from 'material-ui/Card/Card';
 import CardMedia from 'material-ui/Card/CardMedia';
 import CardText from 'material-ui/Card/CardText';
@@ -9,13 +11,29 @@ import TextField from 'material-ui/TextField';
 
 export default class Pic extends React.Component {
     renderCardMedia() {
-        const {isLoading, uri} = this.props;
+        const {error, isLoading, uri} = this.props;
+        var overlay = null;
 
         if (isLoading) {
             return (
                 <CardMedia
                     overlay={this.renderLoading()}
                     overlayContentStyle={{top: 0}}
+                >
+                    <img src={uri} />
+                </CardMedia>
+            );
+        }
+
+        if (error) {
+            overlay = <table style={{color: darkWhite}}><tbody><tr>
+                <td><AlertError color={red500} /></td>
+                <td>{error}</td>
+            </tr></tbody></table>;
+
+            return (
+                <CardMedia
+                    overlay={overlay}
                 >
                     <img src={uri} />
                 </CardMedia>
