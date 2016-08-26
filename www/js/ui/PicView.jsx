@@ -12,7 +12,7 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import {white} from 'material-ui/styles/colors';
 
 import Pic from './Pic';
-import SaveButton from './SaveButton';
+import SaveButton from './FloatingSaveButton';
 
 import {
     cancelDeletePic, deletePic, confirmDeletePic, setNote, savePic,
@@ -104,6 +104,7 @@ class PicView extends React.Component {
     render() {
         const
             {pic} = this.props,
+            saveBtn = <SaveButton onTouchTap={this.props.savePic} />,
             actions = <div>
                 <IconButton
                     onTouchTap={this.props.confirmDeletePic}
@@ -111,10 +112,7 @@ class PicView extends React.Component {
                 >
                     <ActionDelete color={white} />
                 </IconButton>
-                <SaveButton
-                    onTouchTap={this.props.savePic}
-                    disabled={pic ? pic.saved : true}
-                />
+                {pic && pic.saved ? null : saveBtn}
             </div>,
             appBar = <AppBar
                 iconElementLeft={this.renderCloseButton()}
