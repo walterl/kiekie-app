@@ -131,7 +131,7 @@ class PicView extends React.Component {
             <div>
                 {this.renderAppBar()}
                 <Pic
-                    uri={pic.uri} note={pic.note}
+                    uri={pic.uri} note={pic.note} isLoading={pic.busy}
                     onNoteChange={this.handleNoteChange}
                 />
                 {this.renderDeleteDialog()}
