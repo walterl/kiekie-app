@@ -31,20 +31,14 @@ class PicView extends React.Component {
 
     renderAppBar() {
         const {pic} = this.props,
-            saveBtn = <SaveButton onTouchTap={this.props.savePic} />,
-            actions = <div>
-                <IconButton
-                    onTouchTap={this.props.confirmDeletePic}
-                    tooltip="Delete picture"
-                >
-                    <ActionDelete color={white} />
-                </IconButton>
-                {pic && pic.saved ? null : saveBtn}
-            </div>;
+            saveBtn = <SaveButton onTouchTap={this.props.savePic} />;
 
         return <AppBar
             iconElementLeft={this.renderCloseButton()}
-            iconElementRight={actions}
+            iconElementRight={<div>
+                {this.renderDeleteButton()}
+                {pic && pic.saved ? null : saveBtn}
+            </div>}
         />;
     }
 
@@ -52,6 +46,17 @@ class PicView extends React.Component {
         return (
             <IconButton onTouchTap={this.handleCloseClick}>
                 <NavigationArrowBack/>
+            </IconButton>
+        );
+    }
+
+    renderDeleteButton() {
+        return (
+            <IconButton
+                onTouchTap={this.props.confirmDeletePic}
+                tooltip="Delete picture"
+            >
+                <ActionDelete color={white} />
             </IconButton>
         );
     }
