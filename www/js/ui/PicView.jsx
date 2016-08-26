@@ -8,7 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import {white} from 'material-ui/styles/colors';
 
 import Pic from './Pic';
@@ -51,7 +51,7 @@ class PicView extends React.Component {
     renderCloseButton() {
         return (
             <IconButton onTouchTap={this.handleCloseClick}>
-                <NavigationClose/>
+                <NavigationArrowBack/>
             </IconButton>
         );
     }
