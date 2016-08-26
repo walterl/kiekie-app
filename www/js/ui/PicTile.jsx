@@ -10,26 +10,33 @@ import '../../scss/pictile.scss';
 
 
 export default class PicTile extends React.Component {
-    render() {
-        const {isBusy, isSaved, error, src, onTouchTap} = this.props;
-        var {title} = this.props,
-            icon = null;
+    renderIcon() {
+        const {isBusy, isSaved, error} = this.props;
+        var icon = null;
 
         if (!isSaved) {
             icon = <ContentSave className="action-icon" color={yellow500} />;
-            // We need a truthy title for the tile title overlay to display
-            title = title || ' ';
         }
 
         if (isBusy) {
             icon = <CircularProgress size={0.5} />;
-            // We need a truthy title for the tile title overlay to display
-            title = title || ' ';
         }
 
         if (error) {
             icon = <AlertError className="action-icon" color={red500} />;
-            // We need a truthy title for the tile title overlay to display
+        }
+
+        return icon;
+    }
+
+    render() {
+        const {src, onTouchTap} = this.props,
+            icon = this.renderIcon();
+        var {title} = this.props;
+
+        if (icon) {
+            // We need a truthy title for the tile title overlay to display our
+            // icon.
             title = title || ' ';
         }
 
