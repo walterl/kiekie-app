@@ -31,13 +31,7 @@ export default class Pic extends React.Component {
                 <td>{error}</td>
             </tr></tbody></table>;
 
-            return (
-                <CardMedia
-                    overlay={overlay}
-                >
-                    <img src={uri} />
-                </CardMedia>
-            );
+            return <CardMedia overlay={overlay}><img src={uri} /></CardMedia>;
         }
 
         return <CardMedia><img src={uri} /></CardMedia>;
