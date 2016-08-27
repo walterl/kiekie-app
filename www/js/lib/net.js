@@ -64,83 +64,63 @@ function checkStatus(response) {
     });
 }
 
-function buildHeaders(token) {
-    const headers = {
+function buildHeaders() {
+    const token = window.localStorage.getItem('authToken');
+    return {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    };
-
-    if (token) {
-        headers['Authorization'] = `Token ${token}`;
-    }
-
-    return headers;
-}
-
-export function formPost(url, data, token, options) {
-    options = options || {};
-
-    if (typeof token === 'undefined') {
-        token = window.localStorage.getItem('authToken');
-    }
-
-    options.method = 'POST';
-    options.headers = {
+        'Content-Type': 'application/json',
         'Authorization': `Token ${token}`
     };
-    options.body = data;
+}
 
+function request(url, options={}) {
+    options.headers = buildHeaders();
     return fetch(url, options)
     .then(checkStatus);
 }
 
-export function requestData(url, token, options) {
-    options = options || {};
+export function formPost(url, data, options={}) {
+    options.method = 'POST';
+    options.body = data;
+    return request(url, options);
+}
 
-    if (typeof token === 'undefined') {
-        token = window.localStorage.getItem('authToken');
-    }
-
-    options.headers = buildHeaders(token);
-    return fetch(url, options)
-    .then(checkStatus)
+export function requestData(url, options={}) {
+    return request(url, options)
     .then((response) => response.blob());
 }
 
-function jsonRequest(url, token, options) {
-    options = options || {};
+export function requestDelete(url, options={}) {
+    options.method = 'DELETE';
+    return request(url, options);
+}
 
-    if (typeof token === 'undefined') {
-        token = window.localStorage.getItem('authToken');
-    }
-
-    options.headers = buildHeaders(token);
-    if (options.body && typeof body !== 'string') {
+function jsonRequest(url, options={}) {
+    if (options.body && typeof options.body !== 'string') {
         options.body = JSON.stringify(options.body);
     }
 
-    return fetch(url, options)
-    .then(checkStatus)
+    return request(url, options)
     .then((response) => response.json());
 }
 
-export function jsonDelete(url, token) {
-    return jsonRequest(url, token, {method: 'DELETE'});
+export function jsonDelete(url) {
+    return jsonRequest(url, {method: 'DELETE'});
 }
 
-export function jsonGet(url, token) {
-    return jsonRequest(url, token);
+export function jsonGet(url) {
+    return jsonRequest(url);
 }
 
-export function jsonPost(url, json, token) {
-    return jsonRequest(url, token, {
+export function jsonPost(url, json) {
+    return jsonRequest(url, {
         method: 'POST',
         body: json
     });
 }
 
-export function jsonPut(url, json, token) {
-    return jsonRequest(url, token, {
+export function jsonPut(url, json) {
+    return jsonRequest(url, {
         method: 'PUT',
         body: json
     });

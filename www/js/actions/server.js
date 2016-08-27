@@ -1,7 +1,7 @@
 /* global cordova, FileTransfer */
 import {fileExists, readBlob, storeCreds, writeBlob} from '../lib';
 import {
-    HTTP_NOT_FOUND, formPost, jsonDelete, jsonGet, jsonPost, jsonPut,
+    HTTP_NOT_FOUND, formPost, jsonGet, jsonPost, jsonPut, requestDelete,
     requestData
 } from '../lib/net';
 
@@ -226,7 +226,7 @@ export function deletePicRequest(id) {
             id
         });
 
-        jsonDelete(picUrl)
+        requestDelete(picUrl)
         .then(() => dispatch({
             type: DELETE_PIC_SUCCESS,
             id
