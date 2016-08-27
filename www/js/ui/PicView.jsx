@@ -37,7 +37,7 @@ class PicView extends React.Component {
             iconElementLeft={this.renderCloseButton()}
             iconElementRight={<div>
                 {this.renderDeleteButton()}
-                {pic && pic.saved ? null : saveBtn}
+                {pic && (pic.saved || pic.busy) ? null : saveBtn}
             </div>}
         />;
     }
