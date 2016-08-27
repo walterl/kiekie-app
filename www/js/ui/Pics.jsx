@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 
+import ErrorBar from './ErrorBar';
 import PicsList from './PicsList';
 import GalleryButton from './GalleryButton';
 import MenuButton from './Menu';
@@ -64,6 +65,8 @@ class Pics extends React.Component {
                     className="appbar"
                 />
                 <PicsList />
+
+                <ErrorBar />
             </div>
         );
     }
