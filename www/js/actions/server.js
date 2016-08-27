@@ -233,7 +233,7 @@ export function deletePicRequest(id) {
         }))
         .catch((error) => dispatch({
             type: DELETE_PIC_FAIL,
-            error
+            id, error
         }));
     };
 }
