@@ -1,7 +1,17 @@
 import {
     CLEAR_PICS_LIST, RECEIVE_PIC, RESTORE_PIC,
+    DELETE_PIC_REQUEST, DELETE_PIC_SUCCESS, DELETE_PIC_FAIL,
     SAVE_PIC_REQUEST, SAVE_PIC, SELECT_PIC, SET_PIC_DATA
 } from '../actions';
+
+function lookupPicError(action) {
+    switch (action.type) {
+    case DELETE_PIC_FAIL:
+        return 'Failed to delete picture.';
+    default:
+        return action.error.toString();
+    }
+}
 
 function reducePic(state, action) {
     if (state.id !== action.id) {
@@ -9,12 +19,20 @@ function reducePic(state, action) {
     }
 
     switch (action.type) {
+    case DELETE_PIC_REQUEST:
     case SAVE_PIC_REQUEST:
         return Object.assign({}, state, {
-            busy: true
+            busy: true,
+            confirmDelete: false
         });
     case SAVE_PIC:
         return Object.assign({}, state, {
+            busy: false,
+            saved: true
+        });
+    case DELETE_PIC_FAIL:
+        return Object.assign({}, state, {
+            error: lookupPicError(action),
             busy: false,
             saved: true
         });
@@ -25,6 +43,7 @@ function reducePic(state, action) {
     }
 }
 
+// eslint-disable-next-line complexity
 function pics(state=[], action) {
     switch (action.type) {
     case CLEAR_PICS_LIST:
@@ -43,6 +62,8 @@ function pics(state=[], action) {
         return [...state, action.pic];
     case DELETE_PIC_SUCCESS:
         return state.filter((p) => p.id !== action.id);
+    case DELETE_PIC_REQUEST:
+    case DELETE_PIC_FAIL:
     case SAVE_PIC_REQUEST:
     case SAVE_PIC:
     case SET_PIC_DATA:
