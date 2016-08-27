@@ -11,9 +11,8 @@ import PhotoButton from './PhotoButton';
 import SaveButton from './SaveButton';
 
 import {
-    logout, receivePic, redirect, requestPic, saveAllPics
+    logout, receivePic, redirect, reloadPics, requestPic, saveAllPics
 } from '../actions';
-import {reloadPics} from '../actions/pics';
 import {nextDebugPic} from '../lib';
 
 import '../../scss/pics.scss';
