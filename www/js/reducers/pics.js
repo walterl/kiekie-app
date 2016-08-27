@@ -1,5 +1,5 @@
 import {
-    CLEAR_PICS_LIST, DELETE_PIC, RECEIVE_PIC, RESTORE_PIC,
+    CLEAR_PICS_LIST, RECEIVE_PIC, RESTORE_PIC,
     SAVE_PIC_REQUEST, SAVE_PIC, SELECT_PIC, SET_PIC_DATA
 } from '../actions';
 
@@ -41,7 +41,7 @@ function pics(state=[], action) {
         }, ...state];
     case RESTORE_PIC:
         return [...state, action.pic];
-    case DELETE_PIC:
+    case DELETE_PIC_SUCCESS:
         return state.filter((p) => p.id !== action.id);
     case SAVE_PIC_REQUEST:
     case SAVE_PIC:

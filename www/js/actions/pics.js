@@ -4,12 +4,11 @@ import uuid from 'uuid';
 import {copyLocalFile, fileExists, resizeImage} from '../lib';
 
 import {setError} from './index';
-import {deletePicRequest, fetchPicsList, updatePicRequest} from './server';
+import {fetchPicsList, updatePicRequest} from './server';
 
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
     RECEIVE_PIC = 'RECEIVE_PIC',
-    DELETE_PIC = 'DELETE_PIC',
     LOAD_ALL_PICS = 'LOAD_ALL_PICS',
     CLEAR_PICS_LIST = 'CLEAR_PICS_LIST',
     RESTORE_PIC = 'RESTORE_PIC',
@@ -149,17 +148,6 @@ export function restorePic(pic) {
     return {
         type: RESTORE_PIC,
         pic
-    };
-}
-
-export function deletePic(id) {
-    return (dispatch) => {
-        dispatch({
-            type: DELETE_PIC,
-            id
-        });
-
-        dispatch(deletePicRequest(id));
     };
 }
 

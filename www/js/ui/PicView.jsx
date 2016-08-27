@@ -15,7 +15,7 @@ import Pic from './Pic';
 import SaveButton from './FloatingSaveButton';
 
 import {
-    cancelDeletePic, deletePic, confirmDeletePic, setNote, savePic,
+    cancelDeletePic, deletePicRequest, confirmDeletePic, setNote, savePic,
     selectPic
 } from '../actions';
 
@@ -158,7 +158,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         close: () => dispatch(selectPic(null)),
         cancelDeletePic: () => dispatch(cancelDeletePic(picId)),
-        deletePic: () => dispatch(deletePic(picId)),
+        deletePic: () => dispatch(deletePicRequest(picId)),
         confirmDeletePic: () => dispatch(confirmDeletePic(picId)),
         noteChanged: (newValue) => dispatch(setNote(picId, newValue)),
         savePic: () => dispatch(savePic(picId))
