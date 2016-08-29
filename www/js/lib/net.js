@@ -66,11 +66,16 @@ function checkStatus(response) {
 
 function buildHeaders() {
     const token = window.localStorage.getItem('authToken');
-    return {
+    var headers = {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`
+        'Content-Type': 'application/json'
     };
+
+    if (token) {
+        headers['Authorization'] = `Token ${token}`;
+    }
+
+    return headers;
 }
 
 function request(url, options={}) {
