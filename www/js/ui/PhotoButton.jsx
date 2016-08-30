@@ -2,7 +2,7 @@ import React from 'react';
 
 import {white} from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ImagePhotoCamera from 'material-ui/svg-icons/image/photo-camera';
+import ImageAddAPhoto from 'material-ui/svg-icons/image/add-a-photo';
 
 import '../../scss/photobutton.scss';
 
@@ -14,7 +14,7 @@ export default class PhotoButton extends React.Component {
                 className="photo-btn"
                 onTouchTap={this.props.onTouchTap}
             >
-                <ImagePhotoCamera color={white} />
+                <ImageAddAPhoto color={white} />
             </FloatingActionButton>
         );
     }

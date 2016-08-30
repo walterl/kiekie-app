@@ -1,6 +1,6 @@
 import {
-    INIT_APP, LOGOUT, SET_ERROR, SET_STARTUP_FINISHED, SET_STARTUP_MESSAGE,
-    SHOW_LOGIN,
+    INIT_APP, DISMISS_ERROR, FETCH_PICSLIST_FAIL, LOGOUT, SET_ERROR,
+    SET_STARTUP_FINISHED, SET_STARTUP_MESSAGE, SHOW_LOGIN,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from '../actions';
@@ -76,6 +76,14 @@ export default function ui(state={}, action) {
             message: action.error,
             src: action.src
         };
+        return newState;
+    case DISMISS_ERROR:
+        if (newState.error.message === action.error) {
+            newState.error = {message: '', src: ''};
+        }
+        return newState;
+    case FETCH_PICSLIST_FAIL:
+        newState.error = {message: 'Unable to load pics from server.'};
         return newState;
     case INIT_APP:
     case SET_STARTUP_FINISHED:

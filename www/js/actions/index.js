@@ -4,12 +4,7 @@ import {hashHistory} from 'react-router';
 import {removeAuthToken} from '../lib';
 
 import {clearPicsList, reloadPics} from './pics';
-import {
-    loginWithToken,
-    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
-    REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL,
-    FETCH_PICSLIST_REQUEST, FETCH_PICSLIST_SUCCESS, FETCH_PICSLIST_FAIL
-} from './server';
+import {loginWithToken} from './server';
 
 
 export const
@@ -22,16 +17,13 @@ export const
     SET_CONFIG_URL = 'SET_CONFIG_URL',
     SET_CONFIG_SETTING = 'SET_CONFIG_SETTING',
     SET_ERROR = 'SET_ERROR',
+    DISMISS_ERROR = 'DISMISS_ERROR',
     SET_STARTUP_FINISHED = 'SET_STARTUP_FINISHED',
     SET_STARTUP_MESSAGE = 'SET_STARTUP_MESSAGE',
     SHOW_LOGIN = 'SHOW_LOGIN';
 
-export {
-    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
-    REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL,
-    FETCH_PICSLIST_REQUEST, FETCH_PICSLIST_SUCCESS, FETCH_PICSLIST_FAIL
-};
 export * from './pics';
+export * from './server';
 
 
 export function redirect(path, replace=true) {
@@ -103,6 +95,13 @@ export function setError(error, src) {
     return {
         type: SET_ERROR,
         error, src
+    };
+}
+
+export function dismissError(error) {
+    return {
+        type: DISMISS_ERROR,
+        error
     };
 }
 

@@ -1,7 +1,7 @@
 /* global cordova, FileTransfer */
 import {fileExists, readBlob, storeCreds, writeBlob} from '../lib';
 import {
-    HTTP_NOT_FOUND, formPost, jsonDelete, jsonGet, jsonPost, jsonPut,
+    HTTP_NOT_FOUND, formPost, jsonGet, jsonPost, jsonPut, requestDelete,
     requestData
 } from '../lib/net';
 
@@ -200,7 +200,7 @@ export function updatePicRequest(id) {
                 resolve();
             })
             .catch((err) => {
-                if (err.response.status === HTTP_NOT_FOUND) {
+                if (err.response && err.response.status === HTTP_NOT_FOUND) {
                     // Pic does not yet exist on server. Let's create it.
                     return dispatch(uploadPic(pic))
                     .then(resolve)
@@ -226,14 +226,14 @@ export function deletePicRequest(id) {
             id
         });
 
-        jsonDelete(picUrl)
+        requestDelete(picUrl)
         .then(() => dispatch({
             type: DELETE_PIC_SUCCESS,
             id
         }))
         .catch((error) => dispatch({
             type: DELETE_PIC_FAIL,
-            error
+            id, error
         }));
     };
 }

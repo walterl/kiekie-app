@@ -8,14 +8,14 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import {white} from 'material-ui/styles/colors';
 
 import Pic from './Pic';
 import SaveButton from './FloatingSaveButton';
 
 import {
-    cancelDeletePic, deletePic, confirmDeletePic, setNote, savePic,
+    cancelDeletePic, deletePicRequest, confirmDeletePic, setNote, savePic,
     selectPic
 } from '../actions';
 
@@ -31,27 +31,32 @@ class PicView extends React.Component {
 
     renderAppBar() {
         const {pic} = this.props,
-            saveBtn = <SaveButton onTouchTap={this.props.savePic} />,
-            actions = <div>
-                <IconButton
-                    onTouchTap={this.props.confirmDeletePic}
-                    tooltip="Delete picture"
-                >
-                    <ActionDelete color={white} />
-                </IconButton>
-                {pic && pic.saved ? null : saveBtn}
-            </div>;
+            saveBtn = <SaveButton onTouchTap={this.props.savePic} />;
 
         return <AppBar
             iconElementLeft={this.renderCloseButton()}
-            iconElementRight={actions}
+            iconElementRight={<div>
+                {this.renderDeleteButton()}
+                {pic && (pic.saved || pic.busy) ? null : saveBtn}
+            </div>}
         />;
     }
 
     renderCloseButton() {
         return (
             <IconButton onTouchTap={this.handleCloseClick}>
-                <NavigationClose/>
+                <NavigationArrowBack/>
+            </IconButton>
+        );
+    }
+
+    renderDeleteButton() {
+        return (
+            <IconButton
+                onTouchTap={this.props.confirmDeletePic}
+                tooltip="Delete picture"
+            >
+                <ActionDelete color={white} />
             </IconButton>
         );
     }
@@ -108,12 +113,12 @@ class PicView extends React.Component {
 
     handleCloseClick() {
         this.props.close();
-        hashHistory.push('/pics');
+        hashHistory.goBack();
     }
 
     handleDeleteConfirm() {
         this.props.deletePic();
-        hashHistory.push('/pics');
+        hashHistory.goBack();
     }
 
     handleNoteChange(event) {
@@ -131,7 +136,8 @@ class PicView extends React.Component {
             <div>
                 {this.renderAppBar()}
                 <Pic
-                    uri={pic.uri} note={pic.note}
+                    uri={pic.uri} note={pic.note} isLoading={pic.busy}
+                    error={pic.error}
                     onNoteChange={this.handleNoteChange}
                 />
                 {this.renderDeleteDialog()}
@@ -152,7 +158,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     return {
         close: () => dispatch(selectPic(null)),
         cancelDeletePic: () => dispatch(cancelDeletePic(picId)),
-        deletePic: () => dispatch(deletePic(picId)),
+        deletePic: () => dispatch(deletePicRequest(picId)),
         confirmDeletePic: () => dispatch(confirmDeletePic(picId)),
         noteChanged: (newValue) => dispatch(setNote(picId, newValue)),
         savePic: () => dispatch(savePic(picId))

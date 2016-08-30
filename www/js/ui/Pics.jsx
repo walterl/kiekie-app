@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 
+import ErrorBar from './ErrorBar';
 import PicsList from './PicsList';
 import GalleryButton from './GalleryButton';
 import MenuButton from './Menu';
@@ -10,9 +11,8 @@ import PhotoButton from './PhotoButton';
 import SaveButton from './SaveButton';
 
 import {
-    logout, receivePic, redirect, requestPic, saveAllPics
+    logout, receivePic, redirect, reloadPics, requestPic, saveAllPics
 } from '../actions';
-import {reloadPics} from '../actions/pics';
 import {nextDebugPic} from '../lib';
 
 import '../../scss/pics.scss';
@@ -64,6 +64,8 @@ class Pics extends React.Component {
                     className="appbar"
                 />
                 <PicsList />
+
+                <ErrorBar />
             </div>
         );
     }
@@ -83,7 +85,7 @@ Pics.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        allPicsSaved: state.pics.every((pic) => pic.saved),
+        allPicsSaved: state.pics.every((pic) => pic.saved || pic.busy),
         userName: state.server.userName
     };
 }
@@ -98,7 +100,7 @@ function mapDispatchToProps(dispatch) {
         onMenuHelpClick: () => dispatch(redirect('/help')),
         onMenuLogoutClick: () => dispatch(logout()),
         onMenuRefreshClick: () => dispatch(reloadPics()),
-        onMenuSettingsClick: () => dispatch(redirect('/settings')),
+        onMenuSettingsClick: () => dispatch(redirect('/settings', false)),
         onSaveClick: () => dispatch(saveAllPics())
     };
 }

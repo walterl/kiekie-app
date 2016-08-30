@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {hashHistory} from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
@@ -11,7 +12,7 @@ import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import Subheader from 'material-ui/Subheader';
 import TextField from 'material-ui/TextField';
 
-import {redirect, setConfigSetting, setConfigUrl} from '../actions';
+import {setConfigSetting, setConfigUrl} from '../actions';
 
 import '../../scss/settings.scss';
 
@@ -75,6 +76,7 @@ class Settings extends React.Component {
             >
                 <TextField
                     name="api-server-url-input"
+                    type="url"
                     defaultValue={this.props.apiServerUrl}
                     ref={(c) => this.setRef(c, 'apiServerInput')}
                     fullWidth={true}
@@ -116,7 +118,7 @@ class Settings extends React.Component {
     render() {
         const
             menuCloseBtn =
-                <IconButton onTouchTap={this.props.redirectToPics}>
+                <IconButton onTouchTap={() => hashHistory.goBack()}>
                     <NavigationArrowBack />
                 </IconButton>;
 
@@ -162,8 +164,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         saveApiServerUrl: (url) => dispatch(setConfigUrl('api', url)),
-        savePicMaxSize: (sz) => dispatch(setConfigSetting('picMaxSize', sz)),
-        redirectToPics: () => dispatch(redirect('/pics'))
+        savePicMaxSize: (sz) => dispatch(setConfigSetting('picMaxSize', sz))
     };
 }
 

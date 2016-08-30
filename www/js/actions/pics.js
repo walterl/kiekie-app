@@ -4,14 +4,21 @@ import uuid from 'uuid';
 import {copyLocalFile, fileExists, resizeImage} from '../lib';
 
 import {setError} from './index';
-import {deletePicRequest, fetchPicsList, updatePicRequest} from './server';
+import {fetchPicsList, updatePicRequest} from './server';
 
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
-    RECEIVE_PIC = 'RECEIVE_PIC',
-    DELETE_PIC = 'DELETE_PIC',
-    LOAD_ALL_PICS = 'LOAD_ALL_PICS',
     CLEAR_PICS_LIST = 'CLEAR_PICS_LIST',
+    COPY_PIC = 'COPY_PIC',
+    COPY_PIC_SUCCESS = 'COPY_PIC_SUCCESS',
+    GENERATE_THUMBNAIL = 'GENERATE_THUMBNAIL',
+    GENERATE_THUMBNAIL_SUCCESS = 'GENERATE_THUMBNAIL_SUCCESS',
+    LOAD_ALL_PICS = 'LOAD_ALL_PICS',
+    RECEIVE_PIC = 'RECEIVE_PIC',
+    PIC_INIT_SUCCESS = 'PIC_INIT_SUCCESS',
+    PIC_INIT_FAIL = 'PIC_INIT_FAIL',
+    RESIZE_PIC = 'RESIZE_PIC',
+    RESIZE_PIC_SUCCESS = 'RESIZE_PIC_SUCCESS',
     RESTORE_PIC = 'RESTORE_PIC',
     SAVE_PIC = 'SAVE_PIC',
     SAVE_PIC_REQUEST = 'SAVE_PIC_REQUEST',
@@ -50,7 +57,18 @@ export function copyPic(id, src, dest, label) {
             return;
         }
 
+        dispatch({
+            type: COPY_PIC,
+            id, src, dest, label
+        });
+
         copyLocalFile(src, dest, (entry) => {
+            dispatch({
+                type: COPY_PIC_SUCCESS,
+                id, src, label,
+                dest: entry.toURL()
+            });
+
             if (label) {
                 dispatch(setPicData(id, {
                     [label]: entry.toURL()
@@ -67,21 +85,35 @@ export function generateThumbnail(id, uri) {
             cellHeight = state.ui.picsList.cellHeight,
             outputDir = state.dirs.thumbnails;
 
+        dispatch({
+            type: GENERATE_THUMBNAIL,
+            id, uri
+        });
+
         if (cordova.isBrowser) {
             return dispatch(setPicData(id, {thumbnail: uri}));
         }
 
-        resizeImage(uri, {
-            height: cellHeight,
-            width: cellHeight,
-            outputDir
-        }, (result) => {
-            const filename = result.filename || result.name,
-                // ^ Sometimes -- when result is copied, not resized --
-                // `result` is a FileEntry
-                thumbnailUrl = outputDir.toURL() + filename;
-            return dispatch(setPicData(id, {thumbnail: thumbnailUrl}));
-        }, (error) => dispatch(setError(error, 'generateThumbnail')));
+        return new Promise((resolve, reject) => {
+            resizeImage(uri, {
+                height: cellHeight,
+                width: cellHeight,
+                outputDir
+            }, (result) => {
+                const filename = result.filename || result.name,
+                    // ^ Sometimes -- when result is copied, not resized --
+                    // `result` is a FileEntry
+                    thumbnailUrl = outputDir.toURL() + filename;
+                dispatch({
+                    type: GENERATE_THUMBNAIL_SUCCESS,
+                    id, cellHeight,
+                    input: uri,
+                    thumbnail: thumbnailUrl
+                });
+                dispatch(setPicData(id, {thumbnail: thumbnailUrl}));
+                resolve();
+            }, reject);
+        });
     };
 }
 
@@ -91,23 +123,37 @@ export function resizePic(id, uri) {
             maxSize = state.config.picMaxSize,
             outputDir = state.dirs.gallery;
 
+        dispatch({
+            type: RESIZE_PIC,
+            id, uri
+        });
+
         if (cordova.isBrowser) {
             return;
         }
 
-        resizeImage(uri, {
-            height: maxSize,
-            width: maxSize,
-            outputDir
-        }, (result) => {
-            const filename = result.filename || result.name,
-                // ^ Sometimes -- when result is copied, not resized --
-                // `result` is a FileEntry
-                resizedUrl = outputDir.toURL() + filename;
-            return dispatch(setPicData(id, {
-                uri: resizedUrl, originalUri: uri
-            }));
-        }, (error) => dispatch(setError(error, 'resizePic')));
+        return new Promise((resolve, reject) => {
+            resizeImage(uri, {
+                height: maxSize,
+                width: maxSize,
+                outputDir
+            }, (result) => {
+                const filename = result.filename || result.name,
+                    // ^ Sometimes -- when result is copied, not resized --
+                    // `result` is a FileEntry
+                    resizedUrl = outputDir.toURL() + filename;
+                dispatch({
+                    type: RESIZE_PIC_SUCCESS,
+                    id, maxSize,
+                    input: uri,
+                    resized: resizedUrl
+                });
+                dispatch(setPicData(id, {
+                    uri: resizedUrl, originalUri: uri
+                }));
+                resolve();
+            }, reject);
+        });
     };
 }
 
@@ -117,6 +163,10 @@ export function receivePic(uri, {id, note, saved, takenTime}={}) {
         id = id || uuid.v1();
         takenTime = takenTime || Date.now();
 
+        if (uri.startsWith('/')) {
+            uri = `file://${uri}`;
+        }
+
         dispatch({
             type: RECEIVE_PIC,
             id, uri, note, saved, takenTime
@@ -124,7 +174,15 @@ export function receivePic(uri, {id, note, saved, takenTime}={}) {
 
         return dispatch(copyPic(id, uri, originalsDir, 'original'))
             .then(() => dispatch(generateThumbnail(id, uri)))
-            .then(() => dispatch(resizePic(id, uri)));
+            .then(() => dispatch(resizePic(id, uri)))
+            .then(() => dispatch({
+                type: PIC_INIT_SUCCESS,
+                id, uri, note, saved, takenTime
+            }))
+            .catch((error) => dispatch({
+                type: PIC_INIT_FAIL,
+                id, uri, error
+            }));
     };
 }
 
@@ -149,17 +207,6 @@ export function restorePic(pic) {
     return {
         type: RESTORE_PIC,
         pic
-    };
-}
-
-export function deletePic(id) {
-    return (dispatch) => {
-        dispatch({
-            type: DELETE_PIC,
-            id
-        });
-
-        dispatch(deletePicRequest(id));
     };
 }
 
