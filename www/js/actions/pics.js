@@ -9,8 +9,14 @@ import {fetchPicsList, updatePicRequest} from './server';
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
     CLEAR_PICS_LIST = 'CLEAR_PICS_LIST',
+    COPY_PIC = 'COPY_PIC',
+    COPY_PIC_SUCCESS = 'COPY_PIC_SUCCESS',
+    GENERATE_THUMBNAIL = 'GENERATE_THUMBNAIL',
+    GENERATE_THUMBNAIL_SUCCESS = 'GENERATE_THUMBNAIL_SUCCESS',
     LOAD_ALL_PICS = 'LOAD_ALL_PICS',
     RECEIVE_PIC = 'RECEIVE_PIC',
+    RESIZE_PIC = 'RESIZE_PIC',
+    RESIZE_PIC_SUCCESS = 'RESIZE_PIC_SUCCESS',
     RESTORE_PIC = 'RESTORE_PIC',
     SAVE_PIC = 'SAVE_PIC',
     SAVE_PIC_REQUEST = 'SAVE_PIC_REQUEST',
@@ -49,7 +55,18 @@ export function copyPic(id, src, dest, label) {
             return;
         }
 
+        dispatch({
+            type: COPY_PIC,
+            id, src, dest, label
+        });
+
         copyLocalFile(src, dest, (entry) => {
+            dispatch({
+                type: COPY_PIC_SUCCESS,
+                id, src, label,
+                dest: entry.toURL()
+            });
+
             if (label) {
                 dispatch(setPicData(id, {
                     [label]: entry.toURL()
@@ -66,6 +83,11 @@ export function generateThumbnail(id, uri) {
             cellHeight = state.ui.picsList.cellHeight,
             outputDir = state.dirs.thumbnails;
 
+        dispatch({
+            type: GENERATE_THUMBNAIL,
+            id, uri
+        });
+
         if (cordova.isBrowser) {
             return dispatch(setPicData(id, {thumbnail: uri}));
         }
@@ -80,6 +102,12 @@ export function generateThumbnail(id, uri) {
                     // ^ Sometimes -- when result is copied, not resized --
                     // `result` is a FileEntry
                     thumbnailUrl = outputDir.toURL() + filename;
+                dispatch({
+                    type: GENERATE_THUMBNAIL_SUCCESS,
+                    id, cellHeight,
+                    input: uri,
+                    thumbnail: thumbnailUrl
+                });
                 dispatch(setPicData(id, {thumbnail: thumbnailUrl}));
                 resolve();
             }, reject);
@@ -92,6 +120,11 @@ export function resizePic(id, uri) {
         const state = getState(),
             maxSize = state.config.picMaxSize,
             outputDir = state.dirs.gallery;
+
+        dispatch({
+            type: RESIZE_PIC,
+            id, uri
+        });
 
         if (cordova.isBrowser) {
             return;
@@ -107,6 +140,12 @@ export function resizePic(id, uri) {
                     // ^ Sometimes -- when result is copied, not resized --
                     // `result` is a FileEntry
                     resizedUrl = outputDir.toURL() + filename;
+                dispatch({
+                    type: RESIZE_PIC_SUCCESS,
+                    id, maxSize,
+                    input: uri,
+                    resized: resizedUrl
+                });
                 dispatch(setPicData(id, {
                     uri: resizedUrl, originalUri: uri
                 }));
