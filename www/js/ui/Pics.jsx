@@ -100,7 +100,7 @@ function mapDispatchToProps(dispatch) {
         onMenuHelpClick: () => dispatch(redirect('/help')),
         onMenuLogoutClick: () => dispatch(logout()),
         onMenuRefreshClick: () => dispatch(reloadPics()),
-        onMenuSettingsClick: () => dispatch(redirect('/settings')),
+        onMenuSettingsClick: () => dispatch(redirect('/settings', false)),
         onSaveClick: () => dispatch(saveAllPics())
     };
 }
