@@ -70,17 +70,20 @@ export function generateThumbnail(id, uri) {
             return dispatch(setPicData(id, {thumbnail: uri}));
         }
 
-        resizeImage(uri, {
-            height: cellHeight,
-            width: cellHeight,
-            outputDir
-        }, (result) => {
-            const filename = result.filename || result.name,
-                // ^ Sometimes -- when result is copied, not resized --
-                // `result` is a FileEntry
-                thumbnailUrl = outputDir.toURL() + filename;
-            return dispatch(setPicData(id, {thumbnail: thumbnailUrl}));
-        }, (error) => dispatch(setError(error, 'generateThumbnail')));
+        return new Promise((resolve, reject) => {
+            resizeImage(uri, {
+                height: cellHeight,
+                width: cellHeight,
+                outputDir
+            }, (result) => {
+                const filename = result.filename || result.name,
+                    // ^ Sometimes -- when result is copied, not resized --
+                    // `result` is a FileEntry
+                    thumbnailUrl = outputDir.toURL() + filename;
+                dispatch(setPicData(id, {thumbnail: thumbnailUrl}));
+                resolve();
+            }, reject);
+        });
     };
 }
 
@@ -94,19 +97,22 @@ export function resizePic(id, uri) {
             return;
         }
 
-        resizeImage(uri, {
-            height: maxSize,
-            width: maxSize,
-            outputDir
-        }, (result) => {
-            const filename = result.filename || result.name,
-                // ^ Sometimes -- when result is copied, not resized --
-                // `result` is a FileEntry
-                resizedUrl = outputDir.toURL() + filename;
-            return dispatch(setPicData(id, {
-                uri: resizedUrl, originalUri: uri
-            }));
-        }, (error) => dispatch(setError(error, 'resizePic')));
+        return new Promise((resolve, reject) => {
+            resizeImage(uri, {
+                height: maxSize,
+                width: maxSize,
+                outputDir
+            }, (result) => {
+                const filename = result.filename || result.name,
+                    // ^ Sometimes -- when result is copied, not resized --
+                    // `result` is a FileEntry
+                    resizedUrl = outputDir.toURL() + filename;
+                dispatch(setPicData(id, {
+                    uri: resizedUrl, originalUri: uri
+                }));
+                resolve();
+            }, reject);
+        });
     };
 }
 
@@ -123,7 +129,8 @@ export function receivePic(uri, {id, note, saved, takenTime}={}) {
 
         return dispatch(copyPic(id, uri, originalsDir, 'original'))
             .then(() => dispatch(generateThumbnail(id, uri)))
-            .then(() => dispatch(resizePic(id, uri)));
+            .then(() => dispatch(resizePic(id, uri)))
+            .catch((error) => setError(error, 'receivePic'));
     };
 }
 
