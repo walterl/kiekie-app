@@ -65,7 +65,7 @@ export default class PicTile extends React.Component {
 
 PicTile.propTypes = {
     isSaved: PropTypes.bool.isRequired,
-    src: PropTypes.string.isRequired,
+    src: PropTypes.string,
     title: PropTypes.string.isRequired,
     onTouchTap: PropTypes.func
 };
