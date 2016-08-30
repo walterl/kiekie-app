@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
+import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
@@ -14,6 +15,7 @@ import TextField from 'material-ui/TextField';
 
 import {setConfigSetting, setConfigUrl} from '../actions';
 
+import ErrorBar from './ErrorBar';
 import '../../scss/settings.scss';
 
 
@@ -59,10 +61,16 @@ class Settings extends React.Component {
         const actions = this.renderActions(
             'apiDialogOpen',
             () => {
-                const newValue = this.apiUrlInput.getValue();
-                if (newValue !== this.props.apiUrl) {
-                    this.props.saveApiServerUrl(newValue);
+                let url = this.apiUrlInput.getValue();
+                if (!url.endsWith('/')) {
+                    url += '/';
                 }
+
+                if (url === this.props.apiUrl) {
+                    return;
+                }
+
+                this.props.saveApiUrl(url);
             }
         );
 
@@ -115,6 +123,29 @@ class Settings extends React.Component {
         );
     }
 
+    renderUrlTestDialog() {
+        const textStyle = {
+                height: '50px',
+                lineHeight: '50px',
+                verticalAlign: 'text-bottom'
+            },
+            progressStyle = {
+                display: 'block',
+                margin: '10px auto'
+            };
+
+        return (
+            <Dialog
+                title="API server URL"
+                modal={true}
+                open={this.props.testingApiUrl}
+            >
+                <div style={textStyle}>Checking API URL...</div>
+                <CircularProgress style={progressStyle} />
+            </Dialog>
+        );
+    }
+
     render() {
         const
             menuCloseBtn =
@@ -149,6 +180,9 @@ class Settings extends React.Component {
 
             {this.renderApiUrlDialog()}
             {this.renderPicSizeDialog()}
+            {this.renderUrlTestDialog()}
+
+            <ErrorBar />
         </div>;
     }
 }
@@ -157,14 +191,15 @@ class Settings extends React.Component {
 function mapStateToProps(state) {
     return {
         apiUrl: state.config.urls.api,
-        picMaxSize: state.config.picMaxSize
+        picMaxSize: state.config.picMaxSize,
+        testingApiUrl: state.ui.settings.testingApiUrl
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         saveApiUrl: (url) => dispatch(setConfigUrl('api', url)),
-        savePicMaxSize: (sz) => dispatch(setConfigSetting('picMaxSize', sz)),
+        savePicMaxSize: (sz) => dispatch(setConfigSetting('picMaxSize', sz))
     };
 }
 
