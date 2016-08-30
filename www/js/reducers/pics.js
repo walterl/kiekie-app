@@ -1,6 +1,7 @@
 import {
-    CLEAR_PICS_LIST, RECEIVE_PIC, RESTORE_PIC,
+    CLEAR_PICS_LIST, RESTORE_PIC,
     DELETE_PIC_REQUEST, DELETE_PIC_SUCCESS, DELETE_PIC_FAIL,
+    RECEIVE_PIC, PIC_INIT_FAIL,
     SAVE_PIC_REQUEST, SAVE_PIC, SELECT_PIC, SET_PIC_DATA,
     UPDATE_PIC_FAIL, UPLOAD_PIC_FAIL
 } from '../actions';
@@ -9,6 +10,8 @@ function lookupPicError(action) {
     switch (action.type) {
     case DELETE_PIC_FAIL:
         return 'Failed to delete picture.';
+    case PIC_INIT_FAIL:
+        return 'Failed to initialise picture.';
     case UPDATE_PIC_FAIL:
         return 'Failed to save picture note.';
     case UPLOAD_PIC_FAIL:
@@ -36,6 +39,7 @@ function reducePic(state, action) {
             saved: true
         });
     case DELETE_PIC_FAIL:
+    case PIC_INIT_FAIL:
     case UPDATE_PIC_FAIL:
     case UPLOAD_PIC_FAIL:
         return Object.assign({}, state, {
@@ -71,6 +75,7 @@ function pics(state=[], action) {
         return state.filter((p) => p.id !== action.id);
     case DELETE_PIC_REQUEST:
     case DELETE_PIC_FAIL:
+    case PIC_INIT_FAIL:
     case SAVE_PIC_REQUEST:
     case SAVE_PIC:
     case SET_PIC_DATA:
