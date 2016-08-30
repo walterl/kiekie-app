@@ -15,6 +15,8 @@ export const
     GENERATE_THUMBNAIL_SUCCESS = 'GENERATE_THUMBNAIL_SUCCESS',
     LOAD_ALL_PICS = 'LOAD_ALL_PICS',
     RECEIVE_PIC = 'RECEIVE_PIC',
+    PIC_INIT_SUCCESS = 'PIC_INIT_SUCCESS',
+    PIC_INIT_FAIL = 'PIC_INIT_FAIL',
     RESIZE_PIC = 'RESIZE_PIC',
     RESIZE_PIC_SUCCESS = 'RESIZE_PIC_SUCCESS',
     RESTORE_PIC = 'RESTORE_PIC',
@@ -173,7 +175,14 @@ export function receivePic(uri, {id, note, saved, takenTime}={}) {
         return dispatch(copyPic(id, uri, originalsDir, 'original'))
             .then(() => dispatch(generateThumbnail(id, uri)))
             .then(() => dispatch(resizePic(id, uri)))
-            .catch((error) => dispatch(setError(error, 'receivePic')));
+            .then(() => dispatch({
+                type: PIC_INIT_SUCCESS,
+                id, uri, note, saved, takenTime
+            }))
+            .catch((error) => dispatch({
+                type: PIC_INIT_FAIL,
+                id, uri, error
+            }));
     };
 }
 
