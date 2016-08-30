@@ -1,10 +1,11 @@
 import React, {PropTypes} from 'react';
 
-import {yellow500, red500} from 'material-ui/styles/colors';
+import {cyan500, yellow500, red500} from 'material-ui/styles/colors';
 import {GridTile} from 'material-ui/GridList';
 import AlertError from 'material-ui/svg-icons/alert/error';
 import CircularProgress from 'material-ui/CircularProgress';
 import ContentSave from 'material-ui/svg-icons/content/save';
+import ImageImage from 'material-ui/svg-icons/image/image';
 
 import '../../scss/pictile.scss';
 
@@ -29,6 +30,17 @@ export default class PicTile extends React.Component {
         return icon;
     }
 
+    renderImage(src) {
+        if (src) {
+            return <img src={src} />;
+        }
+
+        return <ImageImage
+            color={cyan500}
+            style={{width: '100%', height: '60%', transform: 'translateY(25%)'}}
+        />;
+    }
+
     render() {
         const {src, onTouchTap} = this.props,
             icon = this.renderIcon();
@@ -45,7 +57,7 @@ export default class PicTile extends React.Component {
                 className="pic-tile" onTouchTap={onTouchTap} title={title}
                 actionIcon={icon}
             >
-                <img src={src} />
+                {this.renderImage(src)}
             </GridTile>
         );
     }

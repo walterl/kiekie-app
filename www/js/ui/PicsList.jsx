@@ -26,7 +26,7 @@ class PicsList extends React.Component {
                     <PicTile
                         key={pic.id} title={pic.note} error={pic.error}
                         isBusy={pic.busy} isSaved={pic.saved}
-                        src={pic.thumbnail || pic.uri}
+                        src={pic.thumbnail}
                         onTouchTap={this.handleTileClick.bind(this, pic.id)}
                     />
                     )}
