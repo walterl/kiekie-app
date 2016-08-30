@@ -8,9 +8,9 @@ import {fetchPicsList, updatePicRequest} from './server';
 
 export const
     CAMERA_PIC_REQUEST = 'CAMERA_PIC_REQUEST',
-    RECEIVE_PIC = 'RECEIVE_PIC',
-    LOAD_ALL_PICS = 'LOAD_ALL_PICS',
     CLEAR_PICS_LIST = 'CLEAR_PICS_LIST',
+    LOAD_ALL_PICS = 'LOAD_ALL_PICS',
+    RECEIVE_PIC = 'RECEIVE_PIC',
     RESTORE_PIC = 'RESTORE_PIC',
     SAVE_PIC = 'SAVE_PIC',
     SAVE_PIC_REQUEST = 'SAVE_PIC_REQUEST',
