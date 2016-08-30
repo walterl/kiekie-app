@@ -8,7 +8,7 @@ import {
 import {
     setError, setStartupFinished, setStartupMessage, showLogin
 } from './index';
-import {loadAllPics, receivePic} from './pics';
+import {loadAllPics, receivePic, reloadPics} from './pics';
 
 export const
     DELETE_PIC_REQUEST = 'DELETE_PIC_REQUEST',
@@ -24,6 +24,9 @@ export const
     FETCH_PICSLIST_SUCCESS = 'FETCH_PICSLIST_SUCCESS',
     FETCH_PICSLIST_FAIL = 'FETCH_PICSLIST_FAIL',
     FETCH_PIC = 'FETCH_PIC',
+    TEST_API_URL = 'TEST_API_URL',
+    ACCEPT_API_URL = 'ACCEPT_API_URL',
+    REJECT_API_URL = 'REJECT_API_URL',
     UPDATE_PIC_REQUEST = 'UPDATE_PIC_REQUEST',
     UPDATE_PIC_SUCCESS = 'UPDATE_PIC_SUCCESS',
     UPDATE_PIC_FAIL = 'UPDATE_PIC_FAIL',
@@ -330,5 +333,38 @@ export function registerRequest(userName, password) {
         jsonPost(registerUrl, {username: userName, password})
         .then((resp) => dispatch(registerSuccess(userName, resp.token)))
         .catch((error) => dispatch(registerFail(userName, error)));
+    };
+}
+
+export function testApiUrl(url) {
+    return (dispatch) => {
+        const rejectApiUrl = (badUrl, error=null) => {
+            dispatch(setError('Invalid API URL', 'testApiUrl'));
+            dispatch({
+                type: REJECT_API_URL,
+                url: badUrl,
+                error
+            });
+        };
+
+        dispatch({
+            type: TEST_API_URL,
+            url
+        });
+
+        jsonGet(`${url}ping`)
+        .then((json) => {
+            if (json.pong && json.server === 'Kiekie') {
+                dispatch(setError('Saved API server URL', 'testApiUrl'));
+                dispatch({
+                    type: ACCEPT_API_URL,
+                    url
+                });
+                dispatch(reloadPics());
+            } else {
+                rejectApiUrl(url);
+            }
+        })
+        .catch((error) => rejectApiUrl(url, error));
     };
 }
