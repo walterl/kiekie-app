@@ -122,6 +122,10 @@ export function receivePic(uri, {id, note, saved, takenTime}={}) {
         id = id || uuid.v1();
         takenTime = takenTime || Date.now();
 
+        if (uri.startsWith('/')) {
+            uri = `file://${uri}`;
+        }
+
         dispatch({
             type: RECEIVE_PIC,
             id, uri, note, saved, takenTime
