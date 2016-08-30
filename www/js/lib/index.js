@@ -18,7 +18,16 @@ export function copyLocalFile(uri, destDir, callback, errorCallback) {
     errorCallback = errorCallback || noop;
 
     window.resolveLocalFileSystemURL(uri, (fileEntry) => {
-        fileEntry.copyTo(destDir, fileEntry.name, callback, errorCallback);
+        fileExists(destDir.toURL() + fileEntry.name)
+        .then((exists) => {
+            const eUri = exists.uri;
+            if (exists && exists.exists) {
+                window.resolveLocalFileSystemURL(eUri, callback, errorCallback);
+                return;
+            }
+            fileEntry.copyTo(destDir, fileEntry.name, callback, errorCallback);
+        })
+        .catch(errorCallback);
     }, errorCallback);
 }
 
