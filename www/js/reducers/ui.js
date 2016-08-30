@@ -1,6 +1,8 @@
 import {
-    INIT_APP, DISMISS_ERROR, FETCH_PICSLIST_FAIL, LOGOUT, SET_ERROR,
-    SET_STARTUP_FINISHED, SET_STARTUP_MESSAGE, SHOW_LOGIN,
+    DISMISS_ERROR, INIT_APP, FETCH_PICSLIST_FAIL, LOGOUT,
+    SET_ERROR, SET_STARTUP_FINISHED, SET_STARTUP_MESSAGE, SHOW_LOGIN,
+
+    ACCEPT_API_URL, REJECT_API_URL,
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL,
     REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL
 } from '../actions';
@@ -41,6 +43,18 @@ function uiLogin(state={}, action) {
     case LOGOUT:
         return Object.assign({}, state, {
             error: null, status: ''
+        });
+    default:
+        return state;
+    }
+}
+
+function uiSettings(state={}, action) {
+    switch (action.type) {
+    case ACCEPT_API_URL:
+    case REJECT_API_URL:
+        return Object.assign({}, state, {
+            testingApiUrl: false
         });
     default:
         return state;
@@ -99,6 +113,10 @@ export default function ui(state={}, action) {
     case REGISTER_FAIL:
     case SHOW_LOGIN:
         newState.login = uiLogin(state.login, action);
+        return newState;
+    case ACCEPT_API_URL:
+    case REJECT_API_URL:
+        newState.settings = uiSettings(state.settings, action);
         return newState;
     default:
         return state;
