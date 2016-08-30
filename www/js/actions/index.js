@@ -54,8 +54,7 @@ export function setConfigUrl(key, url) {
     return (dispatch) => {
         dispatch({
             type: SET_CONFIG_URL,
-            key,
-            url
+            key, url
         });
         dispatch(saveConfig());
         dispatch(reloadPics());

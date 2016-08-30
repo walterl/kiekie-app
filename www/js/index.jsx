@@ -59,17 +59,17 @@ const store = configureStore({
             message: '',
             src: ''
         },
+        login: {
+            error: null,
+            status: '',
+            userName: ''
+        },
         picsList: {
             cellHeight: 200
         },
         startup: {
             finished: false,
             message: ''
-        },
-        login: {
-            error: null,
-            status: '',
-            userName: ''
         }
     }
 });

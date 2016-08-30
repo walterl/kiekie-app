@@ -55,12 +55,12 @@ class Settings extends React.Component {
                 this.renderSaveButton(showStateItem, fnSave)];
     }
 
-    renderApiServerInputDialog() {
+    renderApiUrlDialog() {
         const actions = this.renderActions(
             'apiDialogOpen',
             () => {
-                const newValue = this.apiServerInput.getValue();
-                if (newValue !== this.props.apiServerUrl) {
+                const newValue = this.apiUrlInput.getValue();
+                if (newValue !== this.props.apiUrl) {
                     this.props.saveApiServerUrl(newValue);
                 }
             }
@@ -75,10 +75,10 @@ class Settings extends React.Component {
                 onRequestChange={(o) => this.setState({apiDialogOpen: o})}
             >
                 <TextField
-                    name="api-server-url-input"
+                    name="api-url-input"
                     type="url"
-                    defaultValue={this.props.apiServerUrl}
-                    ref={(c) => this.setRef(c, 'apiServerInput')}
+                    defaultValue={this.props.apiUrl}
+                    ref={(c) => this.setRef(c, 'apiUrlInput')}
                     fullWidth={true}
                 />
             </Dialog>
@@ -132,7 +132,7 @@ class Settings extends React.Component {
                     <Subheader>Kiekie Server</Subheader>
                     <ListItem
                         primaryText="API server URL"
-                        secondaryText={this.props.apiServerUrl}
+                        secondaryText={this.props.apiUrl}
                         onTouchTap={this.toggleState('apiDialogOpen')}
                     />
                 </List>
@@ -147,7 +147,7 @@ class Settings extends React.Component {
                 </List>
             </div>
 
-            {this.renderApiServerInputDialog()}
+            {this.renderApiUrlDialog()}
             {this.renderPicSizeDialog()}
         </div>;
     }
@@ -156,15 +156,15 @@ class Settings extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        apiServerUrl: state.config.urls.api,
+        apiUrl: state.config.urls.api,
         picMaxSize: state.config.picMaxSize
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        saveApiServerUrl: (url) => dispatch(setConfigUrl('api', url)),
-        savePicMaxSize: (sz) => dispatch(setConfigSetting('picMaxSize', sz))
+        saveApiUrl: (url) => dispatch(setConfigUrl('api', url)),
+        savePicMaxSize: (sz) => dispatch(setConfigSetting('picMaxSize', sz)),
     };
 }
 
