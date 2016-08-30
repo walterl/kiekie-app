@@ -288,9 +288,11 @@ export function loadLocalPics() {
 
 export function loadAllPics() {
     return (dispatch) => {
-        dispatch({type: LOAD_ALL_PICS});
-        dispatch(loadLocalPics());
-        dispatch(fetchPicsList());
+        if (window.localStorage.getItem('authToken')) {
+            dispatch({type: LOAD_ALL_PICS});
+            dispatch(loadLocalPics());
+            dispatch(fetchPicsList());
+        }
     };
 }
 
