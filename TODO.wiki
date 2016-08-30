@@ -6,12 +6,16 @@
 * [ ] Merge viewer's server in
 
 == App ==
+* [ ] Rename local picture file(s) after upload
+  * Pictures gets ID-based file name on server side when uploaded, thus filename is different and picture will have to be downloaded again.
+* [ ] Check that API URL is valid before updating value
 * [X] Move "Take picture" button to floating action button
 * [ ] Figure out why images are not resized before being uploaded
 * [X] Make image resizing configurable
   * [X] Add resizing profiles?
     * Profiles unnecessary: there is only one value to change: max pic dimension size, and that has been done
 * [ ] Add progress spinners to pics while network operation is in progress
+  * Mostly done, just need to handle failed operations better.
 * [X] Add keyboard hints to input fields to make enter key more useful on mobile devices
   * [X] Set tab order where applicable (e.g. login screen)
     * Manually coded
