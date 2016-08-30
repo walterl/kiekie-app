@@ -75,6 +75,7 @@ class Settings extends React.Component {
             >
                 <TextField
                     name="api-server-url-input"
+                    type="url"
                     defaultValue={this.props.apiServerUrl}
                     ref={(c) => this.setRef(c, 'apiServerInput')}
                     fullWidth={true}
