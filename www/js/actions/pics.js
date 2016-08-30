@@ -134,7 +134,7 @@ export function receivePic(uri, {id, note, saved, takenTime}={}) {
         return dispatch(copyPic(id, uri, originalsDir, 'original'))
             .then(() => dispatch(generateThumbnail(id, uri)))
             .then(() => dispatch(resizePic(id, uri)))
-            .catch((error) => setError(error, 'receivePic'));
+            .catch((error) => dispatch(setError(error, 'receivePic')));
     };
 }
 
