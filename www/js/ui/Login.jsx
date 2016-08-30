@@ -1,10 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+import {lightBlack, white} from 'material-ui/styles/colors';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import {setStartupFinished} from '../actions';
+import {redirect, setStartupFinished} from '../actions';
 import {
     loginRequest, loginFail, registerRequest, registerFail
 } from '../actions/server';
@@ -127,6 +131,15 @@ class Login extends React.Component {
             };
 
         return <div className="login-screen">
+            <AppBar
+                className="login-appbar"
+                iconElementLeft={
+                    <IconButton onTouchTap={this.props.onSettingsClick}>
+                        <ActionSettings color={lightBlack}/>
+                    </IconButton>}
+                style={{backgroundColor: white, boxShadow: null}}
+            />
+
             <div className="welcome">
                 <h2>Welcome to Kiekie</h2>
                 <p>Please log in or register a new account to proceed.</p>
@@ -177,7 +190,8 @@ function mapDispatchToProps(dispatch) {
         loginRequest: (name, pw) => dispatch(loginRequest(name, pw)),
         loginFail: (name, error) => dispatch(loginFail(name, error)),
         registerRequest: (name, pw) => dispatch(registerRequest(name, pw)),
-        registerFail: (name, error) => dispatch(registerFail(name, error))
+        registerFail: (name, error) => dispatch(registerFail(name, error)),
+        onSettingsClick: () => dispatch(redirect('/settings', false))
     };
 }
 
