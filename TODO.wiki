@@ -8,7 +8,7 @@
 == App ==
 * [ ] Rename local picture file(s) after upload
   * Pictures gets ID-based file name on server side when uploaded, thus filename is different and picture will have to be downloaded again.
-* [ ] Check that API URL is valid before updating value
+* [X] Check that API URL is valid before updating value
 * [X] Move "Take picture" button to floating action button
 * [X] Figure out why images are not resized before being uploaded
 * [X] Make image resizing configurable

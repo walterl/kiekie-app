@@ -28,6 +28,7 @@ const store = configureStore({
         urls: {
             // FIXME Update this URL before building final app!
             api: 'http://127.0.0.1:8008/api/',
+            apiPrev: '',
 
             login: 'user/login',
             register: 'user/register',
@@ -59,17 +60,20 @@ const store = configureStore({
             message: '',
             src: ''
         },
-        picsList: {
-            cellHeight: 200
-        },
-        startup: {
-            finished: false,
-            message: ''
-        },
         login: {
             error: null,
             status: '',
             userName: ''
+        },
+        picsList: {
+            cellHeight: 200
+        },
+        settings: {
+            testingApiUrl: false
+        },
+        startup: {
+            finished: false,
+            message: ''
         }
     }
 });

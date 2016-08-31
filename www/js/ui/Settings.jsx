@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
+import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
@@ -14,6 +15,7 @@ import TextField from 'material-ui/TextField';
 
 import {setConfigSetting, setConfigUrl} from '../actions';
 
+import ErrorBar from './ErrorBar';
 import '../../scss/settings.scss';
 
 
@@ -55,14 +57,20 @@ class Settings extends React.Component {
                 this.renderSaveButton(showStateItem, fnSave)];
     }
 
-    renderApiServerInputDialog() {
+    renderApiUrlDialog() {
         const actions = this.renderActions(
             'apiDialogOpen',
             () => {
-                const newValue = this.apiServerInput.getValue();
-                if (newValue !== this.props.apiServerUrl) {
-                    this.props.saveApiServerUrl(newValue);
+                let url = this.apiUrlInput.getValue();
+                if (!url.endsWith('/')) {
+                    url += '/';
                 }
+
+                if (url === this.props.apiUrl) {
+                    return;
+                }
+
+                this.props.saveApiUrl(url);
             }
         );
 
@@ -75,10 +83,10 @@ class Settings extends React.Component {
                 onRequestChange={(o) => this.setState({apiDialogOpen: o})}
             >
                 <TextField
-                    name="api-server-url-input"
+                    name="api-url-input"
                     type="url"
-                    defaultValue={this.props.apiServerUrl}
-                    ref={(c) => this.setRef(c, 'apiServerInput')}
+                    defaultValue={this.props.apiUrl}
+                    ref={(c) => this.setRef(c, 'apiUrlInput')}
                     fullWidth={true}
                 />
             </Dialog>
@@ -115,6 +123,29 @@ class Settings extends React.Component {
         );
     }
 
+    renderUrlTestDialog() {
+        const textStyle = {
+                height: '50px',
+                lineHeight: '50px',
+                verticalAlign: 'text-bottom'
+            },
+            progressStyle = {
+                display: 'block',
+                margin: '10px auto'
+            };
+
+        return (
+            <Dialog
+                title="API server URL"
+                modal={true}
+                open={this.props.testingApiUrl}
+            >
+                <div style={textStyle}>Checking API URL...</div>
+                <CircularProgress style={progressStyle} />
+            </Dialog>
+        );
+    }
+
     render() {
         const
             menuCloseBtn =
@@ -132,7 +163,7 @@ class Settings extends React.Component {
                     <Subheader>Kiekie Server</Subheader>
                     <ListItem
                         primaryText="API server URL"
-                        secondaryText={this.props.apiServerUrl}
+                        secondaryText={this.props.apiUrl}
                         onTouchTap={this.toggleState('apiDialogOpen')}
                     />
                 </List>
@@ -147,8 +178,11 @@ class Settings extends React.Component {
                 </List>
             </div>
 
-            {this.renderApiServerInputDialog()}
+            {this.renderApiUrlDialog()}
             {this.renderPicSizeDialog()}
+            {this.renderUrlTestDialog()}
+
+            <ErrorBar />
         </div>;
     }
 }
@@ -156,14 +190,15 @@ class Settings extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        apiServerUrl: state.config.urls.api,
-        picMaxSize: state.config.picMaxSize
+        apiUrl: state.config.urls.api,
+        picMaxSize: state.config.picMaxSize,
+        testingApiUrl: state.ui.settings.testingApiUrl
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        saveApiServerUrl: (url) => dispatch(setConfigUrl('api', url)),
+        saveApiUrl: (url) => dispatch(setConfigUrl('api', url)),
         savePicMaxSize: (sz) => dispatch(setConfigSetting('picMaxSize', sz))
     };
 }

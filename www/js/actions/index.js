@@ -4,7 +4,7 @@ import {hashHistory} from 'react-router';
 import {removeAuthToken} from '../lib';
 
 import {clearPicsList, reloadPics} from './pics';
-import {loginWithToken} from './server';
+import {loginWithToken, testApiUrl} from './server';
 
 
 export const
@@ -51,14 +51,25 @@ export function saveConfig() {
 }
 
 export function setConfigUrl(key, url) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const state = getState();
+
+        if (key === 'api') {
+            if (state.ui.settings.testingApiUrl) {
+                return;
+            }
+            dispatch(setConfigUrl('apiPrev', state.config.urls.api));
+        }
+
         dispatch({
             type: SET_CONFIG_URL,
-            key,
-            url
+            key, url
         });
         dispatch(saveConfig());
-        dispatch(reloadPics());
+
+        if (key === 'api') {
+            dispatch(testApiUrl(url));
+        }
     };
 }
 
