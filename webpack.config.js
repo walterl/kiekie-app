@@ -1,5 +1,11 @@
-/* global module require __dirname */
-var path = require('path');
+/* global module process require __dirname */
+var path = require('path'),
+    webpack = require('webpack');
+
+const isDevEnv = process.env.NODE_ENV === 'development',
+    plugins = [
+        new webpack.DefinePlugin({__DEVELOPMENT__: isDevEnv})
+    ];
 
 module.exports = {
     entry: ['whatwg-fetch', './www/js/index.jsx'],
@@ -26,5 +32,6 @@ module.exports = {
             test: /\.scss/,
             loaders: ['style', 'css', 'sass']
         }]
-    }
+    },
+    plugins: plugins
 };
