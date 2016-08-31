@@ -1,18 +1,16 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {hashHistory} from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 
-import {redirect} from '../actions';
 
-
-class About extends React.Component {
+export default class About extends React.Component {
     render() {
         const
             menuCloseBtn =
-                <IconButton onTouchTap={this.props.redirectToPics}>
+                <IconButton onTouchTap={() => hashHistory.goBack()}>
                     <NavigationArrowBack />
                 </IconButton>;
 
@@ -25,12 +23,3 @@ class About extends React.Component {
         </div>;
     }
 }
-
-
-function mapDispatchToProps(dispatch) {
-    return {
-        redirectToPics: () => dispatch(redirect('/pics'))
-    };
-}
-
-export default connect(null, mapDispatchToProps)(About);
