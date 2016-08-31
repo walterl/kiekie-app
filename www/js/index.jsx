@@ -27,7 +27,7 @@ const store = configureStore({
         },
         urls: {
             // FIXME Update this URL before building final app!
-            api: 'http://127.0.0.1:8008/api/',
+            api: 'https://kiekie.walterenlorraine.co.za/api/',
             apiPrev: '',
 
             login: 'user/login',
