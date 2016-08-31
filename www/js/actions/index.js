@@ -51,9 +51,14 @@ export function saveConfig() {
 }
 
 export function setConfigUrl(key, url) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const state = getState();
+
         if (key === 'api') {
-            dispatch(setConfigUrl('apiPrev', url));
+            if (state.ui.settings.testingApiUrl) {
+                return;
+            }
+            dispatch(setConfigUrl('apiPrev', state.config.urls.api));
         }
 
         dispatch({
