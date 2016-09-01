@@ -7,12 +7,14 @@ import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 
 
 export default class About extends React.Component {
+    renderCloseButton() {
+        return <IconButton onTouchTap={() => hashHistory.goBack()}>
+            <NavigationArrowBack />
+        </IconButton>;
+    }
+
     render() {
-        const
-            menuCloseBtn =
-                <IconButton onTouchTap={() => hashHistory.goBack()}>
-                    <NavigationArrowBack />
-                </IconButton>;
+        const menuCloseBtn = this.renderCloseButton(),
 
         return <div>
             <AppBar
