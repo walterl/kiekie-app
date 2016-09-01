@@ -16,23 +16,21 @@ It was build using the following technologies:
 
 ## Build
 ```
-$ git clone https://github.com/walterl/kiekie-app.git
-$ cd kiekie-app
-kiekie-app $ npm install
-kiekie-app $ NODE_ENV=development webpack
+npm install
+NODE_ENV=development webpack
 ```
 
 ## Run
 Run debug version in browser:
 ```
-kiekie-app $ cordova platform add browser
-kiekie-app $ cordova run browser --debug --target=chromium
+cordova platform add browser
+cordova run browser --debug --target=chromium
 ```
 
 Run debug version in Android emulator:
 ```
-kiekie-app $ cordova platform add android
-kiekie-app $ cordova run android --debug --emulator
+cordova platform add android
+cordova run android --debug --emulator
 ```
 
 ## License
