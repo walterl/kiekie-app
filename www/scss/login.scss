@@ -1,0 +1,39 @@
+$green500: #4caf50;
+$grey700: #616161;
+$red500: #f44336;
+
+.login-screen {
+  text-align: center;
+  font-family: sans-serif;
+
+  .welcome {
+    color: $grey700;
+    text-align: left;
+    margin: 3em auto;
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    p {
+      margin: 16px auto;
+      padding: 0 30px;
+      max-width: 370px;
+    }
+  }
+  .action-btn {
+    margin: 1em 12px;
+  }
+
+  .message {
+    margin-top: 2em;
+
+    &.error-message {
+      color: $red500;
+    }
+
+    &.success-message {
+      color: $green500;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+= Kiekie TODO =
+== Deployment ==
+* [ ] Deploy server to Amazon EC2
+
+== Server ==
+* [ ] Merge viewer's server in
+
+== App ==
+* [ ] Rename local picture file(s) after upload
+  * Pictures gets ID-based file name on server side when uploaded, thus filename is different and picture will have to be downloaded again.
+* [X] Check that API URL is valid before updating value
+* [X] Move "Take picture" button to floating action button
+* [X] Figure out why images are not resized before being uploaded
+* [X] Make image resizing configurable
+  * [X] Add resizing profiles?
+    * Profiles unnecessary: there is only one value to change: max pic dimension size, and that has been done
+* [X] Add progress spinners to pics while network operation is in progress
+* [X] Add keyboard hints to input fields to make enter key more useful on mobile devices
+  * [X] Set tab order where applicable (e.g. login screen)
+    * Manually coded
+* [ ] Get app uploaded to app stores
+  * [ ] Update default configuration for production build
+  * [ ] Play Store
+  * [ ] iStore
+* [ ] Add and set application icon/logo
+* [ ] Fill up "About" page
+  * [ ] Big logo
+* [ ] Fill up "Help" page
+* [X] Fill up "Settings" page
+  * [X] Server URL
+  * [X] Picture max dimension size
+
+== Viewer ==
+* [ ] Merge viewer's server into Kiekie server (see above)

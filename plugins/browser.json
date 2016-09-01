@@ -8,11 +8,24 @@
     },
     "installed_plugins": {
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "za.co.wrl.snaphappy"
+            "PACKAGE_NAME": "za.co.wrl.kiekie"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "za.co.wrl.snaphappy"
+            "PACKAGE_NAME": "za.co.wrl.kiekie"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "za.co.wrl.kiekie"
+        },
+        "cordova-plugin-image-resizer": {
+            "PACKAGE_NAME": "za.co.wrl.kiekie"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "za.co.wrl.kiekie"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "za.co.wrl.kiekie"
+        }
+    }
 }

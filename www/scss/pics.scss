@@ -1,0 +1,14 @@
+$appbar-height: 64px;
+
+body {
+  margin: 0;
+}
+
+.appbar {
+  position: fixed !important;
+  top: 0;
+}
+
+.appbar ~ * {
+  margin-top: $appbar-height;
+}

@@ -1,0 +1,10 @@
+#pics-list-root {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.pics-list {
+  overflow-y: auto;
+  width: 100%;
+}
