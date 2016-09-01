@@ -1,0 +1,51 @@
+$darkBlack: rgba(0, 0, 0, 0.87);
+$lightBlack: rgba(0, 0, 0, 0.54);
+
+.about {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+
+  color: $darkBlack;
+  font-family: sans-serif;
+
+  // Gradients shamelessly stolen from the default Cordova app
+  background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+  background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+  background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+  background-image:-webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, #A7A7A7),
+    color-stop(0.51, #E4E4E4)
+  );
+
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    width: 30%;
+    margin: 2em auto;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  div.blurb {
+    color: $lightBlack;
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  div.ded {
+    color: $lightBlack;
+    position: absolute;
+    bottom: 2em;
+    width: 100%;
+    text-align: center;
+  }
+}
